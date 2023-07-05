@@ -38,7 +38,7 @@ SCORING:
 */
 
 // Binary search method
-// T: O(N log D + M log M), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
+// T: O(N log D + M log M) = O((N+M)log(maxDist)), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
 
 //#include<bits/stdc++.h>   // non standard library
 
@@ -48,9 +48,6 @@ SCORING:
 
 using namespace std;
 
-#include <bits/stdc++.h>
-
-using namespace std;
 typedef long long ll;
 
 // Variables for the intervals and the number of cows and intervals
