@@ -83,7 +83,7 @@ public class SocDist {
         }
         in.close();
 
-        // Only sort intervals by start point beacuse there are no overlapping intervals
+        // Only sort intervals by start point because there are no overlapping intervals
         Arrays.sort(intervals, Comparator.comparingLong(a -> a[0]));
 
         // Use Binary search algorithm to quickly test multiple solutions
