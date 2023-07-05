@@ -1,4 +1,4 @@
-'''
+/*
 USACO 2017 January Contest, Silver
 Problem 1. Cow Dance Show
 
@@ -39,4 +39,8 @@ SAMPLE INPUT:
 4
 SAMPLE OUTPUT:
 4
-'''
+*/
+
+public class CowDanceShow {
+    
+}
