@@ -92,9 +92,6 @@ public class SocDist {
         while (lo < hi){
             long mid = lo + (hi - lo + 1) / 2;
             // create an algorithm that tests out this minimum distance
-            System.out.println(lo);
-            System.out.println(mid);
-            System.out.println(hi);
             if (possible_placement(mid))
                 lo = mid;
             else
