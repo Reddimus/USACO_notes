@@ -53,25 +53,25 @@ with open('socdist.in', 'r') as f:
 # sort so we can read location of each grass area chronologically
 intervals.sort()
 
-def possible_placement(mid):
+def possible_placement(min_dist):
     remaining_cows = cows
-    prev_cow_loc = intervals[0][0] - mid
+    prev_cow_loc = intervals[0][0] - min_dist
 
     for start, end in intervals:
-        if prev_cow_loc + mid < start:
-            prev_cow_loc = start - mid
+        if prev_cow_loc + min_dist < start:
+            prev_cow_loc = start - min_dist
 
-        while start <= prev_cow_loc + mid <= end:
-            prev_cow_loc += mid
+        while start <= prev_cow_loc + min_dist <= end:
+            prev_cow_loc += min_dist
             remaining_cows -= 1
 
     return remaining_cows <= 0
 
 start_pos, end_pos = intervals[0][0], intervals[-1][1]
 # optimal distance if all grass areas are equally distant
-opt_dist = int((end_pos - start_pos) / (cows - 1))
+equally_dist = int((end_pos - start_pos) / (cows - 1))
 # Use binary search to logarithmically solve for min dist
-left, right = 1, opt_dist
+left, right = 1, equally_dist
 while left < right:
     mid = (left + right + 1) // 2
     if possible_placement(mid):
