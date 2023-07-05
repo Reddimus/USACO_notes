@@ -37,8 +37,8 @@ SCORING:
 - Test cases 4-10 satisfy no additional constraints.
 '''
 
-# Binary search method
-# T: O(N log D + M log M), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
+# Binary search on multiple answers method
+# T: O(N log D + M log M) = O((N+M)log(maxDist)), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
 
 # Read input file
 with open('socdist.in', 'r') as f:

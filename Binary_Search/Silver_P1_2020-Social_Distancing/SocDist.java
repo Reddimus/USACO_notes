@@ -40,6 +40,8 @@ SCORING:
 import java.io.*;
 import java.util.*;
 
+// Binary search on multiple answers method
+// T: O(N log D + M log M) = O((N+M)log(maxDist)), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
 public class SocDist {
     private static long[][] intervals;  // make intervals accessible by all methods
     private static int n, m;  // number of cows and intervals respectively
