@@ -53,7 +53,7 @@ with open('socdist.in', 'r') as f:
 # sort so we can read location of each grass area chronologically
 intervals.sort()
 
-def possible_placement(min_dist):
+def possible_placement(min_dist: int) -> bool:
     remaining_cows = cows
     prev_cow_loc = intervals[0][0] - min_dist
 
