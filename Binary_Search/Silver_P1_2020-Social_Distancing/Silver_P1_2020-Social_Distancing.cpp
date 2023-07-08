@@ -54,53 +54,57 @@ typedef long long ll;
 vector<pair<ll, ll>> intervals;
 int n, m;
 
-// Function to check if a certain minimum distance can be achieved between cows
+// Function to test if all cows can be placed maintaining a certain minimum distance
 bool possible_placement(ll min_dist){
-    // Initialize previous cow location to be right before the first position
+    // initialize previous cow location to be right before the first position
     ll prev_cow_loc = intervals[0].first - min_dist;
-    int remaining_cows = n;
+    int cows_cnt = n;
+    // instead of incrementing by min dist our sorted intervals allows us to iterate though grassy area patches
     for (pair<ll, ll> interval : intervals){
-        ll start = interval.first, end = interval.second;
-        // If cow placement is not in the grassy area, update prev_cow_loc right before next grassy area
-        if (prev_cow_loc + min_dist < start)
-            prev_cow_loc = start - min_dist;
-        // Maximize minimum distance cow placements in one grassy area
-        while (start <= prev_cow_loc + min_dist && prev_cow_loc + min_dist <= end){
+        // if next cow placement falls out of grassy area interval, prepare cow placement for while loop
+        if (prev_cow_loc + min_dist < interval.first)
+            prev_cow_loc = interval.first - min_dist;
+        // maximize cow placement in current grassy area
+        while (interval.first <= prev_cow_loc + min_dist && prev_cow_loc + min_dist <= interval.second){
             prev_cow_loc += min_dist;
-            remaining_cows--;
+            cows_cnt--;
+            if (cows_cnt <= 0)
+                return true;
         }
     }
-    // All cows should be placed to return true
-    return (remaining_cows <= 0);
+    return false;
 }
 
 int main() {
-    // Read and create inputs
+    // Open input file
     ifstream in("socdist.in");
-    // First line: n = number of cows, m = number of intervals
+    // Read first line: n = number of cows, m = number of intervals
     in >> n >> m;
-    // Create a 2D array of all the intervals in the next m lines
+    // Create a vector of pairs for all the intervals in the next m lines
     intervals.resize(m);
-    for (int interval = 0; interval < m; interval++){
-        in >> intervals[interval].first >> intervals[interval].second;  // start point and end point
-    }
+    for (int interval = 0; interval < m; interval++)
+        // start point, end point
+        in >> intervals[interval].first >> intervals[interval].second;
     in.close();
-
-    // Only sort intervals by start point because there are no overlapping intervals
+    
+    // Only sort intervals by start point; there are no overlapping intervals
     sort(intervals.begin(), intervals.end());
 
-    // Use Binary search algorithm to quickly test multiple solutions
+    // Binary search multiple answers
     // worst case = 1, best case = equally distant cows
+    // 1 <= result <= equally distant cows
     ll lo = 1, hi = (intervals[m-1].second - intervals[0].first) / (n - 1);
+    // Converge to a max feasible min distance
     while (lo < hi){
         ll mid = lo + (hi - lo + 1) / 2;
-        // create an algorithm that tests out this minimum distance
+        // if min_dist/mid does fit in grassy areas we save lo and try for a larger minimum distance
         if (possible_placement(mid))
             lo = mid;
+        // else min_dist/mid does not fit therefore we get rid of curr hi by lowering upper bound
         else
             hi = mid - 1;
     }
-    
+
     // Write minimum distance of optimally distant cows to output file
     ofstream pw("socdist.out");
     pw << lo << "\n";

@@ -53,104 +53,36 @@ with open('socdist.in', 'r') as f:
 # sort so we can read location of each grass area chronologically
 intervals.sort()
 
+# Function to test if all cows can be placed maintaining a certain minimum distance
 def possible_placement(min_dist: int) -> bool:
     remaining_cows = cows
     prev_cow_loc = intervals[0][0] - min_dist
-
+    # instead of incrementing by min dist our sorted intervals allows us to iterate though grassy area patches
     for start, end in intervals:
+        # if next cow placement falls out of grassy area interval, prepare cow placement for while loop
         if prev_cow_loc + min_dist < start:
             prev_cow_loc = start - min_dist
-
+        # maximize cow placement in current grassy area
         while start <= prev_cow_loc + min_dist <= end:
             prev_cow_loc += min_dist
             remaining_cows -= 1
+            if remaining_cows <= 0:
+                return True
+    return False
 
-    return remaining_cows <= 0
-
-start_pos, end_pos = intervals[0][0], intervals[-1][1]
-# optimal distance if all grass areas are equally distant
-equally_dist = int((end_pos - start_pos) / (cows - 1))
-# Use binary search to logarithmically solve for min dist
-left, right = 1, equally_dist
-while left < right:
-    mid = (left + right + 1) // 2
+# Binary search multiple answers
+# worst case = 1, best case = equally distant cows
+# 1 <= result <= equally distant cows
+lo = 1
+hi = int((intervals[-1][1] - intervals[0][0]) / (cows - 1))
+# Converge to a max feasible min distance
+while (lo < hi):
+    mid = (lo + hi + 1) // 2
+    # if min_dist/mid does fit in grassy areas we save lo and try for a larger minimum distance
     if possible_placement(mid):
-        left = mid
-    else: # decrease min dist
-        right = mid - 1
-            
-min_dist = left
-print(min_dist, file=open("socdist.out", "w"))
-
-'''
-# Local Practice solution
-class Solution:
-    def optimal_distancing(self, sample_in: list[list]) -> int:
-        # cows and grassy areas are defined in first line of input file (n & m)
-        cows, grassy_areas = sample_in[0][0], sample_in[0][1]
-        self.cows = cows
-        # for the next m lines there are pairs of intervals we want to append to a list
-        intervals = sample_in[1::]
-        intervals.sort()
-        self.intervals = intervals
-        first_pos, last_pos = intervals[0][0], intervals[-1][1]
-        if cows == 2:
-            return last_pos - first_pos
-        optimal_dist = int((last_pos - first_pos) / (cows - 1))
-        print(last_pos, first_pos, cows)
-        print(optimal_dist)
-        left, right = 1, optimal_dist
-        # Binary search for the minimum distance
-        while left < right:
-            mid = (left + right + 1) // 2
-            if self.possible_placement(mid):
-                left = mid          # increase min dist
-            else:
-                right = mid - 1     # decrease min dist
-        return left
-    
-    def possible_placement(self, min_dist: int) -> bool:
-        remaining_cows = self.cows
-        # Initialize the previous cow's location to be before the first interval
-        prev_cow_loc = self.intervals[0][0] - min_dist
-        
-        # Go through each interval
-        for start, end in self.intervals:
-            # If the previous cow location plus the minimum distance is before the start of the interval,
-            # Move the previous cow location to the start of the interval minus the minimum distance
-            if prev_cow_loc + min_dist < start:
-                prev_cow_loc = start - min_dist
-
-            # While we can fit a cow in the interval, place the cow and decrease the number of remaining cows
-            while start <= prev_cow_loc + min_dist <= end:
-                prev_cow_loc += min_dist
-                remaining_cows -= 1
-
-        # Return whether we were able to place all cows
-        return remaining_cows <= 0
-    
-sol = Solution()    
-
-# Hypothetical socdist.in file represented as an array
-sample_in = [[5, 3],
-            [0, 2],
-            [4, 7],
-            [9, 9]]
-ex = sol.optimal_distancing(sample_in)
-assert ex == 2, f'Expected 2 but got {ex}'
-
-# Hypothetical socdist.in file represented as an array
-sample_in = [[3, 3],
-            [0, 0],
-            [5, 5],
-            [15, 15]]
-ex = sol.optimal_distancing(sample_in)
-assert ex == 5, f'Expected 7 but got {ex}'
-
-# Hypothetical socdist.in file represented as an array
-sample_in = [[4, 2],
-            [0, 10],
-            [20, 30]]
-ex = sol.optimal_distancing(sample_in)
-assert ex == 10, f'Expected 10 but got {ex}'
-'''
+        lo = mid
+    # else min_dist/mid does not fit therefore we get rid of curr hi by lowering upper bound
+    else:
+        hi = mid - 1
+# Write minimum distance of optimally distant cows to output file
+print(lo, file=open('socdist.out', 'w'))
