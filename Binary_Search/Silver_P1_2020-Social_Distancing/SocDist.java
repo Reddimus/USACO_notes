@@ -43,15 +43,16 @@ import java.util.*;
 // Binary search on multiple answers method
 // T: O(N log D + M log M) = O((N+M)log(maxDist)), M: O(M), where N is the number of cows, M is the number of intervals, and D is the range of distance
 public class SocDist {
-    private static long[][] intervals;  // make intervals accessible by all methods
-    private static int n, m;  // number of cows and intervals respectively
+    // make vals accessible by all methods
+    private static long[][] intervals;
+    private static int n, m;
 
     // method to test if all cows can be placed using a certain minimum distance
     private static boolean possible_placement(long min_dist){
         // initialize previous cow location to be right before the first position
         long prev_cow_loc = intervals[0][0] - min_dist;
         int remaining_cows = n;
-        // instead of incrementing by min dist our sorted intervals allows us to iterate though grassy area patches
+        // iterating through each sorted interval allows us to find cow placements faster
         for (long[] interval : intervals){
             long start = interval[0], end = interval[1];
             // if next cow placement falls out of grassy area interval, prepare cow placement for while loop

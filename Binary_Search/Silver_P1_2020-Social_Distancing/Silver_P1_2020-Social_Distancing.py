@@ -57,7 +57,7 @@ intervals.sort()
 def possible_placement(min_dist: int) -> bool:
     remaining_cows = cows
     prev_cow_loc = intervals[0][0] - min_dist
-    # instead of incrementing by min dist our sorted intervals allows us to iterate though grassy area patches
+    # iterating through each sorted interval allows us to find cow placements faster
     for start, end in intervals:
         # if next cow placement falls out of grassy area interval, prepare cow placement for while loop
         if prev_cow_loc + min_dist < start:

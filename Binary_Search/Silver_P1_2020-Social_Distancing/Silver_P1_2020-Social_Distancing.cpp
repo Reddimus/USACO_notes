@@ -50,7 +50,6 @@ using namespace std;
 
 typedef long long ll;
 
-// Variables for the intervals and the number of cows and intervals
 vector<pair<ll, ll>> intervals;
 int n, m;
 
@@ -59,7 +58,7 @@ bool possible_placement(ll min_dist){
     // initialize previous cow location to be right before the first position
     ll prev_cow_loc = intervals[0].first - min_dist;
     int cows_cnt = n;
-    // instead of incrementing by min dist our sorted intervals allows us to iterate though grassy area patches
+    // iterating through each sorted interval allows us to find cow placements faster
     for (pair<ll, ll> interval : intervals){
         // if next cow placement falls out of grassy area interval, prepare cow placement for while loop
         if (prev_cow_loc + min_dist < interval.first)
