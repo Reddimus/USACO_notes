@@ -61,7 +61,6 @@ public class HPS {
             hooves[idx] += hooves[idx - 1];
             paper[idx] += paper[idx - 1];
             scissors[idx] += scissors[idx - 1];
-
             char action = br.readLine().charAt(0);
             switch (action){
                 case 'H':
@@ -73,13 +72,11 @@ public class HPS {
                 case 'S':
                     scissors[idx]++;
                     break;
-                default:
-                    break;
             }
         }
         int maxWins = 0;
         // Calculate maxWins by solving for most wins before we change our action and after we change our action
-        for (int idx = 1; idx <= n; idx++){
+        for (int idx = 1; idx <= n; idx++) {
             int beforeWins = Math.max(hooves[idx], Math.max(paper[idx], scissors[idx]));
             int afterWins = Math.max(hooves[n] - hooves[idx], Math.max(paper[n] - paper[idx], scissors[n] - scissors[idx]));
             maxWins = Math.max(maxWins, beforeWins + afterWins);
