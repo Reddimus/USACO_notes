@@ -51,16 +51,18 @@ import java.io.*;
 public class HPS {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader("hps.in"));
-
+        // Intialize prefix sum arrays with 0th index dummy value
         int n = Integer.parseInt(br.readLine());
         int[] hooves = new int[n + 1];
         int[] paper = new int [n + 1];
         int[] scissors = new int[n + 1];
         // Populate the hooves, paper, and scissors prefix arrays (Notes down action wins for every iteration)
         for (int idx = 1; idx <= n; idx++){
+            // update prefix sums with prev vals
             hooves[idx] += hooves[idx - 1];
             paper[idx] += paper[idx - 1];
             scissors[idx] += scissors[idx - 1];
+            // grab input & assign win to best choice
             char action = br.readLine().charAt(0);
             switch (action){
                 case 'H':
@@ -75,13 +77,15 @@ public class HPS {
             }
         }
         int maxWins = 0;
-        // Calculate maxWins by solving for most wins before we change our action and after we change our action
+        // Using prefix sums allows us to check all win combinations in O(n) time
         for (int idx = 1; idx <= n; idx++) {
+            // calculate max current wins
             int beforeWins = Math.max(hooves[idx], Math.max(paper[idx], scissors[idx]));
+            // calculate max wins after current iteration
             int afterWins = Math.max(hooves[n] - hooves[idx], Math.max(paper[n] - paper[idx], scissors[n] - scissors[idx]));
             maxWins = Math.max(maxWins, beforeWins + afterWins);
         }
-
+        // Write maxWins to output file
         PrintWriter out = new PrintWriter("hps.out");
         out.println(maxWins);
         out.close();

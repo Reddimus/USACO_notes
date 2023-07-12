@@ -50,17 +50,19 @@ SAMPLE OUTPUT:
 
 using namespace std;
 
+// Prefix sums approach
+// T & M: O(n), where n is size of Fjs actions
 int main(){
     ifstream in("hps.in");
     int n;
     in >> n;
-    // Create prefix sums of cow wins using hoof, paper or scissor
+    // Intialize prefix sum arrays with 0th index dummy value
     vector<int> hooves(n+1);
     vector<int> paper(n+1);
     vector<int> scissors(n+1);
-    // iterate through input file and assign wins vs fj to prefix sums
+    // Populate the hooves, paper, and scissors prefix arrays (Notes down action wins for every iteration)
     for (int game = 1; game < n + 1; game++) {
-        // update prefix sums
+        // update prefix sums with prev vals
         hooves[game] += hooves[game - 1];
         paper[game] += paper[game - 1];
         scissors[game] += scissors[game - 1];
