@@ -54,6 +54,7 @@ using namespace std;
 // T & M: O(n), where n is size of Fjs actions
 int main(){
     ifstream in("hps.in");
+    // first line: n = amount of games played
     int n;
     in >> n;
     // Intialize prefix sum arrays with 0th index dummy value
@@ -87,11 +88,11 @@ int main(){
     for (int i = 1; i < n + 1; i++) {
         // calculate max current wins
         int beforeWins = max(hooves[i], max(paper[i], scissors[i]));
-        // calculate max wins after current iteration
+        // calculate max wins after current iteration to the end
         int afterWins = max(hooves[n] - hooves[i], max(paper[n] - paper[i], scissors[n] - scissors[i]));
         maxWins = max(maxWins, beforeWins + afterWins);
     }
-    // Write maxWins to output file
+    // Write maxWins answer to output file
     ofstream pw("hps.out");
     pw << maxWins << "\n";
     pw.close();
