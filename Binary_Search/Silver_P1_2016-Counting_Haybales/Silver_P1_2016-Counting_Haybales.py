@@ -72,7 +72,7 @@ with open('haybales.in', 'r') as f:
     # second line: haybale placements
     haybale_locs = list(map(int, f.readline().split()))
     haybale_locs.sort()
-    # for the next q lines gather intervals
+    # for the next q lines process intervals
     inteval_placements = []
     for ln in range(q):
         start, end = map(int, f.readline().split())
