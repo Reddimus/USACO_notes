@@ -1,4 +1,6 @@
 '''
+Counting Haybales - USACO Silver P1 2016 prompt:
+
 Farmer John has just arranged his N haybales (1≤N≤100,000) at various points along 
 the one-dimensional road running across his farm. To make sure they are spaced out 
 appropriately, please help him answer Q queries (1≤Q≤100,000), each asking for the 
