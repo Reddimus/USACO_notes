@@ -65,6 +65,7 @@ def search_right(arr, target):
             l_idx = m_idx
     return r_idx + 1
 
+# open/read input file
 with open('haybales.in', 'r') as f:
     # first line: n = num haybales, q = num of intervals
     n, q = map(int, f.readline().split())
