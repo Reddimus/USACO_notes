@@ -45,30 +45,28 @@ import java.util.*;
 // T: O((n + q) log n)), M: O(n), where n is number of haybales, and q is num of intervals
 
 public class Haybales {
-    static int lowerBound(int[] arr, int x) {
-        int lo = 0;
-        int hi = arr.length;
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2;
-            if (arr[mid] >= x)
-                hi = mid;
+    static int lowerBound(int[] arr, int target) {
+        int l_idx = 0, r_idx = arr.length;
+        while (l_idx < r_idx) {
+            int mid = l_idx + (r_idx - l_idx) / 2;
+            if (arr[mid] >= target)
+                r_idx = mid;
             else
-                lo = mid + 1;
+                l_idx = mid + 1;
         }
-        return lo;
+        return l_idx;  // if target not found returns out of bounds idx (n)
     }
 
-    static int upperBound(int[] arr, int x) {
-        int lo = 0;
-        int hi = arr.length;
+    static int upperBound(int[] arr, int target) {
+        int lo = 0, hi = arr.length;
         while (lo < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (arr[mid] > x)
+            if (arr[mid] > target)
                 hi = mid;
             else
                 lo = mid + 1;
         }
-        return lo;
+        return hi;
     }
 
     public static void main(String[] args) throws IOException {
@@ -96,7 +94,7 @@ public class Haybales {
             st = new StringTokenizer(f.readLine());
             int start = Integer.parseInt(st.nextToken());
             int end = Integer.parseInt(st.nextToken());
-            // Find the range of answers using start and end values with binary search
+            // binary search lower/upper bound area of answers
             int l_idx = lowerBound(haybale_locs, start);
             int r_idx = upperBound(haybale_locs, end);
             // Write the number of haybales in the respective interval to the output file
@@ -106,34 +104,4 @@ public class Haybales {
         f.close();
         out.close();
     }
-    /*
-    Other ways to use binary search on boundaries:
-    public static int search_left(int[] arr, int target) {
-        int l_idx = 0, r_idx = arr.length;
-        while (l_idx < r_idx) {
-            int m_idx = (l_idx + r_idx) / 2;
-            if (arr[m_idx] < target)
-                l_idx = m_idx + 1;
-            else
-                r_idx = m_idx;
-        }
-        return l_idx;
-    }
-
-    // Binary search method to find the right boundary
-    public static int search_right(int[] arr, int target) {
-        // if all elements are greater than > target
-        if (arr[0] > target)
-            return arr.length;
-        int l_idx = 0, r_idx = arr.length - 1;
-        while (l_idx < r_idx) {
-            int m_idx = (l_idx + r_idx + 1) / 2;
-            if (arr[m_idx] > target)
-                r_idx = m_idx - 1;
-            else
-                l_idx = m_idx;
-        }
-        return r_idx + 1;
-    }
-    */
 }

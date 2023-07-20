@@ -38,10 +38,13 @@ SAMPLE OUTPUT:
 0
 '''
 
+import bisect
+
 # Binary search method
 # T: O((n + q) log n)), M: O(n + q), where n is number of haybales, and q is num of intervals
-
-def search_left(arr, target):
+'''
+# From scratch
+def lower_bound(arr, target):
     l_idx, r_idx = 0, len(arr)
     while l_idx < r_idx:
         m_idx = (l_idx + r_idx) // 2
@@ -49,22 +52,18 @@ def search_left(arr, target):
             l_idx = m_idx + 1
         else:
             r_idx = m_idx
-    return l_idx
+    return l_idx    # if target not found returns out of bounds idx (n)
 
-def search_right(arr, target):
-    # if all nums > target
-    if arr[0] > target:
-        return len(arr)
-    l_idx, r_idx = 0, len(arr) - 1
+def upper_bound(arr, target):
+    l_idx, r_idx = 0, len(arr)
     while l_idx < r_idx:
-        # Round up to avoid infinite loop
-        m_idx = (l_idx + r_idx + 1) // 2
-        if arr[m_idx] > target:
-            r_idx = m_idx - 1
+        m_idx = (l_idx + r_idx) // 2
+        if arr[m_idx] <= target:
+            l_idx = m_idx + 1
         else:
-            l_idx = m_idx
-    return r_idx + 1
-
+            r_idx = m_idx
+    return r_idx
+'''
 # open/read input file
 with open('haybales.in', 'r') as f:
     # first line: n = num haybales, q = num of intervals
@@ -73,14 +72,19 @@ with open('haybales.in', 'r') as f:
     haybale_locs = list(map(int, f.readline().split()))
     haybale_locs.sort()
     # for the next q lines process intervals
-    inteval_placements = []
+    interval_placements = []
     for ln in range(q):
         start, end = map(int, f.readline().split())
-        # Binary search on multiple answers; find range of answers using start/end values
-        l_idx = search_left(haybale_locs, start)
-        r_idx = search_right(haybale_locs, end)
-        inteval_placements.append(str(r_idx - l_idx))
+        # Binary search lower/upper bound of answers
+        l_idx = bisect.bisect_left(haybale_locs, start)
+        r_idx = bisect.bisect_right(haybale_locs, end)
+        '''
+        # From scratch
+        l_idx = lower_bound(haybale_locs, start)
+        r_idx = upper_bound(haybale_locs, end)
+        '''
+        interval_placements.append(str(r_idx - l_idx))
 
 # Write all results at once
 with open('haybales.out', 'w') as f:
-    f.write('\n'.join(inteval_placements))
+    f.write('\n'.join(interval_placements))
