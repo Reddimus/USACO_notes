@@ -119,9 +119,8 @@ def within_contract(k):
             return False
         # elapse time by shortest dance time to open dance spot and add next cow to dance
         for s_idx, s_time in enumerate(stage):
-            if s_time != min_dance:
-                stage[s_idx] -= min_dance
-            else:
+            stage[s_idx] -= min_dance
+            if stage[s_idx] == 0:
                 stage[s_idx] = dances[d_idx]
                 d_idx += 1
     # let cows dance remaining time
