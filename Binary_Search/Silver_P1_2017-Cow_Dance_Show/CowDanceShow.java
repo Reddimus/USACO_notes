@@ -60,11 +60,13 @@ public class CowDanceShow {
             int min_dance = stage.poll();
             stage.add(min_dance + dances.get(idx));
         }
-        // find the longest dance time in the stage then dance remaining time
-        int max_dance = Integer.MIN_VALUE;
-        for (int i = 0; i < k; i++)
-            max_dance = Math.max(max_dance, stage.poll());
-        return max_dance <= t_max;
+        // dance remaining cows on stage
+        while (!stage.isEmpty()) {
+            int max_dance = stage.poll();
+            if (max_dance > t_max)
+                return false;
+        }
+        return true;
     }
     public static void main(String[] args) throws IOException {
         // open input file
@@ -82,7 +84,7 @@ public class CowDanceShow {
         while (lo < hi) {
             int mid  = lo + (hi - lo) / 2;
             if (!within_contract(mid))
-                lo = mid + 1;
+                lo = mid + 1;   // increase stage size to reduce time on stage and be within contract time limit
             else
                 hi = mid;
         }
