@@ -46,18 +46,6 @@ In the sample input provided, the time each cow dances for is specified as follo
 - Cow 4 dances for 6 units of time
 - Cow 5 dances for 4 units of time
 
-t_max = 8
-
-initialized
-[4, 7, 8, 6] | len(stage) = 4 | t = 0
-
-[0, 3, 4, 2] | len(stage) = 4 | t = 4
-added cow 5 in idx 0
-[4, 3, 4, 2] | len(stage) = 4 | t = 4
-
-Dance remaining time
-[0, 0, 0, 0] | len(stage) = 4 | t = 8
-
 SAMPLE OUTPUT:
 4
 '''
@@ -79,9 +67,9 @@ def within_contract(k):
     stage = dances[:k]
     heapq.heapify(stage)
     # elapse (heappop) shortest dance time and add next cow to dance
-    for d_idx in range(k, n):
+    for idx in range(k, n):
         min_dance = heapq.heappop(stage)
-        heapq.heappush(stage, min_dance + dances[d_idx])
+        heapq.heappush(stage, min_dance + dances[idx])
     return max(stage) <= t_max
 
 # Search for smallest possible stage size within contract limit using binary search
