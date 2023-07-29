@@ -42,11 +42,14 @@ SAMPLE OUTPUT:
 4
 */
 
+//#include <bits/stdc++.h>
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <vector>
 #include <queue>
+#include <limits>
 
 using namespace std;
 
@@ -91,19 +94,15 @@ bool within_contract(int k) {
     // heapify first k cows
     priority_queue<int, vector<int>, greater<int>> stage(dances.begin(), dances.begin() + k);
     // elapse shortest dance time (root) to open dance spot and add next cow to stage
+    int max_dance = numeric_limits<int>::min();
     for (int idx = k; idx < n; idx++) {
         int min_dance = stage.top();
         stage.pop();
         stage.push(min_dance + dances[idx]);
+        max_dance = max(max_dance, min_dance + dances[idx]);
     }
-    // dance remaining cows on stage
-    while (!stage.empty()) {
-        int max_dance = stage.top();
-        stage.pop();
-        if (max_dance > t_max)
-            return false;
-    }
-    return true;
+    // dance remaining cows on stage by searching max dance time
+    return max_dance <= t_max;
 }
 
 /*

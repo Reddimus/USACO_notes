@@ -55,18 +55,15 @@ public class CowDanceShow {
     // k represents the size of the stage to support n amount of cows dancing
     private static boolean within_contract(int k) {
         PriorityQueue<Integer> stage = new PriorityQueue<Integer>(dances.subList(0, k));
+        int max_dance = Integer.MIN_VALUE;
         // elapse shortest dance time to open dance spot and add next cow to stage
         for (int idx = k; idx < n; idx++) {
             int min_dance = stage.poll();
+            max_dance = Math.max(max_dance, min_dance + dances.get(idx));
             stage.add(min_dance + dances.get(idx));
         }
-        // dance remaining cows on stage
-        while (!stage.isEmpty()) {
-            int max_dance = stage.poll();
-            if (max_dance > t_max)
-                return false;
-        }
-        return true;
+        // elapse remaining dance time
+        return max_dance <= t_max;
     }
     public static void main(String[] args) throws IOException {
         // open input file
