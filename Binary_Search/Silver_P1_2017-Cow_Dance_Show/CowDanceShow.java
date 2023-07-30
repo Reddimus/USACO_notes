@@ -75,7 +75,8 @@ public class CowDanceShow {
         // for the next n lines read each cow's dance time
         for (int i = 0; i < n; i++)
             dances.add(Integer.parseInt(in.readLine()));
-
+        in.close();
+        
         // Binary Search for smallest possible stage size within contract time limit
         int lo = 1, hi = n;
         while (lo < hi) {
