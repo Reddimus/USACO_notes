@@ -39,6 +39,9 @@ a cow has to wait is 4 time units (the cow arriving at time 10 waits from time 1
 to time 14)
 '''
 
+# Binary Search - Sliding Window approach
+# T: O(n log n), M: O(n), where n = num of cows
+
 # Read input file
 with open('convention.in', 'r') as f:
     # First line: n = num of cows, m = num of buses, c = capacity of each bus
@@ -68,7 +71,6 @@ def valid_waiting(max_waiting: int) -> bool:
         else:
             cow_Ridx += 1
     return buses <= m;
-
 
 # Binary search for min max waiting time
 lo, hi = 0, arrivals[-1] - arrivals[0]
