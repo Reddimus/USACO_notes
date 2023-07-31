@@ -57,7 +57,7 @@ arrivals.sort()
 def valid_waiting(max_waiting: int) -> bool:
     buses = cow_Lidx = cow_Ridx = 0
     while cow_Ridx < n:
-        # if first cow in bus; overlapping indexes
+        # if first cow in bus (overlapping indexes); increment buses counted
         if cow_Lidx == cow_Ridx:
             buses += 1
         # If bus waiting time out of range; update prev idx to curr idx (move to next bus)
