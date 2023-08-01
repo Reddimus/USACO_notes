@@ -39,6 +39,8 @@ a cow has to wait is 4 time units (the cow arriving at time 10 waits from time 1
 to time 14)
 */
 
+// #include <bits/stdc++.h>
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
