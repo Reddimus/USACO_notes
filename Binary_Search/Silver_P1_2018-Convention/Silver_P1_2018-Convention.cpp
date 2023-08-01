@@ -51,6 +51,7 @@ using namespace std;
 int n, m, c;
 vector<int> arrivals;
 
+// check if max waiting time is valid under busses (m) and bus capacity (c) constraints
 bool valid_waiting(int max_wait) {
     int buses = 0, cowRidx = 0, cowLidx = 0;
     while (cowRidx < n) {

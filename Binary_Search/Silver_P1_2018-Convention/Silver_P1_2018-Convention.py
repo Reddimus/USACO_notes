@@ -52,6 +52,7 @@ with open('convention.in', 'r') as f:
 # Sort cow arrival times to group cows that arrive close together
 arrivals.sort()
 
+# check if max waiting time is valid under busses (m) and bus capacity (c) constraints
 def valid_waiting(max_wait: int) -> bool:
     buses = cow_Lidx = cow_Ridx = 0
     while cow_Ridx < n:
