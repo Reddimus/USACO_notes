@@ -60,14 +60,14 @@ def valid_waiting(max_waiting: int) -> bool:
         # if first cow in bus (overlapping indexes); increment buses counted
         if cow_Lidx == cow_Ridx:
             buses += 1
-        # If bus waiting time out of range; update prev idx to curr idx (move to next bus)
+        # if bus waiting time out of range; update prev idx to curr idx (move to next bus)
         if arrivals[cow_Ridx] - arrivals[cow_Lidx] > max_waiting:
             cow_Lidx = cow_Ridx
-        # if bus capacity (c) reached; update prev idx and increment busses
+        # if bus capacity (c) reached with new placement; update idxs to move on to next bus
         elif cow_Ridx - cow_Lidx + 1 == c:
             cow_Ridx += 1
             cow_Lidx = cow_Ridx
-        # else bus within waiting range and within capacity; increment cow_Ridx
+        # else cow time is valid for bus placement
         else:
             cow_Ridx += 1
     return buses <= m;
@@ -81,5 +81,5 @@ while lo < hi:
     else:
         hi = mid
 
-# write min max waiting time to output file
+# Write converged answer hi [..false, false, TRUE, true...] representing min max arrival time
 print(hi, file=open("convention.out", "w"))
