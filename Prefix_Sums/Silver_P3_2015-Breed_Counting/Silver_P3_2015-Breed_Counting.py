@@ -42,7 +42,7 @@ SAMPLE OUTPUT:
 # T & M: O(n + q), where n is num of cows, and q is num of queries
 
 # Open input file
-with open("Prefix_Sums/Silver_P3_2015-Breed_Counting/bcount.in") as f:
+with open("bcount.in") as f:
 	# first line: n = num of cows, q = num of queries
 	n, q = map(int, f.readline().split())
 
@@ -70,6 +70,6 @@ with open("Prefix_Sums/Silver_P3_2015-Breed_Counting/bcount.in") as f:
 		queries_ids.append([holsteins[end] - holsteins[start-1], guernseys[end] - guernseys[start-1], jerseys[end] - jerseys[start-1]])
 		
 # Write query ids to output file
-with open("Prefix_Sums/Silver_P3_2015-Breed_Counting/bcount.out", "w") as f:
+with open("bcount.out", "w") as f:
 	for q_ids in queries_ids:
 		f.write(" ".join(map(str, q_ids)) + "\n")
