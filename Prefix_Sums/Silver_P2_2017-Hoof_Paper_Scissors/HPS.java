@@ -50,9 +50,9 @@ import java.io.*;
 // T & M: O(n), where n is size of Fjs actions
 public class HPS {
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader("hps.in"));
+        BufferedReader in = new BufferedReader(new FileReader("hps.in"));
         // first line: n = amount of games played
-        int n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(in.readLine());
         // Intialize prefix sum arrays with 0th index dummy value
         int[] hooves = new int[n + 1];
         int[] paper = new int [n + 1];
@@ -64,7 +64,7 @@ public class HPS {
             paper[idx] += paper[idx - 1];
             scissors[idx] += scissors[idx - 1];
             // grab input & assign win to best choice
-            char action = br.readLine().charAt(0);
+            char action = in.readLine().charAt(0);
             switch (action){
                 case 'H':
                     paper[idx]++;
@@ -77,6 +77,8 @@ public class HPS {
                     break;
             }
         }
+        in.close();
+
         // Using prefix sums allows us to check all win combinations in O(n) time
         int maxWins = 0;
         for (int idx = 1; idx <= n; idx++) {
@@ -86,6 +88,7 @@ public class HPS {
             int afterWins = Math.max(hooves[n] - hooves[idx], Math.max(paper[n] - paper[idx], scissors[n] - scissors[idx]));
             maxWins = Math.max(maxWins, beforeWins + afterWins);
         }
+        
         // write maxWins answer to output file
         PrintWriter out = new PrintWriter("hps.out");
         out.println(maxWins);
