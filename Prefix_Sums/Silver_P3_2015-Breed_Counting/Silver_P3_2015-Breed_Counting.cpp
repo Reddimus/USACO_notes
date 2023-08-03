@@ -39,13 +39,11 @@ SAMPLE OUTPUT:
 */
 
 // Prefix sums approach
-// T & M: O(n + q), where n is num of cows, and q is num of queries
+// T: O(n + q), M: O(n), where n is num of cows, and q is num of queries
 
 // #include <bits/stdc++.h>
 
 #include <iostream>
-#include <vector>
-#include <tuple>
 
 using namespace std;
 
@@ -57,14 +55,14 @@ int main() {
 	cin >> n >> q;
 
 	// For next n lines read cow breed IDs and create prefix sum lists
-	vector<int> holsteins(n+1), guernseys(n+1), jerseys(n+1);
+	int holsteins[n+1] = {}, guernseys[n+1] = {}, jerseys[n+1] = {};
 	for (int idx = 1; idx < n + 1; idx++) {
 		holsteins[idx] += holsteins[idx-1];
 		guernseys[idx] += guernseys[idx-1];
 		jerseys[idx] += jerseys[idx-1];
 		int cow_id;
 		cin >> cow_id;
-		switch (cow_id){
+		switch (cow_id) {
 			case 1:
 				holsteins[idx]++;
 				break;
@@ -77,16 +75,13 @@ int main() {
 		}
 	}
 
-	// For next q lines solve num of cow breeds in query range
-	vector<tuple<int, int, int>> queries_ids(q);
+	// For next q lines solve num of cow breeds in query range and write queries ids to output file
+	freopen("bcount.out", "w", stdout);
 	for (int ln = 0; ln < q; ln++) {
 		int start, end;
 		cin >> start >> end;
-		queries_ids[ln] = {holsteins[end] - holsteins[start-1], guernseys[end] - guernseys[start-1], jerseys[end] - jerseys[start-1]};
+		cout << holsteins[end] - holsteins[start-1] << " "
+			<< guernseys[end] - guernseys[start-1] << " "
+		    << jerseys[end] - jerseys[start-1] << endl;
 	}
-
-	// Write query ids to output file
-	freopen("bcount.out", "w", stdout);
-	for (int ln = 0; ln < q; ln++)
-		cout << get<0>(queries_ids[ln]) << " " << get<1>(queries_ids[ln]) << " " << get<2>(queries_ids[ln]) << endl;
 }
