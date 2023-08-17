@@ -61,43 +61,38 @@ of total coverage.
 potential overlaps of these intervals and compute properties like total coverage and the alone 
 time for each lifeguard.
 """
-
 # Sorting/Sweep Line/greedy/intervals method
 # T: O(n log n), O(n), where n is amount of shifts
 
-# begin by opening input and storing start/end shifts and assign lifeguard ids
+# Open input file
 with open('lifeguards.in', 'r') as f:
-    N = int(f.readline().strip())
-    shifts_ds = []
-    for lg_id in range(N):
-        start, end = map(int, f.readline().strip().split())
-        shifts_ds.append([start, lg_id, True])
-        shifts_ds.append([end, lg_id, False])
+	# First line: n = num of cow lifeguards
+	n = int(f.readline())
+	# For the next n lines assign start/end shifts with lifeguard ids
+	shifts = []
+	for lg_id in range(n):
+		start, end = map(int, f.readline().split())
+		shifts.append((start, True, lg_id))
+		shifts.append((end, False, lg_id))
 
-# Sort by time, then by start/end (True/False)
-shifts_ds.sort()
+# Sort by time only
+shifts.sort(key=lambda x: x[0])
 
 total_time = 0
-alone_time = [0]*N          # amount of time specific lifeguard is doing shift alone
-lifeguards_on_duty = set()  # current lifeguard on duty; is tracked by lifeguard id
+on_duty = set()			# tracked by lifeguard id
+alone_time = [0] * n	# idx is lifeguard id, value is total alone time
 prev_time = 0
-
 # calculate variables in a sweep line/greedy method
-for time, lg_id, is_start in shifts_ds:
-    if len(lifeguards_on_duty) == 1:
-        # The current lifeguard was alone between prev_time and time
-        alone_time[list(lifeguards_on_duty)[0]] += time - prev_time
-    if len(lifeguards_on_duty) > 0:
-        # At least one lifeguard was on duty between prev_time and time
-        total_time += time - prev_time
-    if is_start:
-        lifeguards_on_duty.add(lg_id)
-    else:
-        lifeguards_on_duty.remove(lg_id)
-    prev_time = time
-# after all variables have been calculated we figure out who to fire while having max shifts coverage
-max_coverage = total_time - min(alone_time)
+for time, is_start, lg_id in shifts:
+	if len(on_duty) == 1:	# if lifeguard has alone time
+		alone_time[list(on_duty)[0]] += time - prev_time
+	if len(on_duty) > 0:
+		total_time += time - prev_time
+	if is_start:
+		on_duty.add(lg_id)
+	else:
+		on_duty.remove(lg_id)
+	prev_time = time
 
-# Write to output file
-with open('lifeguards.out', 'w') as f:
-    f.write(str(max_coverage))
+# Write total time - life guard with least alone time to output file
+print(total_time - min(alone_time), file=open('lifeguards.out', 'w'))
