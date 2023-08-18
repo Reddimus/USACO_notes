@@ -1,5 +1,5 @@
 // Custom Comparators + Sorting + Sweep Line Approach
-// T: O(n log n), O(n), where n is amount of shifts
+// T: O(n log n), M: O(n), where n is amount of shifts
 
 import java.io.*;
 import java.util.*;
@@ -21,7 +21,7 @@ public class LifeGuards {
 		BufferedReader br = new BufferedReader(new FileReader("lifeguards.in"));
 		// First line: n = number of cow lifeguards
 		int n = Integer.parseInt(br.readLine());
-		// For the next n lines track start/end times + lifeguard IDs(idx)
+		// For the next n lines track start/end times + lifeguard IDs (id is based on idx)
 		Shift_Event[] shifts = new Shift_Event[2 * n];
 		for (int idx = 0; idx < n; idx++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -36,7 +36,7 @@ public class LifeGuards {
 		Arrays.sort(shifts, Comparator.comparingInt(a -> a.time));
 
 		int totalTime = 0, prevTime = 0;
-		int[] aloneTime = new int[n];						// idx is lifeguard id, value is total alone time
+		int[] aloneTime = new int[n];					// idx is lifeguard id, value is total alone time
 		Set<Integer> onDuty = new HashSet<Integer>();	// tracked by lifeguard id
 		// iterate through shift events calculating result using sweep line approach
 		for (Shift_Event se : shifts) {

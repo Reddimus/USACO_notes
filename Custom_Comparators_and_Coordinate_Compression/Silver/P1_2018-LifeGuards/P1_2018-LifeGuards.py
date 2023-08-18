@@ -1,8 +1,8 @@
 # Custom Comparators + Sorting + Sweep Line Approach
-# T: O(n log n), O(n), where n is amount of shifts
+# T: O(n log n), M: O(n), where n is amount of shifts
 
 class Shift_Event:
-	def __init__(self, time = int, lifeguard_id = int, is_start = bool) -> None:
+	def __init__(self, time = int, lifeguard_id = int, is_start = bool):
 		self.time = time
 		self.lifeguard_id = lifeguard_id
 		self.is_start = is_start
