@@ -1,4 +1,4 @@
-# Comparators + Sorting + Sweep Line Approach
+# Custom Comparators + Sorting + Sweep Line Approach
 # T: O(n log n), O(n), where n is amount of shifts
 
 class Shift_Event:
@@ -29,12 +29,16 @@ prev_time = 0
 for se in shifts:
 	if len(on_duty) == 1:	# if current lifeguard is alone
 		alone_time[next(iter(on_duty))] += se.time - prev_time
+
 	if len(on_duty) > 0:
 		total_time += se.time - prev_time
+
 	if se.is_start:
 		on_duty.add(se.lifeguard_id)
 	else:
 		on_duty.remove(se.lifeguard_id)
+		
 	prev_time = se.time
+
 # Write total time - life guard with least alone time to output file
 print(total_time - min(alone_time), file=open('lifeguards.out', 'w'))
