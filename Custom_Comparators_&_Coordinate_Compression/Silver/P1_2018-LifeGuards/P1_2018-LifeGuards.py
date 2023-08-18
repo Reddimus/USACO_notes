@@ -1,4 +1,4 @@
-# Sorting/Sweep Line/greedy/intervals method
+# Comparators + Sorting + Sweep Line Approach
 # T: O(n log n), O(n), where n is amount of shifts
 
 class Shift_Event:
