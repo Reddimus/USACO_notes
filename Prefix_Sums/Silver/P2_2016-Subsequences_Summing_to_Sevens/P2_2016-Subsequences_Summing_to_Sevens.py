@@ -51,7 +51,7 @@ print(best_photo, file=open('div7.out', 'w'))
 # T: O(n), M: O(n), where n is the number of cows
 
 # Open input file
-with open('Prefix_Sums\Silver_P2_2016-Subsequences_Summing_to_Sevens\div7.in', 'r') as f:
+with open('div7.in', 'r') as f:
 	# First line: n = num of cows
 	n = int(f.readline())
 	# For the next n lines create prefix sum list
@@ -70,8 +70,7 @@ for idx, mod_num in enumerate(mod_prefix_sums):
 # Find largest photo
 best_photo = 0
 for mod_num, idx_list in mod_map.items():
-	if len(idx_list) > 1:
-		best_photo = max(best_photo, idx_list[-1] - idx_list[0])
+	best_photo = max(best_photo, idx_list[-1] - idx_list[0])
 
-print(best_photo, file=open('Prefix_Sums\Silver_P2_2016-Subsequences_Summing_to_Sevens\div7.out', 'w'))
+print(best_photo, file=open('div7.out', 'w'))
 '''
