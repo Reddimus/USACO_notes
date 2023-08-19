@@ -30,3 +30,5 @@ You may want to note that the sum of the IDs of a large group of cows might be t
 5  
 
 In this example, 5+1+6+2+14 = 28.
+
+http://www.usaco.org/index.php?page=viewproblem2&cpid=595
