@@ -92,8 +92,6 @@ public class Div7 {
 		Map<Integer, List<Integer>> modMap = new HashMap<>();	// map mod 7'ed prefix sums; up to 7 possible values
 		for (int idx = 0; idx < n; idx++) {
 			int mod_num = mod_prefix_sums[idx];
-			if (mod_num < 0)
-				System.out.println("mod_num: " + mod_num + " idx: " + idx);
 			if (!modMap.containsKey(mod_num)) {
 				modMap.put(mod_num, new ArrayList<>());
 			}
