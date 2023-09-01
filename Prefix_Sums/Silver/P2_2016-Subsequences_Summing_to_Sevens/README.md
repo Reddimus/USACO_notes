@@ -32,3 +32,6 @@ You may want to note that the sum of the IDs of a large group of cows might be t
 In this example, 5+1+6+2+14 = 28.
 
 http://www.usaco.org/index.php?page=viewproblem2&cpid=595
+
+Solution:
+https://github.com/Reddimus/USACO_notes/tree/main/Prefix_Sums/Silver/P2_2016-Subsequences_Summing_to_Sevens
