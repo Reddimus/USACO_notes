@@ -8,7 +8,7 @@ class Shop:
 		self.rate = rate
 
 # Open input file
-with open('Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service/rental.in', 'r') as f:
+with open('rental.in', 'r') as f:
 	# Read first line: n = num of cows, m = num of shops, r = num of neighbors
 	n, m, r = map(int, f.readline().split())
 	# For the next n lines track milk produced per cow
@@ -23,38 +23,45 @@ milk.sort(reverse=True)
 shops.sort(reverse=True, key=lambda s: s.rate)
 rent.sort(reverse=True)
 
-# Calculate maximum profit
-money = 0
+# Calculate maximum revenue by comparing rent a cow price to potential jugs price
+revenue = 0
+cached_price = 0
 cow_idx, shop_idx, rent_idx = 0, 0, 0
 while (cow_idx < n):
-	# Calculate potential profit if cow were to be milked
-	jugs = milk[cow_idx]
-	jugs_price = 0
-	last_sold = 0
-	temp_idx = shop_idx
-	while temp_idx < m:
-		sold = min(jugs, shops[temp_idx].demand)
-		jugs -= sold
-		jugs_price += sold * shops[temp_idx].rate
-		if jugs == 0:
-			last_sold = sold
-			break
-		temp_idx += 1
+
+	# Initialize potential jugs price to 0 or previously unused price
+	jugs_price = cached_price
+	
+	if not cached_price:
+		# Calculate potential revenue if cow were to be milked
+		jugs = milk[cow_idx]
+		last_sold = 0
+		temp_idx = shop_idx
+		while temp_idx < m:
+			sold = min(jugs, shops[temp_idx].demand)
+			jugs -= sold
+			jugs_price += sold * shops[temp_idx].rate
+			if jugs == 0:
+				last_sold = sold
+				break
+			temp_idx += 1
 
 	# if renting a cow is more profitable than selling milk
 	if rent_idx < r and rent[rent_idx] > jugs_price:
-		money += rent[rent_idx]
+		revenue += rent[rent_idx]
 		rent_idx += 1
+		cached_price = jugs_price	# save unused price for next iteration
 		n -= 1	# rent cow that produces the least milk
 	else:
-		money += jugs_price
+		revenue += jugs_price
 		shop_idx = temp_idx
 		if temp_idx < m:
 			shops[shop_idx].demand -= last_sold
+		cached_price = 0
 		cow_idx += 1
 
 # Write maximum profit to rental output file 
-print(money, file=open('Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service/rental.out', 'w'))
+print(revenue, file=open('rental.out', 'w'))
 
 '''
 # Expanded solution
@@ -65,7 +72,7 @@ class Shop:
 		self.rate = rate
 
 # Open input file
-with open('rental.in', 'r') as f:
+with open('Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service/rental.in', 'r') as f:
 	# read first line: n = num of cows, m = num of shops, r = num of neighbors
 	n, m, r = map(int, f.readline().split())
 	print(f'number of cows = n = {n}, number of shops = m = {m}, number of neighbors = r = {r}')
@@ -151,5 +158,5 @@ while cow_idx < n:
 	print()
 
 # Write maximum profit to rental output file
-print(money, file=open('rental.out', 'w'))
+print(money, file=open('Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service/rental.out', 'w'))
 '''
