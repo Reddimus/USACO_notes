@@ -47,21 +47,21 @@ Then, he should rent out the other three cows for 250, 80, and 100 cents, to ear
 
 ### Read sample input
 
-`Number of cows` = `N` = `5`  
-`Number of shops` = `M` = `3`  
-`Number of neighbors` = `R` = `4`
+`Number of cows = N = 5`  
+`Number of shops = M = 3`  
+`Number of neighbors = R = 4`
 
 Milk produced per cow in gallons:  
-`milk` = `[6, 2, 4, 7, 1]`  
+`milk = [6, 2, 4, 7, 1]`  
 Quantity demand of milk gallons and cents per gallon from shops:  
-`shops` = `[(10, 25), (2, 10), (15, 15)] `  
+`shops = [(10, 25), (2, 10), (15, 15)] `  
 Neighbor rent a cow cents per day rate:  
-`rent` = `[250, 80, 100, 40]`  
+`rent = [250, 80, 100, 40]`  
 
 ### Sort in `reverse` and by `rate`; we always want to milk the cow that produces the most milk 
-`milk` = `[7, 6, 4, 2, 1]`  
-`shops` = `[(10, 25), (15, 15), (2, 10)] `  
-`rent` = `[250, 100, 80, 40]`  
+`milk = [7, 6, 4, 2, 1]`  
+`shops = [(10, 25), (15, 15), (2, 10)] `  
+`rent = [250, 100, 80, 40]`  
 
 ### **Start iterating through cows in descending order and check if renting a cow is more profitable than selling milk**
 #### **1. Calculate potential revenue if cow were to be milked using shops' rates and demand**
@@ -72,45 +72,45 @@ Observe `1st Cow` in **descending** ordered cow list that can produce `7 gallons
 Gallons of milk max price = 7 * 25 = 175, Rent a cow price = 250  
 `Last Cow` in sorted cow list that produces 1 gallon of milk, rented for `250` **instead**  
 **(It is more optimal to sell cow that produces least amount of milk)**  
-`milk` = `[7, 6, 4, 2, RENTED]`  
-`shops` = `[(10, 25), (15, 15), (2, 10)]`  
-`rent` = `[RENTED, 100, 80, 40]`  
-`Current revenue` = `250`
+milk = [7, 6, 4, 2, **RENTED**]  
+shops = [(10, 25), (15, 15), (2, 10)]  
+rent = [**RENTED**, 100, 80, 40]  
+`Current revenue = 250`
 
 Continue observing and comparing `1st Cow` in sorted cow list that can produce `7 gallons of milk`:  
 Gallons of milk max price = 7 * 25 = 175, Rent a cow price = 100  
 `1st Cow` in sorted cow list that produces `7 gallons of milk`, sold milk for `175`  
-`milk` = `[MILKED, 6, 4, 2, RENTED]`  
-`shops` = `[(3, 25), (15, 15), (2, 10)]`  
-`rent` = `[RENTED, 100, 80, 40]`  
-`Current revenue` = `425`
+milk = [**MILKED**, 6, 4, 2, RENTED]  
+shops = [(**3**, 25), (15, 15), (2, 10)]  
+rent = [RENTED, 100, 80, 40]  
+`Current revenue = 425`
 
 Observe `2nd Cow` in sorted cow list that can produce `6 gallons of milk`:  
 Gallons of milk max price = (3 * 25) + (3 * 15) = 120, Rent a cow price = 100  
 `2nd Cow` in sorted cow list that produces `6 gallons of milk`, sold milk for `120` **across 2 different stores**  
-`milk` = `[MILKED, MILKED, 4, 2, RENTED]`  
-`shops` = `[(SOLD OUT, 25), (12, 15), (2, 10)]`  
-`rent` = `[RENTED, 100, 80, 40]`  
-`Current revenue` = `545`
+milk = [MILKED, **MILKED**, 4, 2, RENTED]  
+shops = [(**SOLD OUT**, 25), (**12**, 15), (2, 10)]  
+rent = [RENTED, 100, 80, 40]  
+`Current revenue = 545`
 
 Observe `3rd Cow` in sorted cow list that can produce `4 gallons of milk`:  
 Gallons of milk max price = 4 * 15 = 60, Rent a cow price = 100  
 `2nd to last Cow` in sorted cow list that produces 2 gallons of milk, rented for `100` **instead**  
-`milk` = `[MILKED, MILKED, 4, RENTED, RENTED]`  
-`shops` = `[(SOLD OUT, 25), (12, 15), (2, 10)]`  
-`rent` = `[RENTED, RENTED, 80, 40]`  
-`Current revenue` = `645`
+milk = [MILKED, MILKED, 4, **RENTED**, RENTED]  
+shops = [(SOLD OUT, 25), (12, 15), (2, 10)]  
+rent = [RENTED, **RENTED**, 80, 40]  
+`Current revenue = 645`
 
 Observe `3rd Cow` in sorted cow list that can produce `4 gallons of milk`:  
 Gallons of milk max price = 4 * 15 = 60, Rent a cow price = 80  
 `3rd to last Cow` in sorted cow list that produces 2 gallons of milk, rented for `80`  
-`milk` = `[MILKED, MILKED, RENTED, RENTED, RENTED]`  
-`shops` = `[(SOLD OUT, 25), (12, 15), (2, 10)]`  
-`rent` = `[RENTED, RENTED, RENTED, 40]`  
-`Current revenue` = `725`
+milk = [MILKED, MILKED, **RENTED**, RENTED, RENTED]  
+shops = [(SOLD OUT, 25), (12, 15), (2, 10)]  
+rent = [RENTED, RENTED, **RENTED**, 40]  
+`Current revenue = 725`
 
 All cows used  
-`Maximum revenue` = `725`
+`Maximum revenue = 725`
 
 ## Solution:
 
