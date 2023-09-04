@@ -2,9 +2,10 @@
 // T: O(n * m), M: O(n + m + r) 
 // Where n is num of cows, m is num of shops, and r is num of neighbors
 
-#include <bits/stdc++.h>
-// #include <iostream>
-// #include <algorithm>
+// #include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+#include <algorithm>
 
 #define ll long long
 
