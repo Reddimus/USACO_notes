@@ -46,7 +46,7 @@ int main() {
 	// Sort the shifts by time only
 	sort(shifts.begin(), shifts.end(), [](ShiftEvent a, ShiftEvent b) {return a.time < b.time;});
 
-	int aloneTime[n] = {};				// idx is lifeguard id, value is total alone time
+	vector<int> aloneTime(n);			// idx is lifeguard id, value is total alone time
 	unordered_set<int> onDuty;			// tracked by lifeguard id
 	int prevTime = 0, totalTime = 0;
 	// iterate through shift events calculating result using sweep line approach
@@ -67,5 +67,5 @@ int main() {
 
 	// Write total time - life guard with least alone time to output file
 	freopen("lifeguards.out", "w", stdout);
-	cout << totalTime - *min_element(aloneTime, aloneTime + n) << endl;
+	cout << totalTime - *min_element(aloneTime.begin(), aloneTime.end()) << endl;
 }
