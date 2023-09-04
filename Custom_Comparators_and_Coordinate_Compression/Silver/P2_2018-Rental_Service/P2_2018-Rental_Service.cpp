@@ -2,10 +2,10 @@
 // T: O(n * m), M: O(n + m + r) 
 // Where n is num of cows, m is num of shops, and r is num of neighbors
 
-// #include <bits/stdc++.h>
-#include <vector>
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
+// #include <vector>
+// #include <iostream>
+// #include <algorithm>
 
 #define ll long long
 
@@ -41,44 +41,44 @@ int main() {
 
 	// Calculate maximum revenue
 	ll revenue = 0;
-	int cached_price = 0;
-	int jugs, temp_idx, last_sold;
-	int cow_idx = 0, shop_idx = 0, rent_idx = 0;
-	while (cow_idx < n) {
+	int cachedPrice = 0;
+	int jugs, tempIdx, lastSold;
+	int cowIdx = 0, shopIdx = 0, rentIdx = 0;
+	while (cowIdx < n) {
 		// Initialize potential jugs price to 0 or previously unused price
-		int jugs_price = cached_price;
+		int jugsPrice = cachedPrice;
 		
-		if (!cached_price) {
-			jugs = milk[cow_idx], last_sold = 0;
-			temp_idx = shop_idx;
+		if (!cachedPrice) {
+			jugs = milk[cowIdx], lastSold = 0;
+			tempIdx = shopIdx;
 			// Calculate potential revenue if cow were to be milked
-			while (temp_idx < m) {
-				int sold = min(jugs, shops[temp_idx].demand);
-				jugs_price += sold * shops[temp_idx].rate;
+			while (tempIdx < m) {
+				int sold = min(jugs, shops[tempIdx].demand);
+				jugsPrice += sold * shops[tempIdx].rate;
 				jugs -= sold;
 
 				if (jugs == 0){
-					last_sold = sold;
+					lastSold = sold;
 					break;
 				}
-				temp_idx++;
+				tempIdx++;
 			}
 		}
 
 		// Compare rent a cow price to potential milked price
-		if (rent_idx < r && rent[rent_idx] > jugs_price) {
-			revenue += rent[rent_idx];
-			cached_price = jugs_price;
-			rent_idx++;
+		if (rentIdx < r && rent[rentIdx] > jugsPrice) {
+			revenue += rent[rentIdx];
+			cachedPrice = jugsPrice;
+			rentIdx++;
 			n--;	// rent cow that produces least milk
 		}
 		else {
-			revenue += jugs_price;
-			shop_idx = temp_idx;
-			if (temp_idx < m)
-				shops[shop_idx].demand -= last_sold;
-			cached_price = 0;
-			cow_idx++;
+			revenue += jugsPrice;
+			shopIdx = tempIdx;
+			if (tempIdx < m)
+				shops[shopIdx].demand -= lastSold;
+			cachedPrice = 0;
+			cowIdx++;
 		}
 	}
 
@@ -122,35 +122,35 @@ int main() {
 
 	// Calculate maximum revenue
 	ll revenue = 0;
-	int cow_idx = 0, shop_idx = 0, rent_idx = 0;
-	while (cow_idx < n) {
+	int cowIdx = 0, shopIdx = 0, rentIdx = 0;
+	while (cowIdx < n) {
 		// Calculate potential revenue if cow were to be milked
-		int jugs = milk[cow_idx], jugs_price = 0, last_sold = 0;
-		int temp_idx = shop_idx;
-		while (temp_idx < m) {
-			int sold = min(jugs, shops[temp_idx].demand);
-			jugs_price += sold * shops[temp_idx].rate;
+		int jugs = milk[cowIdx], jugsPrice = 0, lastSold = 0;
+		int tempIdx = shopIdx;
+		while (tempIdx < m) {
+			int sold = min(jugs, shops[tempIdx].demand);
+			jugsPrice += sold * shops[tempIdx].rate;
 			jugs -= sold;
 
 			if (jugs == 0){
-				last_sold = sold;
+				lastSold = sold;
 				break;
 			}
-			temp_idx++;
+			tempIdx++;
 		}
 
 		// Compare rent a cow price to potential milked price
-		if (rent_idx < r && rent[rent_idx] > jugs_price) {
-			revenue += rent[rent_idx];
-			rent_idx++;
+		if (rentIdx < r && rent[rentIdx] > jugsPrice) {
+			revenue += rent[rentIdx];
+			rentIdx++;
 			n--;	// rent cow that produces least milk
 		}
 		else {
-			revenue += jugs_price;
-			shop_idx = temp_idx;
-			if (temp_idx < m)
-				shops[shop_idx].demand -= last_sold;
-			cow_idx++;
+			revenue += jugsPrice;
+			shopIdx = tempIdx;
+			if (tempIdx < m)
+				shops[shopIdx].demand -= lastSold;
+			cowIdx++;
 		}
 	}
 
