@@ -12,10 +12,6 @@
 using namespace std;
 
 int main() {
-	struct Shop {
-		int demand, rate;
-	};
-
 	// Open input file
 	freopen("rental.in", "r", stdin);
 	// Read first line: n = num of cows, m = num of shops, r = num of neighbors
@@ -26,6 +22,9 @@ int main() {
 	for (int cow = 0; cow < n; cow++)
 		cin >> milk[cow];
 	// For the next m lines track demand and rate of each shop
+	struct Shop {
+		int demand, rate;
+	};
 	vector<Shop> shops(m);
 	for (int customer = 0; customer < m; customer++)
 		cin >> shops[customer].demand >> shops[customer].rate;
