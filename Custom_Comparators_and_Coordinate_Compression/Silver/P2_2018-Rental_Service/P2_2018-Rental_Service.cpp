@@ -22,9 +22,7 @@ int main() {
 	for (int cow = 0; cow < n; cow++)
 		cin >> milk[cow];
 	// For the next m lines track demand and rate of each shop
-	struct Shop {
-		int demand, rate;
-	};
+	struct Shop {int demand, rate;};
 	vector<Shop> shops(m);
 	for (int customer = 0; customer < m; customer++)
 		cin >> shops[customer].demand >> shops[customer].rate;
@@ -33,24 +31,21 @@ int main() {
 	for (int neighbor = 0; neighbor < r; neighbor++)
 		cin >> rent[neighbor];
 
-	// Sort in reverse; we always want to milk the cow that produces the most milk
+	// We always want to look at the cow that can potentially produce the most milk first
 	sort(milk.begin(), milk.end(), greater<int>());
 	sort(shops.begin(), shops.end(), [](Shop a, Shop b) {return a.rate > b.rate;});
 	sort(rent.begin(), rent.end(), greater<int>());
 
 	// Calculate maximum revenue
 	ll revenue = 0;
-	int cachedPrice = 0;
-	int jugs, tempIdx, lastSold;
+	bool cachedPrice = false;
+	int jugs, jugsPrice, lastSold, tempIdx;
 	int cowIdx = 0, shopIdx = 0, rentIdx = 0;
-	while (cowIdx < n) {
-		// Initialize potential jugs price to 0 or previously unused price
-		int jugsPrice = cachedPrice;
-		
+	while (cowIdx < n) {		
 		if (!cachedPrice) {
-			jugs = milk[cowIdx], lastSold = 0;
-			tempIdx = shopIdx;
 			// Calculate potential revenue if cow were to be milked
+			jugs = milk[cowIdx], jugsPrice = 0, lastSold = 0;
+			tempIdx = shopIdx;
 			while (tempIdx < m) {
 				int sold = min(jugs, shops[tempIdx].demand);
 				jugsPrice += sold * shops[tempIdx].rate;
@@ -67,7 +62,7 @@ int main() {
 		// Compare rent a cow price to potential milked price
 		if (rentIdx < r && rent[rentIdx] > jugsPrice) {
 			revenue += rent[rentIdx];
-			cachedPrice = jugsPrice;
+			cachedPrice = true;
 			rentIdx++;
 			n--;	// rent cow that produces least milk
 		}
@@ -76,7 +71,7 @@ int main() {
 			shopIdx = tempIdx;
 			if (tempIdx < m)
 				shops[shopIdx].demand -= lastSold;
-			cachedPrice = 0;
+			cachedPrice = false;
 			cowIdx++;
 		}
 	}

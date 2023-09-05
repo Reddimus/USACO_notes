@@ -18,46 +18,43 @@ with open('rental.in', 'r') as f:
 	# For the next r lines track neighbor rent a cow rate
 	rent = [int(f.readline()) for neighbor in range(r)]
 
-# Sort in reverse, we always want to milk the cow that produces the most milk
+# We always want to look at the cow that can potentially produce the most milk first
 milk.sort(reverse=True)
 shops.sort(reverse=True, key=lambda s: s.rate)
 rent.sort(reverse=True)
 
-# Calculate maximum revenue by comparing rent a cow price to potential jugs price
+# Calculate maximum revenue
 revenue = 0
-cached_price = 0
+cached_price = False
 cow_idx, shop_idx, rent_idx = 0, 0, 0
 while (cow_idx < n):
-
-	# Initialize potential jugs price to 0 or previously unused price
-	jugs_price = cached_price
-	
 	if not cached_price:
 		# Calculate potential revenue if cow were to be milked
 		jugs = milk[cow_idx]
+		jugs_price = 0
 		last_sold = 0
 		temp_idx = shop_idx
 		while temp_idx < m:
 			sold = min(jugs, shops[temp_idx].demand)
-			jugs -= sold
 			jugs_price += sold * shops[temp_idx].rate
+			jugs -= sold
 			if jugs == 0:
 				last_sold = sold
 				break
 			temp_idx += 1
 
-	# if renting a cow is more profitable than selling milk
+	# Compare rent a cow price to potential milked price
 	if rent_idx < r and rent[rent_idx] > jugs_price:
 		revenue += rent[rent_idx]
+		cached_price = True	# save unused price for next iteration
 		rent_idx += 1
-		cached_price = jugs_price	# save unused price for next iteration
 		n -= 1	# rent cow that produces the least milk
 	else:
 		revenue += jugs_price
 		shop_idx = temp_idx
 		if temp_idx < m:
 			shops[shop_idx].demand -= last_sold
-		cached_price = 0
+		cached_price = False
 		cow_idx += 1
 
 # Write maximum profit to rental output file 
