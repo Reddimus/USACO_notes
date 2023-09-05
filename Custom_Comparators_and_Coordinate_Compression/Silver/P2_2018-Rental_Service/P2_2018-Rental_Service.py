@@ -14,9 +14,9 @@ with open('rental.in', 'r') as f:
 	# For the next n lines track milk produced per cow
 	milk = [int(f.readline()) for jugs in range(n)]
 	# For the next m lines track demand of milk and rate of milk from shops
-	shops = [Shop(*map(int, f.readline().split())) for customer in range(m)]
+	shops = [Shop(*map(int, f.readline().split())) for shop_customer in range(m)]
 	# For the next r lines track neighbor rent a cow rate
-	rent = [int(f.readline()) for neighbor in range(r)]
+	rent = [int(f.readline()) for neighbor_customer in range(r)]
 
 # We always want to look at the cow that can potentially produce the most milk first
 milk.sort(reverse=True)

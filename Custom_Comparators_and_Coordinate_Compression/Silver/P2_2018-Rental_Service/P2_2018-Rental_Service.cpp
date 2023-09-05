@@ -1,6 +1,6 @@
 // Custom Comparators + Sort + Greedy approach
 // T: O(n * m), M: O(n + m + r) 
-// Where n is num of cows, m is num of shops, and r is num of neighbors
+// Where n is num of cows, m is num of shops, and r is num of neighborCustomers
 
 #include <bits/stdc++.h>
 // #include <vector>
@@ -14,7 +14,7 @@ using namespace std;
 int main() {
 	// Open input file
 	freopen("rental.in", "r", stdin);
-	// Read first line: n = num of cows, m = num of shops, r = num of neighbors
+	// Read first line: n = num of cows, m = num of shops, r = num of neighborCustomers
 	int n, m, r;
 	cin >> n >> m >> r;
 	// For the next n lines track milk produced per cow
@@ -24,12 +24,12 @@ int main() {
 	// For the next m lines track demand and rate of each shop
 	struct Shop {int demand, rate;};
 	vector<Shop> shops(m);
-	for (int customer = 0; customer < m; customer++)
-		cin >> shops[customer].demand >> shops[customer].rate;
-	// For the next r lines track neighbor rent a cow rate
+	for (int shopCustomer = 0; shopCustomer < m; shopCustomer++)
+		cin >> shops[shopCustomer].demand >> shops[shopCustomer].rate;
+	// For the next r lines track neighbor Customer rent a cow rate
 	vector<int> rent(r);
-	for (int neighbor = 0; neighbor < r; neighbor++)
-		cin >> rent[neighbor];
+	for (int neighborCustomer = 0; neighborCustomer < r; neighborCustomer++)
+		cin >> rent[neighborCustomer];
 
 	// We always want to look at the cow that can potentially produce the most milk first
 	sort(milk.begin(), milk.end(), greater<int>());
@@ -84,7 +84,7 @@ int main() {
 /*
 // Custom Comparators + Sort + Greedy approach | without cached value
 // T: O(n * m), M: O(n + m + r) 
-// Where n is num of cows, m is num of shops, and r is num of neighbors
+// Where n is num of cows, m is num of shops, and r is num of neighborCustomers
 
 int main() {
 	struct Shop {
@@ -93,7 +93,7 @@ int main() {
 
 	// Open input file
 	freopen("rental.in", "r", stdin);
-	// Read first line: n = num of cows, m = num of shops, r = num of neighbors
+	// Read first line: n = num of cows, m = num of shops, r = num of neighborCustomers
 	int n, m, r;
 	cin >> n >> m >> r;
 	// For the next n lines track milk produced per cow
@@ -102,12 +102,12 @@ int main() {
 		cin >> milk[cow];
 	// For the next m lines track demand and rate of each shop
 	Shop shops[m];
-	for (int customer = 0; customer < m; customer++)
-		cin >> shops[customer].demand >> shops[customer].rate;
-	// For the next r lines track neighbor rent a cow rate
+	for (int shopCustomer = 0; shopCustomer < m; shopCustomer++)
+		cin >> shops[shopCustomer].demand >> shops[shopCustomer].rate;
+	// For the next r lines track neighbor Customer rent a cow rate
 	int rent[r];
-	for (int neighbor = 0; neighbor < r; neighbor++)
-		cin >> rent[neighbor];
+	for (int neighborCustomer = 0; neighborCustomer < r; neighborCustomer++)
+		cin >> rent[neighborCustomer];
 
 	// Sort in reverse; we always want to milk the cow that produces the most milk
 	sort(milk, milk + n, greater<int>());
