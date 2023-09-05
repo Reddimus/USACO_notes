@@ -138,49 +138,46 @@ with open('rental.in', 'r') as f:
 	# For the next r lines track neighbor rent a cow rate
 	rent = [int(f.readline()) for neighbor in range(r)]
 
-# Sort in reverse, we always want to milk the cow that produces the most milk
+# We always want to look at the cow that can potentially produce the most milk first
 milk.sort(reverse=True)
 shops.sort(reverse=True, key=lambda s: s.rate)
 rent.sort(reverse=True)
 
-# Calculate maximum revenue by comparing rent a cow price to potential jugs price
+# Calculate maximum revenue
 revenue = 0
-cached_price = 0
+cached_price = False
 cow_idx, shop_idx, rent_idx = 0, 0, 0
 while (cow_idx < n):
-
-	# Initialize potential jugs price to 0 or previously unused price
-	jugs_price = cached_price
-	
 	if not cached_price:
 		# Calculate potential revenue if cow were to be milked
 		jugs = milk[cow_idx]
+		jugs_price = 0
 		last_sold = 0
 		temp_idx = shop_idx
 		while temp_idx < m:
 			sold = min(jugs, shops[temp_idx].demand)
-			jugs -= sold
 			jugs_price += sold * shops[temp_idx].rate
+			jugs -= sold
 			if jugs == 0:
 				last_sold = sold
 				break
 			temp_idx += 1
 
-	# if renting a cow is more profitable than selling milk
+	# Compare rent a cow price to potential milked price
 	if rent_idx < r and rent[rent_idx] > jugs_price:
 		revenue += rent[rent_idx]
+		cached_price = True	# save unused price for next iteration
 		rent_idx += 1
-		cached_price = jugs_price	# save unused price for next iteration
 		n -= 1	# rent cow that produces the least milk
 	else:
 		revenue += jugs_price
 		shop_idx = temp_idx
 		if temp_idx < m:
 			shops[shop_idx].demand -= last_sold
-		cached_price = 0
+		cached_price = False
 		cow_idx += 1
 
-# Write maximum revenue/profit to rental output file 
+# Write maximum profit to rental output file 
 print(revenue, file=open('rental.out', 'w'))
 ```
 
@@ -261,5 +258,99 @@ int main() {
 	// Write maximum profit to output file 
 	freopen("rental.out", "w", stdout);
 	cout << revenue << endl;
+}
+```
+
+### Java Code:
+```Java
+import java.io.*;
+import java.util.*;
+
+public class RentalService {
+	static class Shop {
+		int demand, rate;
+		Shop(int demand, int rate) {
+			this.demand = demand;
+			this.rate = rate;
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		// Open Rental input file
+		BufferedReader in = new BufferedReader(new FileReader("rental.in"));
+		// Read first line: n = num of cows, m = num of shops, r = num of neighbors
+		StringTokenizer st = new StringTokenizer(in.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int r = Integer.parseInt(st.nextToken());
+		// For the next n lines track milk produced per cow
+		Integer[] milk = new Integer[n];
+		for (int cow = 0; cow < n; cow++)
+			milk[cow] = Integer.parseInt(in.readLine());
+		// For the next m lines track demand & rate of each shop that wants to buy milk
+		Shop[] shops = new Shop[m];
+		for (int shopCustomer = 0; shopCustomer < m; shopCustomer++) {
+			st = new StringTokenizer(in.readLine());
+			int demand = Integer.parseInt(st.nextToken());
+			int rate = Integer.parseInt(st.nextToken());
+			shops[shopCustomer] = new Shop(demand, rate);
+		}
+		// For the next r lines track neighbor's that want to rent cows
+		Integer[] rent = new Integer[r];
+		for (int neighborCustomer = 0; neighborCustomer < r; neighborCustomer++)
+			rent[neighborCustomer] = Integer.parseInt(in.readLine());
+		in.close();
+
+		// Sort in reverse; we always want to milk the cow that produces the most milk
+		Arrays.sort(milk, Collections.reverseOrder());
+		Arrays.sort(shops, Collections.reverseOrder(Comparator.comparingInt(a -> a.rate)));
+		Arrays.sort(rent, Collections.reverseOrder());
+
+		// Calculate maximum revenue
+		long revenue = 0;
+		boolean cachedPrice = false;
+		int jugs = 0, jugsPrice = 0, lastSold = 0, tempIdx = 0;
+		int cowIdx = 0, shopIdx = 0, rentIdx = 0;
+		while (cowIdx < n) {
+			if (!cachedPrice) {
+				// Calculate potential revenue if cow were to be milked
+				jugs = milk[cowIdx];
+				jugsPrice = 0;
+				lastSold = 0;
+				tempIdx = shopIdx;
+				while (tempIdx < m) {
+					int sold = Math.min(jugs, shops[tempIdx].demand);
+					jugsPrice += sold * shops[tempIdx].rate;
+					jugs -= sold;
+					if (jugs == 0) {
+						lastSold = sold;
+						break;
+					}
+					tempIdx++;
+				}
+			}
+
+			// Compare rent a cow price to potential milked price
+			if (rentIdx < r && rent[rentIdx] > jugsPrice) {
+				revenue += rent[rentIdx];
+				cachedPrice = true;
+				rentIdx++;
+				n--;	// rent cow that produces least milk
+			}
+			else {
+				revenue += jugsPrice;
+				shopIdx = tempIdx;
+				if (shopIdx < m)
+					shops[shopIdx].demand -= lastSold;
+				cachedPrice = false;
+				cowIdx++;
+			}
+		}
+		
+		// Write maximum revenue/profit to output file 
+		PrintWriter out = new PrintWriter("rental.out");
+		out.println(revenue);
+		out.close();
+	}
 }
 ```
