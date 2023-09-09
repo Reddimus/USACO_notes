@@ -172,7 +172,7 @@ public class LifeGuards {
 		Arrays.sort(shifts, Comparator.comparingInt(a -> a.time));
 
 		int totalTime = 0, prevTime = 0;
-		int[] aloneTime = new int[n];					// idx is lifeguard id, value is total alone time
+		int[] aloneTime = new int[n];			// idx is lifeguard id, value is total alone time
 		Set<Integer> onDuty = new HashSet<Integer>();	// tracked by lifeguard id
 		// iterate through shift events calculating result using sweep line approach
 		for (Shift_Event se : shifts) {
