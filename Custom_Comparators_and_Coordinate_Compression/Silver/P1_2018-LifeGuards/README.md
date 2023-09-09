@@ -142,11 +142,11 @@ import java.util.*;
 
 public class LifeGuards {
 	
-	static class Shift_Event {
+	static class ShiftEvent {
 		public int time, lifeguardID;
 		public boolean isStart;
 		
-		public Shift_Event(int time, int lifeguardID, boolean isStart) {
+		public ShiftEvent(int time, int lifeguardID, boolean isStart) {
 			this.time = time;
 			this.lifeguardID = lifeguardID;
 			this.isStart = isStart;
@@ -158,13 +158,13 @@ public class LifeGuards {
 		// First line: n = number of cow lifeguards
 		int n = Integer.parseInt(br.readLine());
 		// For the next n lines track start/end times + lifeguard IDs (id is based on idx)
-		Shift_Event[] shifts = new Shift_Event[2 * n];
+		ShiftEvent[] shifts = new ShiftEvent[2 * n];
 		for (int idx = 0; idx < n; idx++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int start = Integer.parseInt(st.nextToken());
 			int end = Integer.parseInt(st.nextToken());
-			shifts[2*idx] = new Shift_Event(start, idx, true);
-			shifts[2*idx+1] = new Shift_Event(end, idx, false);
+			shifts[2*idx] = new ShiftEvent(start, idx, true);
+			shifts[2*idx+1] = new ShiftEvent(end, idx, false);
 		}
 		br.close();
 
@@ -175,7 +175,7 @@ public class LifeGuards {
 		int[] aloneTime = new int[n];			// idx is lifeguard id, value is total alone time
 		Set<Integer> onDuty = new HashSet<Integer>();	// tracked by lifeguard id
 		// iterate through shift events calculating result using sweep line approach
-		for (Shift_Event se : shifts) {
+		for (ShiftEvent se : shifts) {
 			if (onDuty.size() == 1)
 				aloneTime[onDuty.iterator().next()] += se.time - prevTime;
 
