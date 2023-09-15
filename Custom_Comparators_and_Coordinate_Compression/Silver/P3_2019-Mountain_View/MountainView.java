@@ -48,9 +48,9 @@ public class MountainView {
 	}
 }
 
+
 /*
-// CORRECT BUT MEMORY LIMIT EXCEEDED
-// Custom Comparator Sorting approach
+// Custom Comparator and Coordinate Compression approach
 // T: O(nlogn), M: O(n), where n is the number of mountains
 
 import java.io.*;
@@ -71,35 +71,30 @@ public class MountainView {
 		// Read first line: n = number of mountains
 		int n = Integer.parseInt(in.readLine());
 		// For the next n lines calculate the xi, xf coordinates of each mountain
-		HashMap<Integer, Mountain> mnts = new HashMap<Integer, Mountain>();
+		HashMap<Integer, Integer> seenXinit = new HashMap<Integer, Integer>();
+		ArrayList<Mountain> mountains = new ArrayList<>();
 		for (int ln = 0; ln < n; ln++) {
 			StringTokenizer st = new StringTokenizer(in.readLine());
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
-			if (!mnts.containsKey(x-y)) {
-				mnts.put(x-y, new Mountain(x-y, x+y));
+			if (!seenXinit.containsKey(x-y)) {
+				seenXinit.put(x-y, mountains.size());
+				mountains.add(new Mountain(x-y, x+y));
 			}
 			// Forget about the smaller mountain (compress data) 
-			else if (x+y > mnts.get(x-y).xFinal) {
-				int xf = Math.max(mnts.get(x-y).xFinal, x+y);
-				mnts.put(x-y, new Mountain(x-y, xf));
+			else {
+				int prevIdx = seenXinit.get(x-y);
+				mountains.get(prevIdx).xFinal = Math.max(mountains.get(prevIdx).xFinal, x+y);
 			}
 		}
 		in.close();
 
-		// sort mountains by first appearing mountains only
-		Mountain[] mountains = new Mountain[n];
-		int idx = 0;
-		for (Mountain m : mnts.values()) {
-			mountains[idx] = m;
-			idx++;
-		}
-		mnts = null;
-		Arrays.sort(mountains, Comparator.comparingInt(m -> m.xInit));
+		// Sort mountains by first appearing mountains only
+		Collections.sort(mountains, Comparator.comparingInt((Mountain m) -> m.xInit));
 
 		// Count how many visible peaks Bessie can see
 		int visible = 1;
-		Mountain prevBiggest = mountains[0];
+		Mountain prevBiggest = mountains.get(0);
 		for (Mountain mountain : mountains) {
 			if (mountain.xFinal > prevBiggest.xFinal) {
 				visible++;

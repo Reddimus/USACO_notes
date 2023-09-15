@@ -89,6 +89,50 @@ for mountain in mountains:
 print(visible, file=open('mountains.out', 'w'))
 ```
 
+### C++ Code:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// Read input file
+	freopen("mountains.in", "r", stdin);
+	// Read first line: n = number of mountains
+	int n;
+	cin >> n;
+	// For the next n lines calculate the xi, xf coordinates of each mountain
+	struct Mountain { int xInit, xFinal; };
+	vector<Mountain> mountains(n);
+	for (int ln = 0; ln < n; ln++) {
+		int x, y;
+		cin >> x >> y;
+		mountains[ln].xInit = x-y, mountains[ln].xFinal = x+y;
+	}
+
+	// sort by first appearing mountains and biggest mountains
+	sort(mountains.begin(), mountains.end(), 
+		[](Mountain &a, Mountain &b) {
+			if (a.xInit != b.xInit)
+				return a.xInit < b.xInit;
+			return a.xFinal > b.xFinal;
+		});
+	
+	// Count how many visible peaks Bessie can see
+	int visible = 1;
+	Mountain prevBiggest = mountains[0];
+	for (Mountain mountain : mountains) {
+		if (mountain.xFinal > prevBiggest.xFinal) {
+			++visible;
+			prevBiggest = mountain;
+		}
+	}
+
+	// Write amount of visible peaks to output file
+	freopen("mountains.out", "w", stdout);
+	cout << visible << endl;
+}
+```
+
 ### Java Code:
 ```java
 import java.io.*;
@@ -165,6 +209,7 @@ class Mountain:
 		self.x_init = x_init
 		self.x_final = x_final
 
+# Read input file
 with open('mountains.in', 'r') as f:
 	# Read first line: n = number of mountains
 	n = int(f.readline())
@@ -182,6 +227,7 @@ with open('mountains.in', 'r') as f:
 mountains = list(mountains.values())
 mountains.sort(key=lambda m: m.x_init)
 
+# Count how many visible peaks Bessie can see
 visible = 1
 prev_biggest = mountains[0]
 for mountain in mountains:
@@ -189,11 +235,65 @@ for mountain in mountains:
 		visible += 1
 		prev_biggest = mountain
 
+# Write amount of visible peaks to output file
 print(visible, file=open('mountains.out', 'w'))
 ```
 
+### C++ Code:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// Read input file
+	freopen("mountains.in", "r", stdin);
+	// Read first line: n = number of mountains
+	int n;
+	cin >> n;
+	// For the next n lines calculate the xi, xf coordinates of each mountain
+	struct Mountain { int xInit, xFinal; };
+	unordered_map<int, int> seenXInit;
+	vector<Mountain> mountains;
+	for (int ln = 0; ln < n; ln++) {
+		int x, y;
+		cin >> x >> y;
+		if (seenXInit.find(x-y) == seenXInit.end()) {
+			seenXInit[x-y] = mountains.size();
+			mountains.push_back({x-y, x+y});
+		}
+		// Forget about the smaller mountain (compress data)
+		else {
+			int prevIdx = seenXInit[x-y];
+			mountains[prevIdx].xFinal = max(mountains[prevIdx].xFinal, x+y);
+		}
+	}
+
+	// sort by first appearing mountains and biggest mountains
+	sort(mountains.begin(), mountains.end(), 
+		[](Mountain &a, Mountain &b) {
+			if (a.xInit != b.xInit)
+				return a.xInit < b.xInit;
+			return a.xFinal > b.xFinal;
+		});
+	
+	// Count how many visible peaks Bessie can see
+	int visible = 1;
+	Mountain prevBiggest = mountains[0];
+	for (Mountain mountain : mountains) {
+		if (mountain.xFinal > prevBiggest.xFinal) {
+			++visible;
+			prevBiggest = mountain;
+		}
+	}
+
+	// Write amount of visible peaks to output file
+	freopen("mountains.out", "w", stdout);
+	cout << visible << endl;
+}
+```
+
+### Java Code:
 ```java
-// CORRECT BUT MEMORY LIMIT EXCEEDED
 import java.io.*;
 import java.util.*;
 
@@ -212,35 +312,30 @@ public class MountainView {
 		// Read first line: n = number of mountains
 		int n = Integer.parseInt(in.readLine());
 		// For the next n lines calculate the xi, xf coordinates of each mountain
-		HashMap<Integer, Mountain> mnts = new HashMap<Integer, Mountain>();
+		HashMap<Integer, Integer> seenXinit = new HashMap<Integer, Integer>();
+		ArrayList<Mountain> mountains = new ArrayList<>();
 		for (int ln = 0; ln < n; ln++) {
 			StringTokenizer st = new StringTokenizer(in.readLine());
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
-			if (!mnts.containsKey(x-y)) {
-				mnts.put(x-y, new Mountain(x-y, x+y));
+			if (!seenXinit.containsKey(x-y)) {
+				seenXinit.put(x-y, mountains.size());
+				mountains.add(new Mountain(x-y, x+y));
 			}
 			// Forget about the smaller mountain (compress data) 
-			else if (x+y > mnts.get(x-y).xFinal) {
-				int xf = Math.max(mnts.get(x-y).xFinal, x+y);
-				mnts.put(x-y, new Mountain(x-y, xf));
+			else {
+				int prevIdx = seenXinit.get(x-y);
+				mountains.get(prevIdx).xFinal = Math.max(mountains.get(prevIdx).xFinal, x+y);
 			}
 		}
 		in.close();
 
-		// sort mountains by first appearing mountains only
-		Mountain[] mountains = new Mountain[n];
-		int idx = 0;
-		for (Mountain m : mnts.values()) {
-			mountains[idx] = m;
-			idx++;
-		}
-		mnts = null;	// free memory
-		Arrays.sort(mountains, Comparator.comparingInt(m -> m.xInit));
+		// Sort mountains by first appearing mountains only
+		Collections.sort(mountains, Comparator.comparingInt((Mountain m) -> m.xInit));
 
 		// Count how many visible peaks Bessie can see
 		int visible = 1;
-		Mountain prevBiggest = mountains[0];
+		Mountain prevBiggest = mountains.get(0);
 		for (Mountain mountain : mountains) {
 			if (mountain.xFinal > prevBiggest.xFinal) {
 				visible++;
