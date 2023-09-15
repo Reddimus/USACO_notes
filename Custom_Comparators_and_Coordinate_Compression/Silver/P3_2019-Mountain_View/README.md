@@ -64,6 +64,7 @@ class Mountain:
 		self.x_init = x_init
 		self.x_final = x_final
 
+# Read input file
 with open('mountains.in', 'r') as f:
 	# Read first line: n = number of mountains
 	n = int(f.readline())
@@ -76,15 +77,16 @@ with open('mountains.in', 'r') as f:
 # sort by first appearing mountains and biggest mountains
 mountains.sort(key=lambda m: (m.x_init, -m.x_final))
 
-visable = 1
+# Count how many visible peaks Bessie can see
+visible = 1
 prev_biggest = mountains[0]
-
 for mountain in mountains:
 	if mountain.x_final > prev_biggest.x_final:
-		visable += 1
+		visible += 1
 		prev_biggest = mountain
 
-print(visable, file=open('mountains.out', 'w'))
+# Write amount of visible peaks to output file
+print(visible, file=open('mountains.out', 'w'))
 ```
 
 ## Custom Comparators and Coordinate Compression Solution
@@ -130,13 +132,12 @@ with open('mountains.in', 'r') as f:
 mountains = list(mountains.values())
 mountains.sort(key=lambda m: m.x_init)
 
-visable = 1
+visible = 1
 prev_biggest = mountains[0]
-
 for mountain in mountains:
 	if mountain.x_final > prev_biggest.x_final:
-		visable += 1
+		visible += 1
 		prev_biggest = mountain
 
-print(visable, file=open('mountains.out', 'w'))
+print(visible, file=open('mountains.out', 'w'))
 ```
