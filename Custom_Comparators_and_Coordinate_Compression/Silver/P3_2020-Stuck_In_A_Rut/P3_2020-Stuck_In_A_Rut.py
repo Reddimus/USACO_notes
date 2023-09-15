@@ -1,35 +1,53 @@
-# Run file with: Get-Content sample.in | python P3_2020-Stuck_In_A_Rut.py
+# Run file with: Get-Content sample.in | python P3_2020-Stucn_idx_In_A_Rut.py
 
+class Cow_Coordinate:
+	def __init__(self, x: int, y: int) -> None:
+		self.x, self.y = x, y
+
+# Read first line: n = number of cows
 n = int(input().strip())
-cow_data = []
-for _ in range(n):
-	data = input().split()
-	direction = data[0]
-	x = int(data[1])
-	y = int(data[2])
-	cow_data.append((direction, x, y))
+# For the next n lines: store initial direction, x & y coordinates of each cow
+east_idxs, north_idxs = [], []	# indexes of east and north cows; can be less than n
+cow_coords = [None] * n
+for idx in range(n):
+	direction, x, y = input().split()
 
-east_cows = [i for i in range(n) if cow_data[i][0] == 'E']
-north_cows = [i for i in range(n) if cow_data[i][0] == 'N']
+	if direction == 'E':
+		east_idxs.append(idx)
+	elif direction == 'N':
+		north_idxs.append(idx)
 
-x_coordinates = [cow_data[i][1] for i in range(n)]
-y_coordinates = [cow_data[i][2] for i in range(n)]
+	cow_coords[idx] = Cow_Coordinate(int(x), int(y))
 
-east_cows.sort(key=lambda j: y_coordinates[j])
-north_cows.sort(key=lambda j: x_coordinates[j])
+# Sort east and north cow indexes by their y or x coordinates respectively
+east_idxs.sort(key=lambda idx: cow_coords[idx].y)
+north_idxs.sort(key=lambda idx: cow_coords[idx].x)
+
+# print(f'East cow indexes: {east_idxs}')
+# print(f'North cow indexes: {north_idxs}')
+# print('Cow coordinates:', end=' ')
+# for cow_coord in cow_coords:
+# 	print(f'({cow_coord.x}, {cow_coord.y})', end=' ')
+# print()
 
 stopped = [False] * n
 amount_stopped = [0] * n
 
-for j in east_cows:
-	for k in north_cows:
-		if (not stopped[j]) and (not stopped[k]) and (x_coordinates[k] > x_coordinates[j]) and (y_coordinates[j] > y_coordinates[k]):
-			if (x_coordinates[k] - x_coordinates[j]) > (y_coordinates[j] - y_coordinates[k]):
-				stopped[j] = True
-				amount_stopped[k] += (1 + amount_stopped[j])
-			elif (x_coordinates[k] - x_coordinates[j]) < (y_coordinates[j] - y_coordinates[k]):
-				stopped[k] = True
-				amount_stopped[j] += (1 + amount_stopped[k])
+# For each east cow, check if it will stop any north cow
+for e_idx in east_idxs:
+	for n_idx in north_idxs:
+		# If both cows are not stopped and the north cow is to the north-east of the east cow
+		if (not stopped[e_idx]) and (not stopped[n_idx]) and (cow_coords[n_idx].x > cow_coords[e_idx].x) and (cow_coords[e_idx].y > cow_coords[n_idx].y):
+
+			x_dist = cow_coords[n_idx].x - cow_coords[e_idx].x
+			y_dist = cow_coords[e_idx].y - cow_coords[n_idx].y
+
+			if x_dist > y_dist:
+				stopped[e_idx] = True
+				amount_stopped[n_idx] += (1 + amount_stopped[e_idx])
+			elif x_dist < y_dist:
+				stopped[n_idx] = True
+				amount_stopped[e_idx] += (1 + amount_stopped[n_idx])
 			
 for amnt_stp in amount_stopped:
 	print(amnt_stp)
