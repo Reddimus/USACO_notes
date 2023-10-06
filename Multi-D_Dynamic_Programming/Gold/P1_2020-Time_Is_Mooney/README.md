@@ -46,22 +46,30 @@ Bessie makes `10 + 20 + 10 + 20 - 1 * 6^2 = 24` moonies in total.
 
 ### Hints:
 - Use at least a 2-D DP array along with other variables to keep track of the state of the problem.
+- Create an adjacency list to store the one-way roads between cities.
+- Optional: Think of ways to optimize runtime by telling the program to stop early if the journey becomes unprofitable.
 
-
-# Solutions:
+# 2-D Dynamic Programming + Graph Traversal Solution
 
 https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P1_2020-Time_Is_Mooney
 
 ### Intuition:
+ The foundational intuition for developing this solution lies in recognizing that the problem can be modeled as a graph traversal task augmented with a stateful dynamic programming (DP) approach. Each city is essentially a node in a graph, and the one-way roads between them serve as directed edges. While it's tempting to consider greedy approaches, like always moving to the city with the highest immediate profit, the quadratic cost function over time complicates matters. It introduces a need for a more global optimization strategy—hence the use of DP. The DP table, `dp[day][city]`, was conceptualized to store the maximum money that can be accumulated on a given day if we end in a particular city. This offers a systematic way to update the money earned when moving from one city to another across days. The early termination condition stems from the observation that the quadratic cost function will eventually outweigh any gains, turning the journey unprofitable. By capturing these insights into a DP table while traversing the graph, we can efficiently find the path that maximizes the money earned while accounting for the increasing cost over time.
 
 ### Steps:
-1. 
+1. Read in the input file and store the number of cities (`n`), number of one-way roads (`m`), and cost multiplier (`c`).
+2. Read in the moonies earned in each city and store them in an array (`moonies`), where the index represents the city number.
+3. Create an adjacency list (`adj`) to store the one-way roads between cities. The index represents the city number, and the values represent the cities it connects to.
+4. Initialize all of the DP table (`dp`) values to `-1` which represents the current node/city is unreachable. The DP table is a 2-D array with dimensions `maxDays` by `n`, where `maxDays` is the maximum number of days Bessie can travel. The base case is `dp[0][0] = 0` because Bessie starts at city 1 with no money.
+5. For each day, update the DP table with the maximum money that can be accumulated on a given day if we end in a particular city. This is done by iterating through each city and checking if it is reachable on the current day. If it is reachable, then we iterate through each city it connects to and update the DP table with the maximum money that can be accumulated on the next day if we end in that city. This is done by taking the maximum of the current value in the DP table and the money earned in the current city plus the money earned in the next city. 
+6. After updating the DP table, check if the current city is city 1. If it is, then we can calculate the maximum money that can be accumulated on the current day if we end in city 1. This is done by subtracting the cost of traveling from the current day squared from the money earned in city 1. If the maximum money that can be accumulated on the current day if we end in city 1 is negative, then we break out of the loop because the cost of traveling will eventually outweigh any gains, turning the journey unprofitable. Otherwise, we update the maximum money that can be accumulated on the current day if we end in city 1.
+7. After iterating through all of the days, write the maximum money that can be accumulated on the current day if we end in city 1 to the output file.
 
 ### Time & Space complexity:
-**Time:** `O(
-**Space:** `O(
+**Time:** `O(maxDays * n * m)`  
+**Space:** `O(maxDays * n)`
 
-Where `n` is 
+Where `n` is the number of cities, `m` is the number of one way roads, and `maxDays` is the maximum number of days Bessie can travel.
 
 ### C++ Code:
 ```cpp
