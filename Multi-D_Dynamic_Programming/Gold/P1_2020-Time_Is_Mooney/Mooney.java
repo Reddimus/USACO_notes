@@ -10,16 +10,12 @@ public class Mooney {
 		int n = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
 		int c = Integer.parseInt(st.nextToken());
-		// print n, m, c
-		System.out.println(n + " " + m + " " + c);
 
 		// Second line: moonies[i] = moonies earned in city i
 		int[] moonies = new int[n];
 		st = new StringTokenizer(in.readLine());
 		for (int cityIdx = 0; cityIdx < n; ++cityIdx)
 			moonies[cityIdx] = Integer.parseInt(st.nextToken());
-		// print moonies
-		System.out.println(Arrays.toString(moonies));
 
 		// For the next m lines create adjacency list for one way roads between cities
 		// index = city, value(s) = cities it connects to
@@ -32,9 +28,37 @@ public class Mooney {
 			int city2 = Integer.parseInt(st.nextToken()) - 1;
 			adj.get(city1).add(city2);
 		}
-		// print adj city : [cities it connects to]
-		for (int cityIdx = 0; cityIdx < n; ++cityIdx)
-			System.out.println(cityIdx + " : " + adj.get(cityIdx));
 		in.close();
+
+		// dp[day][city], where maxDays = 1000
+		int dp[][] = new int[1001][n];
+		for (int[] row : dp)
+			Arrays.fill(row, -1);
+		dp[0][0] = 0;	// base case
+		
+		// For each day, stockpile moonies in each city visited using one way roads
+		int maxMoony = 0;
+		for (int day = 0; day <= 1000; ++day) {
+			for (int city = 0; city < n; ++city) {
+				if (dp[day][city] != -1) {
+					for (int nextCity : adj.get(city))
+						dp[day+1][nextCity] = Math.max(dp[day+1][nextCity], dp[day][city] + moonies[nextCity]);
+				}
+			}
+
+			// We are only looking for maxMoony that loops back to city 1
+			if (dp[day][0] != -1) {
+				int tempMoony = dp[day][0] - (c * day * day);
+				// If all potential maxMoony values have been calculated, break
+				if (tempMoony < 0 && maxMoony != 0)
+					break;
+				maxMoony = Math.max(maxMoony, tempMoony);
+			}
+		}
+
+		// Write maxMoony generated from visiting cities to output file
+		PrintWriter out = new PrintWriter("time.out");
+		out.println(maxMoony);
+		out.close();
 	}
 }
