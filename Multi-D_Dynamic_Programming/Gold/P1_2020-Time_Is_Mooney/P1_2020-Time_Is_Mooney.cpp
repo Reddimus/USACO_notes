@@ -1,3 +1,7 @@
+// 2-D Dynamic Programming + Graph Traversal approach
+// T: O(MAX_DAYS * n * m), M: O(MAX_DAYS * n)
+// Where n = num cities, m = num of one way roads, MAX_DAYS = 1000
+
 #define MAX_DAYS 1000
 
 #include <bits/stdc++.h>

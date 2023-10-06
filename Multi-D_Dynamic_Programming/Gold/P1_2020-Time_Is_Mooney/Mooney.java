@@ -1,3 +1,7 @@
+// 2-D Dynamic Programming + Graph Traversal approach
+// T: O(maxDays * n * m), M: O(maxDays * n)
+// Where n = num cities, m = num of one way roads, maxDays = 1000
+
 import java.io.*;
 import java.util.*;
 
