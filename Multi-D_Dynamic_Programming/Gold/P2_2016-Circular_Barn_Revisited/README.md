@@ -1,6 +1,8 @@
 # USACO 2016 February Contest, Gold
 ## Problem 2. Circular Barn Revisited
 
+http://www.usaco.org/current/index.php?page=viewproblem2&cpid=622
+
 After the last debacle involving Farmer John's circular barn, one would think he had learned his lesson about non-traditional architecture. However, he thinks he can still make his circular barn function properly by allowing multiple cows into each room. To recap, the barn consists of a ring of `n` rooms, numbered clockwise from `1...n` around the perimeter of the barn `(3 <= n <= 100)`. Each room has doors to its two neighboring rooms, and also a door opening to the exterior of the barn.
 
 Farmer John wants exactly `ri` cows to end up in room `i` `(1 <= ri <= 1,000,000)`. To herd the cows into the barn in an orderly fashion, he plans to unlock `k` exterior doors `(1 <= k <= 7)`, allowing the cows to enter through only those doors. Each cow then walks clockwise through the rooms until she reaches a suitable destination. Farmer John wants to unlock the exterior doors that will cause his cows to collectively walk a minimum total amount of distance after entering the barn.
