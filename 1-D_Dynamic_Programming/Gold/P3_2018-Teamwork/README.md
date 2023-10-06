@@ -42,9 +42,9 @@ In this example, the optimal solution is to group the first three cows and the l
 - Notice the constraints on the input, *O(N * K)* is feasible. Meaning, for each of the *N* cows, we can reculate the most optimal sums of skill levels for each team size *K*.
 - We notice that we just need to find the best possible sums for the first *i* cows, as we iterate *i* from *1* to *N*. The *K* process time for each cow comes from when we iterate through the possibility that they occupy in a group of size from *1* to *K*.
 
-# Solutions:
+# 1-D Dynamic Programming w/ vector + Bottom-Up Solution:
 
-https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P3_2018-Teamwork
+https://github.com/Reddimus/USACO_notes/tree/main/1-D_Dynamic_Programming/Gold/P3_2018-Teamwork
 
 ### Intuition:
 
@@ -52,13 +52,49 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 1. 
 
 ### Time & Space complexity:
-**Time:** `O(
-**Space:** `O(
+**Time:** `O(n*k)`
+**Space:** `O(n)`
 
-Where `n` is 
+Where `n` is the number of cows and `k` is the max size of a team.
 
 ### C++ Code:
 ```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("teamwork.in", "r", stdin);
+	// Read First line: n = num of cows, k = max size of team(s)
+	int n, k;
+	cin >> n >> k;
+	// For the next n lines store cow's skill
+	int skills[n];
+	for (int cow = 0; cow < n; ++cow)
+		cin >> skills[cow];
+	
+	// Stockpile the sum of max skills by checking every possible team size
+	vector<int> dp(n, -1);
+	for (int rIdx = 0; rIdx < n; ++rIdx) {
+		// Constantly update the max skill of the current team
+		int maxSkill = skills[rIdx];
+		for (int lIdx = rIdx; lIdx >= 0; --lIdx) {
+			int currSize = rIdx - lIdx + 1;
+			if (currSize > k)
+				break;
+			maxSkill = max(maxSkill, skills[lIdx]);
+            // If there was a previous team
+			if (lIdx == 0)
+				dp[rIdx] = max(dp[rIdx], maxSkill * currSize);
+			else
+				dp[rIdx] = max(dp[rIdx], dp[lIdx - 1] + maxSkill * currSize);
+		}
+	}
+
+	// Print stockpiled sum of max skills to output file
+	freopen("teamwork.out", "w", stdout);
+	cout << dp[n-1] << endl;
+}
 ```
 
 ### Java Code:
