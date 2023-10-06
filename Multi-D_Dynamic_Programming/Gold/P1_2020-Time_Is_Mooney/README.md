@@ -197,3 +197,38 @@ public class Mooney {
 	}
 }
 ```
+
+### Slight Optimization:
+In the given solution I found a way to tell the algorithm to stop once the journey becomes unprofitable. This is done by checking if the maximum money that can be accumulated on the current day if we end in city 1 is negative. If it is, then we break out of the loop because the cost of traveling will eventually outweigh any gains, turning the journey unprofitable. This optimization is not necessary to pass the test cases, but it does improve the runtime of the algorithm.
+
+Referenced code:
+
+C++:
+```cpp
+// We are only looking for maxMoony that loops back to city 1
+if (dp[day][0] != -1) {
+	int tempMoony = dp[day][0] - (c * day * day);
+	// If all potential maxMoony values have been calculated, break
+	if (tempMoony < 0 && maxMoony != 0)
+		break;
+	maxMoony = max(maxMoony, tempMoony);
+}
+```
+Java:
+```java
+// We are only looking for maxMoony that loops back to city 1
+if (dp[day][0] != -1) {
+	int tempMoony = dp[day][0] - (c * day * day);
+	// If all potential maxMoony values have been calculated, break
+	if (tempMoony < 0 && maxMoony != 0)
+		break;
+	maxMoony = Math.max(maxMoony, tempMoony);
+}
+```
+
+
+**Without optimization (C++):**
+![C++ unoptimized Solution](./cpp_unoptimizedSolution.png)
+
+**With optimization (C++):**
+![C++ optimized Solution](./cpp_optimizedSolution.png)
