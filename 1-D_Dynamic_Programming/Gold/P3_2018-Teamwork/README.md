@@ -83,7 +83,7 @@ int main() {
 			if (currSize > k)
 				break;
 			maxSkill = max(maxSkill, skills[lIdx]);
-            // If there was a previous team
+			// If there was a previous team
 			if (lIdx == 0)
 				dp[rIdx] = max(dp[rIdx], maxSkill * currSize);
 			else
