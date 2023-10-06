@@ -91,13 +91,13 @@ int main() {
 		adj[--cityA].push_back(--cityB);
 	}
 
-    // dp[day][city] = maxMoony that can be earned by day in city
+    // dp[day][city], where maxDays = 1000
 	vector<vector<int>> dp(MAX_DAYS + 1, vector<int>(n, -1));
 	dp[0][0] = 0;   // base case
 
+	// For each day, stockpile moonies in each city visited using one way roads
 	int maxMoony = 0;
 	for (int day = 0; day < MAX_DAYS; ++day) {
-		
 		for (int city = 0; city < n; ++city) {
 			// if dp[day][city] is -1, then there is no path to that city
 			if (dp[day][city] != -1) {
@@ -106,7 +106,7 @@ int main() {
 			}
 		}
 		
-		// We are only looking for maxMoony that ends at city 1
+		// We are only looking for maxMoony that loops back to city 1
 		if (dp[day][0] != -1) {
 			int tempMoony = dp[day][0] - (c * day * day);
 			// If all potential maxMoony values have been calculated, break
@@ -116,6 +116,7 @@ int main() {
 		}
 	}
 
+	// Write maxMoony generated from visiting cities to output file
 	freopen("time.out", "w", stdout);
 	cout << maxMoony << endl;
 }
