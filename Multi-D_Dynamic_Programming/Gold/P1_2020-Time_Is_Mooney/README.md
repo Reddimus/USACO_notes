@@ -45,7 +45,8 @@ The optimal trip is `1 -> 2 -> 3 -> 1 -> 2 -> 3 -> 1`.
 Bessie makes `10 + 20 + 10 + 20 - 1 * 6^2 = 24` moonies in total.
 
 ### Hints:
-- 
+- Use at least a 2-D DP array along with other variables to keep track of the state of the problem.
+
 
 # Solutions:
 
@@ -64,6 +65,60 @@ Where `n` is
 
 ### C++ Code:
 ```cpp
+#define MAX_DAYS 1000
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("time.in", "r", stdin);
+	// First line: n = num cities, m = num of one way roads, c = cost multiplier
+	int n, m, c;
+	cin >> n >> m >> c;
+
+    // Second line: moonies[i] = moonies earned in city i
+	int moonies[n];
+	for (int cityIdx = 0; cityIdx < n; ++cityIdx)
+		cin >> moonies[cityIdx];
+
+	// For the next m lines create adjacency list for one way roads between cities
+	// index = city, value(s) = cities it connects to
+	vector<vector<int>> adj(n);
+	for (int ln = 0; ln < m; ++ln) {
+		int cityA, cityB;
+		cin >> cityA >> cityB;
+		adj[--cityA].push_back(--cityB);
+	}
+
+    // dp[day][city] = maxMoony that can be earned by day in city
+	vector<vector<int>> dp(MAX_DAYS + 1, vector<int>(n, -1));
+	dp[0][0] = 0;   // base case
+
+	int maxMoony = 0;
+	for (int day = 0; day < MAX_DAYS; ++day) {
+		
+		for (int city = 0; city < n; ++city) {
+			// if dp[day][city] is -1, then there is no path to that city
+			if (dp[day][city] != -1) {
+				for (int nextCity : adj[city])
+					dp[day + 1][nextCity] = max(dp[day + 1][nextCity], dp[day][city] + moonies[nextCity]);
+			}
+		}
+		
+		// We are only looking for maxMoony that ends at city 1
+		if (dp[day][0] != -1) {
+			int tempMoony = dp[day][0] - (c * day * day);
+			// If all potential maxMoony values have been calculated, break
+			if (tempMoony < 0 && maxMoony != 0)
+				break;
+			maxMoony = max(maxMoony, tempMoony);
+		}
+	}
+
+	freopen("time.out", "w", stdout);
+	cout << maxMoony << endl;
+}
 ```
 
 ### Java Code:
