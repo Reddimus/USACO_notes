@@ -42,17 +42,72 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 
 ### Intuition:
 
+
 ### Steps:
 1. 
 
 ### Time & Space complexity:
-**Time:** `O(
-**Space:** `O(
+**Time:** `O(n^3 * k)`  
+**Space:** `O(k * n)`  
 
-Where `n` is 
+Where `n` is the number of rooms, `k` is the number of doors to unlock
 
 ### C++ Code:
 ```cpp
+#include <bits/stdc++.h>
+
+#define ll long long
+
+using namespace std;
+
+int main() {
+	freopen("cbarn2.in", "r", stdin);
+	// Read first line: n = rooms, k = unlocked exterior doors
+	int n, k;
+	cin >> n >> k;
+	// For the next n lines, read the number of cows in each room (r_i)
+	deque<int> rooms(n);
+	for (int &r : rooms)
+		cin >> r;
+	
+	ll minDist = INT64_MAX;
+	// Iterate through all possible starting rooms
+	for (int startPos = 0; startPos < n; ++startPos) {
+		vector<vector<ll>> dp(k + 1, vector<ll>(n + 1, INT64_MAX));
+		// With no door used, the distance is 0 if there is no room filled
+		dp[0][n] = 0;
+		// Iterate through number of doors used
+		for (int usedDoor = 1; usedDoor <= k; ++usedDoor) {
+			// Iterate through all possible positions to place this new door
+			for (int newDoorPos = 0; newDoorPos < n; ++newDoorPos) {
+				if (usedDoor >= k && newDoorPos >= 1)
+					break;
+				// partialDist stores the sum of distance to fill rooms [newDoorPos, lastDoorPos - 1]
+				ll partialDist = 0;
+				// Iterate through all possible positions to place the last door
+				// Find the minimum distance if we use this placement with our new door
+				for (int lastDoorPos = newDoorPos + 1; lastDoorPos <= n; ++lastDoorPos) {
+					// Add the amount of distance needed to fill the new room at lastDoorPos - 1
+					partialDist += rooms[lastDoorPos - 1] * (lastDoorPos - newDoorPos - 1);
+					ll newDist = dp[usedDoor - 1][lastDoorPos];
+					if (newDist < INT64_MAX)
+						newDist += partialDist;
+					dp[usedDoor][newDoorPos] = min(dp[usedDoor][newDoorPos], newDist);
+				}
+
+			}
+		}
+		// Update the best answer using the current dp answer
+		minDist = min(minDist, dp[k][0]);
+		// Put the first room to the end of the deque so that the first door would be placed at the second room
+		int firstRoom = rooms.front();
+		rooms.pop_front();
+		rooms.push_back(firstRoom);
+	}
+
+	freopen("cbarn2.out", "w", stdout);
+	cout << minDist << endl;
+}
 ```
 
 ### Java Code:
