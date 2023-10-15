@@ -17,11 +17,12 @@ int main() {
 	deque<int> rooms(n);
 	for (int &r : rooms)
 		cin >> r;
-	// print rooms deque
-	cout << "rooms deque: ";
-	for (int r : rooms)
-		cout << r << " ";
-	cout << endl << endl;
+	
+	// // print rooms deque
+	// cout << "rooms deque: ";
+	// for (int r : rooms)
+	// 	cout << r << " ";
+	// cout << endl << endl;
 
 	ll minDist = INT64_MAX;
 	// Iterate through all possible starting rooms
@@ -33,8 +34,8 @@ int main() {
 		for (int usedDoor = 1; usedDoor <= k; ++usedDoor) {
 			// Iterate through all possible positions to place this new door
 			for (int newDoorPos = 0; newDoorPos < n; ++newDoorPos) {
-				// if (usedDoor >= k && newDoorPos >= 1)
-				// 	break;
+				if (usedDoor >= k && newDoorPos >= 1)
+					break;
 				// partialDist stores the sum of distance to fill rooms [i, j-1]
 				ll partialDist = 0;
 				// Iterate through all possible positions to place the last door
@@ -46,22 +47,23 @@ int main() {
 					if (newDist < INT64_MAX)
 						newDist += partialDist;
 					dp[usedDoor][newDoorPos] = min(dp[usedDoor][newDoorPos], newDist);
-					// print dp table
-					cout << "dp table at startPos = " << startPos << ", usedDoor = " << usedDoor << ", newDoorPos = " << newDoorPos << ", lastDoorPos = " << lastDoorPos << endl;
-					for (int DoorPos = 0; DoorPos <= n; ++DoorPos)
-						cout << "DoorPos " << DoorPos << "	";
-					cout << endl;
-					for (int usedDoor = 0; usedDoor <= k; ++usedDoor) {
-						cout << "usedDoor = " << usedDoor << ": ";
-						for (int newDoorPos = 0; newDoorPos <= n; ++newDoorPos) {
-							if (dp[usedDoor][newDoorPos] == INT64_MAX)
-								cout << "inf" << " ";
-							else
-								cout << dp[usedDoor][newDoorPos] << " ";
-						}
-						cout << endl;
-					}
-					cout << endl;
+
+					// // print dp table
+					// cout << "dp table at startPos = " << startPos << ", usedDoor = " << usedDoor << ", newDoorPos = " << newDoorPos << ", lastDoorPos = " << lastDoorPos << endl;
+					// for (int DoorPos = 0; DoorPos <= n; ++DoorPos)
+					// 	cout << "DoorPos " << DoorPos << "	";
+					// cout << endl;
+					// for (int usedDoor = 0; usedDoor <= k; ++usedDoor) {
+					// 	cout << "usedDoor = " << usedDoor << ": ";
+					// 	for (int newDoorPos = 0; newDoorPos <= n; ++newDoorPos) {
+					// 		if (dp[usedDoor][newDoorPos] == INT64_MAX)
+					// 			cout << "inf" << " ";
+					// 		else
+					// 			cout << dp[usedDoor][newDoorPos] << " ";
+					// 	}
+					// 	cout << endl;
+					// }
+					// cout << endl;
 				}
 
 			}
@@ -73,12 +75,12 @@ int main() {
 		rooms.pop_front();
 		rooms.push_back(firstRoom);
 
-		cout << "minDist = min(minDist, dp[" << k << "][0]) = " << minDist << endl;
-		// print rooms deque
-		cout << "rooms deque: ";
-		for (int r : rooms)
-			cout << r << " ";
-		cout << endl << endl;
+		// cout << "minDist = min(minDist, dp[" << k << "][0]) = " << minDist << endl;
+		// // print rooms deque
+		// cout << "rooms deque: ";
+		// for (int r : rooms)
+		// 	cout << r << " ";
+		// cout << endl << endl;
 	}
 
 	freopen("cbarn2.out", "w", stdout);
