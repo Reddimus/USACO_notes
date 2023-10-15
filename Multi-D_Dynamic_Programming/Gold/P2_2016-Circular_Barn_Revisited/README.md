@@ -63,6 +63,8 @@ The problem might initially seem daunting due to the circular arrangement of the
 4. **Answer**: 
     - The final answer is the minimum value of dp[k][0] after considering all possible starting room configurations.
 
+Optimization: After calculating dp[k][0], you can stop calculating the rest of the table since the minDist answer will not change.
+
 ### Time & Space complexity:
 **Time:** `O(n^3 * k)`  
 **Space:** `O(k * n)`  
@@ -183,3 +185,20 @@ public class CircularBarn {
 	}
 }
 ```
+
+### Optimization:
+After calculating dp[k][0], you can stop calculating the rest of the table since the minDist answer will not change. This will reduce runtimes depending on the number `n` rooms but will not reduce the time complexity.
+
+The snippet below shows the optimization in C++/Java.
+```cpp & java
+if (unlockedDoors >= k && newDoorPos >= 1)
+	break;
+```
+**Runtime with optimization:**  
+The bigger `n` is, the more time you will save.
+
+![cppOptimizedSol_runtime](cppOptimizedSol_runtime.png)
+
+**Runtime without optimization:**  
+The given solution code can run without this optimization, but it will take longer to run.
+![cppUnoptimizedSol_runtime](cppUnoptimizedSol_runtime.png)
