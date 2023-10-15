@@ -40,7 +40,7 @@ Farmer John can unlock doors 2 and 5. 11 cows enter at door 2 and walk a total d
 
 # Solutions:
 
-https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P1_2020-Time_Is_Mooney
+https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P2_2016-Circular_Barn_Revisited
 
 #### Intuition
 
@@ -187,7 +187,7 @@ public class CircularBarn {
 ```
 
 ### Optimization:
-After calculating dp[k][0], you can stop calculating the rest of the table since the minDist answer will not change. This will reduce runtimes depending on the number `n` rooms but will not reduce the time complexity.
+Although not significant after calculating dp[k][0], you can stop calculating the rest of the dp table since the minDist answer will not change. This will reduce runtimes depending on the number `n` rooms but will not reduce the time complexity.
 
 The snippet below shows the optimization in C++/Java.
 ```cpp & java
@@ -195,10 +195,9 @@ if (unlockedDoors >= k && newDoorPos >= 1)
 	break;
 ```
 **Runtime with optimization:**  
-The bigger `n` is, the more time you will save.
-
+The bigger `n` is, the more time you will save. We can see a runtime of up to 4x faster on test case 7.
 ![cppOptimizedSol_runtime](cppOptimizedSol_runtime.png)
 
 **Runtime without optimization:**  
-The given solution code can run without this optimization, but it will take longer to run.
+The given solution code can run without this optimization, but it will take a bit longer to run.
 ![cppUnoptimizedSol_runtime](cppUnoptimizedSol_runtime.png)
