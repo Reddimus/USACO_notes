@@ -34,17 +34,34 @@ Please write out the minimum amount of distance the cows need to travel.
 Farmer John can unlock doors 2 and 5. 11 cows enter at door 2 and walk a total distance of 8 to get to rooms 2, 3, and 4. 10 cows enter at door 5 and walk a total distance of 6 to get to rooms 5, 6 and 1.
 
 ### Hints:
-- 
+- Utilize a deque to efficiently manage the circular barn.
+- Initialize all DP values to infinity, except for the base case.
+- Make sure to optimize your loops to keep the time complexity within acceptable bounds, specifically O(k * n^3).
 
 # Solutions:
 
 https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P1_2020-Time_Is_Mooney
 
-### Intuition:
+#### Intuition
+
+The problem might initially seem daunting due to the circular arrangement of the barn. However, the key insight is to temporarily disregard the circular nature by fixing the position of the first door then rotating the positions of the barn later. This transforms the barn into a linear array of rooms, making it more manageable. With a fixed starting point, you can focus on unlocking up to k doors to minimize the distance cows need to travel. Dynamic Programming (DP) becomes a viable strategy here, using a DP table to capture the minimum distance based on the number of unlocked doors and their positions. The base case starts with no unlocked doors, meaning no distance traveled, and iteratively builds upon this to find the optimal solution. After each DP calculation, rotate the fixed starting position to the end of the barn to explore different starting positions calulations.
 
 
-### Steps:
-1. 
+### Steps
+1. **Initialization**: 
+    - Read n, the number of rooms, and k, the number of unlocked exterior doors.
+    - Use a deque to store the number of cows in each room.
+  
+2. **Dynamic Programming**:
+    - Utilize a DP table, `dp[unlockedDoors][newDoorPos]`, to record the minimum distance for various configurations of unlocked doors and their positions.
+    - Set `dp[0][n] = 0` as the base case. This represents zero distance traveled with zero doors unlocked.
+    - Populate the DP table according to the given transition formula.
+  
+3. **Rotation**: 
+    - After each DP calculation, rotate the deque to explore different starting positions for the rooms.
+  
+4. **Answer**: 
+    - The final answer is the minimum value of dp[k][0] after considering all possible starting room configurations.
 
 ### Time & Space complexity:
 **Time:** `O(n^3 * k)`  
@@ -165,5 +182,4 @@ public class CircularBarn {
 		out.close();
 	}
 }
-
 ```
