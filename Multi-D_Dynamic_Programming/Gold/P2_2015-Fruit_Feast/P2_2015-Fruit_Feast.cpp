@@ -19,6 +19,8 @@ using namespace std;
 
 int main() {
 	freopen("feast.in", "r", stdin);
+	// Read single line from input file
+	// t = max fullness, a = orange fullness, b = lemon fullness
 	int t, a, b;
 	cin >> t >> a >> b;
 
@@ -27,7 +29,7 @@ int main() {
 	dp[0][0] = true;	// base case 0 fullness
 	// printArr(dp);
 	for (int idx = 0; idx <= t; ++idx) {
-		// Find individual fullness without drinking water
+		// Find fullness of orange(s) and lemon(s) without water
 		if (idx - a >= 0)
 			dp[0][idx] |= dp[0][idx-a];
 		if (idx - b >= 0)
@@ -37,7 +39,7 @@ int main() {
 	}
 	// printArr(dp);
 
-	// Using fullness after drinking water find new fullness
+	// Using fullness after drinking water find new fullness'
 	for (int idx = 0; idx <= t; ++idx) {
 		if (idx - a >= 0)
 			dp[1][idx] |= dp[1][idx-a];
@@ -46,7 +48,7 @@ int main() {
 	}
 	// printArr(dp);
 
-	// Find the maximum fullness
+	// Find max fullness/last true fullness value
 	freopen("feast.out", "w", stdout);
 	for (int idx = t; idx >= 0; --idx) {
 		if (dp[1][idx]) {
