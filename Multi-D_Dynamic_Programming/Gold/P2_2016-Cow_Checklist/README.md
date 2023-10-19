@@ -1,6 +1,8 @@
 # USACO 2016 December Contest, Gold
 ## Problem 2. Cow Checklist
 
+http://www.usaco.org/index.php?page=viewproblem2&cpid=670
+
 Every day, Farmer John walks through his pasture to check on the well-being of each of his cows. On his farm he has two breeds of cows, Holsteins and Guernseys. His `H` Holsteins are conveniently numbered `1...H`, and his `G` Guernseys are conveniently numbered `1...G` `(1 <= H <= 1000, 1 <= G <= 1000)`. Each cow is located at a point in the 2D plane (not necessarily distinct).
 
 Farmer John starts his tour at Holstein 1, and ends at Holstein `H`. He wants to visit each cow along the way, and for convenience in maintaining his checklist of cows visited so far, he wants to visit the Holsteins and Guernseys in the order in which they are numbered. In the sequence of all `H+G` cows he visits, the Holsteins numbered `1...H` should appear as a (not necessarily contiguous) subsequence, and likewise for the Guernseys. Otherwise stated, the sequence of all `H+G` cows should be formed by interleaving the list of Holsteins numbered `1...H` with the list of Guernseys numbered `1...G`.
@@ -56,3 +58,14 @@ Where `n` is
 ### Java Code:
 ```java
 ```
+
+3-D DP iteration grid:
+|:---:|:---:|:---:|:---:|
+| **dp** | g0 | g1 | g2 | g3 |
+|---|---|---|---|---|
+| **h0** | 0 | 0 | 0 | 0 |
+| **h1** | 0 | 0 | 0 | 0 |
+| **h2** | 0 | 0 | 0 | 0 |
+| **h3** | 0 | 0 | 0 | 0 |
+
+
