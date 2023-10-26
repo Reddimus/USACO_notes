@@ -1,4 +1,4 @@
-#define ll long long
+#define ui unsigned int
 
 #include <bits/stdc++.h>
 
@@ -7,13 +7,13 @@ using namespace std;
 struct Coordinates {int x, y;};
 
 // Find the distance between two points then square it
-ll dist(const Coordinates &a, const Coordinates &b) {
+ui energy(const Coordinates &a, const Coordinates &b) {
 	int xDist = a.x - b.x;
 	int yDist = a.y - b.y;
 	return (xDist * xDist) + (yDist * yDist);
 }
-
-void print3DArr(vector<vector<vector<ll>>> &arr) {
+/*
+void print3DArr(vector<vector<vector<ui>>> &arr) {
 	cout << "[";
 	for (int idx = 0; idx < arr.size(); ++idx) {
 		cout << "[";
@@ -38,6 +38,7 @@ void print3DArr(vector<vector<vector<ll>>> &arr) {
 	}
 	cout << "]" << endl << endl;
 }
+*/
 
 int main() {
 	freopen("checklist.in", "r", stdin);
@@ -51,33 +52,32 @@ int main() {
 	for (int idx = 0; idx < g; ++idx)
 		cin >> gs[idx].x >> gs[idx].y;
 	
-	vector<vector<vector<ll>>> dp(h + 1, vector<vector<ll>>(g + 1, vector<ll>(2, INT_MAX)));
-	dp[1][0][0] = 0;	// Base case: Start with 0 distance, where hIdx = 0 are dummy values
+	// dp[h+1][g+1][2] filled with MAX values, where hIdx = 0 are dummy values
+	vector<vector<vector<ui>>> dp(h + 1, vector<vector<ui>>(g + 1, vector<ui>(2, INT_MAX)));
+	dp[1][0][0] = 0;	// Base case: Start with 0 distance
 	for (int hIdx = 1; hIdx <= h; ++hIdx) {
 		for (int gIdx = 0; gIdx <= g; ++gIdx) {
+			// Check neigbouring holsteins distances
 			if (hIdx > 1) {
 				dp[hIdx][gIdx][0] = 
 					min(dp[hIdx][gIdx][0], 
-						dp[hIdx - 1][gIdx][0] + dist(hs[hIdx - 2], hs[hIdx - 1]));
+						dp[hIdx - 1][gIdx][0] + energy(hs[hIdx - 2], hs[hIdx - 1]));
 			}
-
+			// Check neigbouring guernseys distances
 			if (gIdx > 1) {
 				dp[hIdx][gIdx][1] = 
 					min(dp[hIdx][gIdx][1], 
-						dp[hIdx][gIdx - 1][1] + dist(gs[gIdx - 2], gs[gIdx - 1]));
+						dp[hIdx][gIdx - 1][1] + energy(gs[gIdx - 2], gs[gIdx - 1]));
 			}
-
+			// Check across breeds distances
 			if (hIdx > 0 && gIdx > 0) {
+				ui crossEnergy = energy(hs[hIdx - 1], gs[gIdx - 1]);
 				dp[hIdx][gIdx][0] = 
-					min(dp[hIdx][gIdx][0], 
-						dp[hIdx - 1][gIdx][1] + dist(hs[hIdx - 1], gs[gIdx - 1]));
+					min(dp[hIdx][gIdx][0], dp[hIdx - 1][gIdx][1] + crossEnergy);
 				dp[hIdx][gIdx][1] = 
-					min(dp[hIdx][gIdx][1], 
-						dp[hIdx][gIdx - 1][0] + dist(hs[hIdx - 1], gs[gIdx - 1]));
-				// cout << "hs[" << hIdx-1 << "] = (" << hs[hIdx - 1].x << ", " << hs[hIdx - 1].y << ")" << endl;
-				// cout << "gs[" << gIdx-1 << "] = (" << gs[gIdx - 1].x << ", " << gs[gIdx - 1].y << ")" << endl;
+					min(dp[hIdx][gIdx][1], dp[hIdx][gIdx - 1][0] + crossEnergy);
 			}
-			print3DArr(dp);
+			// print3DArr(dp);
 		}
 	}
 
