@@ -49,7 +49,7 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 ### Intuition:
 The problem asks for the minimum amount of energy required for Farmer John to visit all of his cows. Energy is calculated based on the squared distance between cows. The catch is that the sequence in which the cows are visited matters; he has to visit them in ascending order based on their numbering, but can switch between the two breeds.
 
-To solve this problem, we can use dynamic programming (DP). We will have a 3D DP array, dp[h+1][g+1][2], wwhere the first dimension is correlated to the Holsteins indices, the second dimension is correlated to the Guernseys indices, and the third dimension is correlated to the breed type (0 = Holstein, 1 = Guernsey). This structure will allow us to keep track of energy spent when going from H -> H, G -> G, and H -> G, G -> H.
+To solve this problem, we can use dynamic programming (DP). We will have a 3D DP array, dp[h+1][g+1][2], where the first dimension is correlated to the Holsteins indices, the second dimension is correlated to the Guernseys indices, and the third dimension is correlated to the breed type (0 = Holstein, 1 = Guernsey). This structure will allow us to keep track of energy spent when going from H -> H, G -> G, and H -> G, G -> H.
 
 ### Steps:
 1. Read input data
