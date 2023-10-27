@@ -44,7 +44,7 @@ Write a single line of output, giving the minimum energy required for FJ's tour 
 
 # Solutions:
 
-https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P1_2020-Time_Is_Mooney
+https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P2_2016-Cow_Checklist
 
 ### Intuition:
 The problem asks for the minimum amount of energy required for Farmer John to visit all of his cows. Energy is calculated based on the squared distance between cows. The catch is that the sequence in which the cows are visited matters; he has to visit them in ascending order based on their numbering, but can switch between the two breeds.
