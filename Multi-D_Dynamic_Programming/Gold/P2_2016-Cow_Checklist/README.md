@@ -34,7 +34,13 @@ Write a single line of output, giving the minimum energy required for FJ's tour 
 ```
 
 ### Hints:
-- 
+- The following are valid tours (not necessarily optimal):
+    - `h1 -> g1 -> h2 -> g2 -> h3`
+    - `h1 -> g1 -> g2 -> h2 -> h3`
+    - `h1 -> h2 -> g1 -> g2 -> h3`
+
+- **Coordinate plane**:  
+    ![SampleInput_coordinates](SampleInput_coordinates.png)
 
 # Solutions:
 
@@ -46,26 +52,285 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 1. 
 
 ### Time & Space complexity:
-**Time:** `O(
-**Space:** `O(
+**Time:** `O(H*G)`  
+**Space:** `O(H*G)`  
 
-Where `n` is 
+Where `H` is the number of Holsteins, and `G` is the number of Guernseys.
 
 ### C++ Code:
 ```cpp
+#define ui unsigned int
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct Coordinates {int x, y;};
+
+// Find the distance between two points then square it
+ui energy(const Coordinates &a, const Coordinates &b) {
+	int xDist = a.x - b.x;
+	int yDist = a.y - b.y;
+	return (xDist * xDist) + (yDist * yDist);
+}
+
+int main() {
+	freopen("checklist.in", "r", stdin);
+	// Read first line input: h = Holstein num, g = guernseys num
+	int h, g;
+	cin >> h >> g;
+	// For the next H lines then next G lines read breed coordinates
+	Coordinates hs[h], gs[g];
+	for (int idx = 0; idx < h; ++idx)
+		cin >> hs[idx].x >> hs[idx].y;
+	for (int idx = 0; idx < g; ++idx)
+		cin >> gs[idx].x >> gs[idx].y;
+	
+	// dp[h+1][g+1][2] filled with MAX values to solve for min dist across breeds
+	// where hIdx = 0 are dummy values, & gIdx = 0 are base cases/dummy values
+	// Where the 3rd dimension is 0 = Holstein, 1 = Guernsey
+	vector<vector<vector<ui>>> dp(h + 1, vector<vector<ui>>(g + 1, vector<ui>(2, INT_MAX)));
+	dp[1][0][0] = 0;	// Base case: Start with 0 distance
+	for (int hIdx = 1; hIdx <= h; ++hIdx) {
+		for (int gIdx = 0; gIdx <= g; ++gIdx) {
+			// Check neigbouring holsteins distances
+			if (hIdx > 1) {
+				dp[hIdx][gIdx][0] = 
+					min(dp[hIdx][gIdx][0], 
+						dp[hIdx - 1][gIdx][0] + energy(hs[hIdx - 2], hs[hIdx - 1]));
+			}
+			// Check neigbouring guernseys distances
+			if (gIdx > 1) {
+				dp[hIdx][gIdx][1] = 
+					min(dp[hIdx][gIdx][1], 
+						dp[hIdx][gIdx - 1][1] + energy(gs[gIdx - 2], gs[gIdx - 1]));
+			}
+			// Check across breeds distances
+			if (hIdx > 0 && gIdx > 0) {
+				ui crossEnergy = energy(hs[hIdx - 1], gs[gIdx - 1]);
+				dp[hIdx][gIdx][0] = 
+					min(dp[hIdx][gIdx][0], dp[hIdx - 1][gIdx][1] + crossEnergy);
+				dp[hIdx][gIdx][1] = 
+					min(dp[hIdx][gIdx][1], dp[hIdx][gIdx - 1][0] + crossEnergy);
+			}
+		}
+	}
+
+	freopen("checklist.out", "w", stdout);
+	cout << dp[h][g][0] << endl;
+}
 ```
 
 ### Java Code:
 ```java
 ```
 
-3-D DP iteration grid:
-|:---:|:---:|:---:|:---:|
-| **dp** | g0 | g1 | g2 | g3 |
-|---|---|---|---|---|
-| **h0** | 0 | 0 | 0 | 0 |
-| **h1** | 0 | 0 | 0 | 0 |
-| **h2** | 0 | 0 | 0 | 0 |
-| **h3** | 0 | 0 | 0 | 0 |
+### Step by step whiteboarding:
+
+**Gathered sample input data**:  
+`H = 3`, `G = 2`  
+`Holsteins = [h0, h1, h2] = [(0,0), (1,0), (2,0)]`  
+`Guernseys = [g0, g1] = [(0,3), (1,3)]`
+
+**3-D DP sample input/output iteration grid**:
+
+**Iteration 1 (no change/base case):**
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, INF] | [INF, INF] |
+| **hIdx1** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
 
 
+
+**Iteration 2:**  
+*Check across breed distances:*  
+dp[hIdx0][gIdx0][1] = min(dp[hIdx0][gIdx0][1], `dp[hIdx0][gIdx0][0]` + dist(`h0 point`, `g0 point`)^2)  
+                    = min(INF, `0` + dist(`(0,0)`, `(0,3)`)^2)  
+                    = min(INF, (3)^2)  
+                    = min(INF, 9)  
+
+`dp[h0][g1][1] = 9`
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [`0`, INF] | [INF, `9`] | [INF, INF] |
+| **hIdx1** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
+
+**Iteration 3:**  
+*Check neigbouring guernsey distances:*  
+dp[hIdx0][gIdx1][1] = min(dp[hIdx0][gIdx1][1], `dp[hIdx0][gIdx0][1]` + dist(`g0 point`, `g1 point`)^2)  
+                    = min(INF, `9` + dist(`(0,3)`, `(1,3)`)^2)  
+                    = min(INF, `9` + (1)^2)  
+                    = min(INF, 10)  
+                    = 10
+
+*Check across breed distances:*  
+dp[hIdx0][gIdx1][1] = min(dp[hIdx0][gIdx1][1], `dp[hIdx0][gIdx0][0]` + dist(`h0 point`, `g1 point`)^2)  
+                    = min(10, `INF` + dist(`(0,0)`, `(1,3)`)^2)  
+                    = min(10, `INF`)  
+                    = 10
+
+`dp[h0][g2][1] = 10`
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF] | [`INF`, `9`] | [INF, `10`] |
+| **hIdx1** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
+
+**Iteration 4:**  
+*Check neigbouring holsteins distances:*  
+dp[hIdx1][Dummy][0] = min(dp[hIdx1][Dummy][0], `dp[hIdx0][Dummy][0]` + dist(`h0 point`, `h1 point`)^2)  
+                    = min(INF, `0` + dist(`(0,0)`, `(1,0)`)^2)  
+                    = min(INF, (1)^2)  
+                    = min(INF, 1)
+
+`dp[hIdx1][gIdx0][0] = 1`
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [`0`, INF] | [INF, 9]   | [INF, 10]  |
+| **hIdx1** | [`1`, INF] | [INF, INF] | [INF, INF] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
+
+**Iteration 5:**  
+*Check across breed distances:*  
+
+dp[hIdx1][gIdx0][0] = min(dp[hIdx1][gIdx0][0], `dp[hIdx0][gIdx0][1]` + dist(`h1 point`, `g0 point`)^2)  
+                    = min(INF, `9` + dist(`(1,0)`, `(0,3)`)^2)  
+                    = min(INF, `9` + ((1-0)^2 + (3-0)^2))  
+                    = min(INF, 9 + 10)  
+                    = min(INF, 19)  
+`dp[hIdx1][gIdx0][0] = 19`  
+
+dp[hIdx1][gIdx0][1] = min(dp[hIdx1][gIdx0][1], `dp[hIdx1][dummy][0]` + dist(`h1 point`, `g0 point`)^2)  
+                    = min(INF, `1` + 10)  
+                    = min(INF, 11)  
+`dp[hIdx1][gIdx0][1] = 11`
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, `9`] | [INF, 10]  |
+| **hIdx1** | [`1`, INF] | [`19`, `11`] | [INF, INF] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
+
+**Iteration 6:**  
+*Check neigbouring guernseys distances:*  
+dp[hIdx1][gIdx1][1] = min(dp[hIdx1][gIdx1][1], `dp[hIdx1][gIdx0][1]` + dist(`g0 point`, `g1 point`)^2)  
+                    = min(INF, `11` + dist(`(0,3)`, `(1,3)`)^2)  
+                    = min(INF, `11` + (1)^2)  
+                    = min(INF, 12)
+`dp[hIdx1][gIdx1][1] = 12`
+
+*Check across breed distances:*  
+dp[hIdx1][gIdx1][0] = min(dp[hIdx1][gIdx1][0], `dp[hIdx0][gIdx1][1]` + dist(`h1 point`, `g1 point`)^2)  
+                    = min(INF, `10` + dist(`(1,0)`, `(1,3)`)^2)  
+                    = min(INF, `10` + (3)^2)  
+                    = min(INF, `10` + 9)
+                    = min(INF, 19)  
+`dp[hIdx1][gIdx1][0] = 19`  
+
+dp[hIdx1][gIdx1][1] = min(dp[hIdx1][gIdx1][1], `dp[hIdx1][gIdx0][0]` + dist(`h1 point`, `g1 point`)^2)  
+                    = min(12, `19` + 9)
+                    = min(12, 28)  
+                    = 12
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, 9]   | [INF, `10`]  |
+| **hIdx1** | [1, INF]   | [`19`, `11`] | [`19`, `12`] |
+| **hIdx2** | [INF, INF] | [INF, INF] | [INF, INF] |
+
+**Iteration 7:**  
+*Check neigbouring holsteins distances:*  
+dp[hIdx2][Dummy][0] = min(dp[hIdx2][Dummy][0], `dp[hIdx1][Dummy][0]` + dist(`h1 point`, `h2 point`)^2)  
+                    = min(INF, `1` + dist(`(1,0)`, `(2,0)`)^2)  
+                    = min(INF, `1` + (1)^2)  
+                    = min(INF, 2)  
+`dp[hIdx2][Dummy][0] = 2`
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, 9]   | [INF, 10]  |
+| **hIdx1** | [1, INF]   | [19, 11]   | [19, 12]   |
+| **hIdx2** | [`2`, INF] | [INF, INF] | [INF, INF] |
+
+
+**Iteration 8:**  
+*Check neigbouring holsteins distances:*  
+dp[hIdx2][gIdx0][0] = min(dp[hIdx2][gIdx0][0], `dp[hIdx1][gIdx0][0]` + dist(`h1 point`, `h2 point`)^2)  
+                    = min(INF, `19` + dist(`(1,0)`, `(2,0)`)^2)  
+                    = min(INF, `19` + (1)^2)  
+                    = min(INF, 20)  
+`dp[hIdx2][gIdx0][0] = 20`  
+
+*Check across breed distances:*
+dp[hIdx2][gIdx0][0] = min(dp[hIdx2][gIdx0][0], `dp[hIdx1][gIdx0][1]` + dist(`h2 point`, `g0 point`)^2)  
+                    = min(20, `11` + dist(`(2,0)`, `(0,3)`)^2)  
+                    = min(20, `11` + ((2-0)^2 + (3-0)^2))  
+                    = min(20, 11 + 13)  
+                    = min(20, 24)  
+                    = 20  
+
+
+dp[hIdx2][gIdx0][1] = min(dp[hIdx2][gIdx0][1], `dp[hIdx2][Dummy][0]` + dist(`h2 point`, `g0 point`)^2)  
+                    = min(INF, `2` + 13)
+                    = min(INF, 15)
+`dp[hIdx2][gIdx0][1] = 15`
+
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, 9]   | [INF, 10]  |
+| **hIdx1** | [1, INF]   | [`19`, `11`] | [19, 12]   |
+| **hIdx2** | [`2`, INF]   | [`20`, `15`] | [INF, INF] |
+
+
+**Iteration 9:**  
+*Check neigbouring holsteins distances:*  
+dp[hIdx2][gIdx1][0] = min(dp[hIdx2][gIdx1][0], `dp[hIdx1][gIdx1][0]` + dist(`h1 point`, `h2 point`)^2)
+                    = min(INF, `19` + dist(`(1,0)`, `(2,0)`)^2)  
+                    = min(INF, `19` + (1)^2)  
+                    = min(INF, 20)
+`dp[hIdx2][gIdx1][0] = 20`
+
+*Check neigbouring guernseys distances:*  
+dp[hIdx2][gIdx1][1] = min(dp[hIdx2][gIdx1][1], `dp[hIdx2][gIdx0][1]` + dist(`g0 point`, `g1 point`)^2)  
+                    = min(INF, `15` + dist(`(0,3)`, `(1,3)`)^2)  
+                    = min(INF, `15` + (1)^2)  
+                    = min(INF, 16)  
+`dp[hIdx2][gIdx1][1] = 16`  
+
+*Check across breed distances:*  
+dp[hIdx2][gIdx1][0] = min(dp[hIdx2][gIdx1][0], `dp[hIdx1][gIdx1][1]` + dist(`h2 point`, `g1 point`)^2)  
+                    = min(20, `12` + dist(`(2,0)`, `(1,3)`)^2)  
+                    = min(20, `12` + ((2-1)^2 + (3-0)^2))  
+                    = min(20, 12 + 10)  
+                    = min(20, 22)  
+                    = 20  
+
+dp[hIdx2][gIdx1][1] = min(dp[hIdx2][gIdx1][1], `dp[hIdx2][gIdx0][0]` + dist(`h2 point`, `g1 point`)^2)  
+                    = min(16, `20` + 10)  
+                    = min(16, 30)  
+                    = 16
+
+|   **dp**  |    Dummy   |   gIdx0    |   gIdx1    |
+|:---------:|:----------:|:----------:|:----------:|
+| **Dummy** | [INF, INF] | [INF, INF] | [INF, INF] |
+| **hIdx0** | [0, INF]   | [INF, 9]   | [INF, 10]  |
+| **hIdx1** | [1, INF]   | [19, 11]   | [`19`, `12`] |
+| **hIdx2** | [2, INF]   | [`20`, `15`] | [`20`, `16`] |
+
+### Whiteboard coordinate plane with saved min DP values:
+
+![MinDP_plane.png](MinDP_plane.png)

@@ -1,3 +1,6 @@
+// Paths on Grids + 3-D Dynamic Programming approach
+// T&M: O(h * g), where h = Holsteins, g = Guernseys
+
 #define ui unsigned int
 
 #include <bits/stdc++.h>
@@ -12,6 +15,7 @@ ui energy(const Coordinates &a, const Coordinates &b) {
 	int yDist = a.y - b.y;
 	return (xDist * xDist) + (yDist * yDist);
 }
+
 /*
 void print3DArr(vector<vector<vector<ui>>> &arr) {
 	cout << "[";
@@ -52,7 +56,9 @@ int main() {
 	for (int idx = 0; idx < g; ++idx)
 		cin >> gs[idx].x >> gs[idx].y;
 	
-	// dp[h+1][g+1][2] filled with MAX values, where hIdx = 0 are dummy values
+	// dp[h+1][g+1][2] filled with MAX values to solve for min dist across breeds
+	// where hIdx = 0 are dummy values, & gIdx = 0 are base cases/dummy values
+	// Where the 3rd dimension is 0 = Holstein, 1 = Guernsey
 	vector<vector<vector<ui>>> dp(h + 1, vector<vector<ui>>(g + 1, vector<ui>(2, INT_MAX)));
 	dp[1][0][0] = 0;	// Base case: Start with 0 distance
 	for (int hIdx = 1; hIdx <= h; ++hIdx) {
