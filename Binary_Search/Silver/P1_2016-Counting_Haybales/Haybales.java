@@ -46,62 +46,62 @@ import java.util.*;
 
 public class Haybales {
     static int lowerBound(int[] arr, int target) {
-        int l_idx = 0, r_idx = arr.length;
-        while (l_idx < r_idx) {
-            int mid = l_idx + (r_idx - l_idx) / 2;
+        int lIdx = 0, rIdx = arr.length;
+        while (lIdx < rIdx) {
+            int mid = lIdx + (rIdx - lIdx) / 2;
             if (arr[mid] >= target)
-                r_idx = mid;
+                rIdx = mid;
             else
-                l_idx = mid + 1;
+                lIdx = mid + 1;
         }
-        return l_idx;  // if target not found returns out of bounds idx (n)
+        return lIdx;  // if target not found returns out of bounds idx (n)
     }
 
     static int upperBound(int[] arr, int target) {
-        int lo = 0, hi = arr.length;
-        while (lo < hi) {
-            int mid = lo + (hi - lo) / 2;
+        int lIdx = 0, rIdx = arr.length;
+        while (lIdx < rIdx) {
+            int mid = lIdx + (rIdx - lIdx) / 2;
             if (arr[mid] > target)
-                hi = mid;
+                rIdx = mid;
             else
-                lo = mid + 1;
+                lIdx = mid + 1;
         }
-        return hi;
+        return rIdx;
     }
 
     public static void main(String[] args) throws IOException {
         // Open and read the input file
-        BufferedReader f = new BufferedReader(new FileReader("haybales.in"));
-        // Prepare for writing to the output file
-        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("haybales.out")));
+        BufferedReader in = new BufferedReader(new FileReader("haybales.in"));
         
         // The first line contains n and q
-        StringTokenizer st = new StringTokenizer(f.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int q = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(in.readLine());
+        final int n = Integer.parseInt(st.nextToken());
+        final int q = Integer.parseInt(st.nextToken());
 
         // The next line contains the haybale locations
-        int[] haybale_locs = new int[n];
-        st = new StringTokenizer(f.readLine());
-        for (int i = 0; i < n; i++)
-            haybale_locs[i] = Integer.parseInt(st.nextToken());
+        final int[] haybaleLocs = new int[n];
+        st = new StringTokenizer(in.readLine());
+        for (int idx = 0; idx < n; ++idx)
+            haybaleLocs[idx] = Integer.parseInt(st.nextToken());
         
         // Sort the haybale locations array
-        Arrays.sort(haybale_locs);
+        Arrays.sort(haybaleLocs);
 
+        // Prepare for writing to the output file
+        PrintWriter out = new PrintWriter("haybales.out");
         // For the next q lines, process the intervals
-        for(int i = 0; i < q; i++) {
-            st = new StringTokenizer(f.readLine());
+        for(int ln = 0; ln < q; ++ln) {
+            st = new StringTokenizer(in.readLine());
             int start = Integer.parseInt(st.nextToken());
             int end = Integer.parseInt(st.nextToken());
             // binary search lower/upper bound area of answers
-            int l_idx = lowerBound(haybale_locs, start);
-            int r_idx = upperBound(haybale_locs, end);
+            int lIdx = lowerBound(haybaleLocs, start);
+            int rIdx = upperBound(haybaleLocs, end);
             // Write the number of haybales in the respective interval to the output file
-            out.println(r_idx - l_idx);
+            out.println(rIdx - lIdx);
         }
-        // close files
-        f.close();
+
+        in.close();
         out.close();
     }
 }
