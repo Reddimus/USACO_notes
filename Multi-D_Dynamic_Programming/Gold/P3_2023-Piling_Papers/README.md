@@ -1,5 +1,5 @@
 # USACO 2023 February Contest, Gold
-## Problem 3. Piling Papers
+# Problem 3. Piling Papers
 
 http://usaco.org/index.php?page=viewproblem2&cpid=1307
 
@@ -59,7 +59,7 @@ Only the 2 ways that give 21 yield a number between 13 and 327, so the answer is
 - 
 
 
-# Solutions:
+## Solutions:
 
 https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Gold/P3_2023-Piling_Papers
 
@@ -70,7 +70,7 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 1. 
 
 ### Time & Space complexity:
-**Time:** `O( )`  
+**Time:** `O(N (log B)^2)`   
 **Space:** `O( )`  
 
 Where `n` is 
