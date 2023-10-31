@@ -11,7 +11,7 @@ The cows have two favorite integers `A` and `B (1 ≤ A ≤ B ≤ 10^18)`, and w
 
 - The first line contains three space-separated integers `N, A, and B`.
 - The second line contains `N` space-separated digits `a_1, a_2,... ,a_N`.
-- The third line contains an integer `Q_1`, the number of queries.
+- The third line contains an integer `Q`, the number of queries.
 - The next `Q` lines each contain two space-separated integers `l_i` and `r_i`.
 
 ### Output Format (print output to the terminal / stdout):
@@ -70,8 +70,8 @@ https://github.com/Reddimus/USACO_notes/tree/main/Multi-D_Dynamic_Programming/Go
 1. 
 
 ### Time & Space complexity:
-**Time:** `O( 
-**Space:** `O(
+**Time:** `O( )`  
+**Space:** `O( )`  
 
 Where `n` is 
 
