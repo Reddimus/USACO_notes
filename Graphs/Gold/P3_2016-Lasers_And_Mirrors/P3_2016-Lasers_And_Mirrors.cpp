@@ -27,7 +27,7 @@ int main() {
     }
 
     // Breadth-first search intercepting mirrors or goals for shortest path
-    int finalCount = -1;
+    int count = -1;
     queue<coordinates> q;
     q.push(laser);
     for (int level = 0; !q.empty(); ++level) {
@@ -38,7 +38,7 @@ int main() {
 
             // Check for goal
             if (mirror.x == barn.x || mirror.y == barn.y) {
-                finalCount = level;
+                count = level;
                 q = queue<coordinates>();   // Clear queue
                 break;
             }
@@ -49,7 +49,7 @@ int main() {
             for (const int& x : yToX[mirror.y])
                 q.push({x, mirror.y});
 
-            // Mark current mirror/coordinate as visited
+            // Mark all mirrors/coordinates subset as visited
             xToY.erase(mirror.x),
             yToX.erase(mirror.y);
         }
@@ -57,7 +57,7 @@ int main() {
 
     // Write -1 if no solution, else write the minimum number of mirrors
     freopen("lasers.out", "w", stdout);
-    cout << finalCount << endl;
+    cout << count << endl;
 
     return 0;
 }
