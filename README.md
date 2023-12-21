@@ -25,13 +25,13 @@ To embark on your USACO journey, follow these steps:
 
 Follow these curated roadmaps tailored to each USACO level:
 
-- ![Bronze Badge](https://img.shields.io/badge/-Bronze-orange) [**USACO Bronze Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Roadmaps/Bronze.md): Ideal for beginners. Focuses on fundamental concepts like time complexity and basic algorithms. Can be completed with Python3, C++, or Java.
+- ![Bronze Badge](https://img.shields.io/badge/-Bronze-orange) [**USACO Bronze Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Documentation/Roadmaps/Bronze.md): Ideal for beginners. Focuses on fundamental concepts like time complexity and basic algorithms. Can be completed with Python3, C++, or Java.
 
-- ![Silver Badge](https://img.shields.io/badge/-Silver-lightgrey) [**USACO Silver Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Roadmaps/Silver.md): Elevates your understanding with topics like prefix sums and graph theory. Can be completed with Python3, C++, or Java.
+- ![Silver Badge](https://img.shields.io/badge/-Silver-lightgrey) [**USACO Silver Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Documentation/Roadmaps/Silver.md): Elevates your understanding with topics like prefix sums and graph theory. Can be completed with Python3, C++, or Java.
 
-- ![Gold Badge](https://img.shields.io/badge/-Gold-yellow) [**USACO Gold Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Roadmaps/Gold.md): Delves into more complex areas such as dynamic programming and advanced data structures. Can be completed with C++ or Java.
+- ![Gold Badge](https://img.shields.io/badge/-Gold-yellow) [**USACO Gold Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Documentation/Roadmaps/Gold.md): Delves into more complex areas such as dynamic programming and advanced data structures. Can be completed with C++ or Java.
 
-- ![Platinum Badge](https://img.shields.io/badge/-Platinum-blue) [**USACO Platinum Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Roadmaps/Platinum.md): Prepares you for the highest competition level with topics on range queries and computational geometry. Can be completed with C++ or Java.
+- ![Platinum Badge](https://img.shields.io/badge/-Platinum-blue) [**USACO Platinum Roadmap**](https://github.com/Reddimus/USACO_notes/blob/main/Documentation/Roadmaps/Platinum.md): Prepares you for the highest competition level with topics on range queries and computational geometry. Can be completed with C++ or Java.
 
 ## Additional Resources
 
