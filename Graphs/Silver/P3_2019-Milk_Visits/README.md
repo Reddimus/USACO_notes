@@ -46,16 +46,16 @@ Here, the path from farm 1 and farm 4 involves farms 1, 2, and 4. All of these c
 
 # [Solutions](https://github.com/Reddimus/USACO_notes/tree/main/Graphs/Silver/P3_2019-Milk_Visits)
 
-##  graphs - 
+## Graphs - Breadth First Search (BFS) w/ Connected Components detection
 
 ### Steps
 1. 
 
 ### Time & Space complexity:
-Time: `O()`
-Space: `O()`
+Time: `O(n + m)` | `O(V + E)`  
+Space: `O(n + m)` | `O(V + E)`  
 
-Where 
+Where `n` is number of farms, `m` is number farmer John's friends, `V` is number of vertices, and `E` is number of edges.
 
 ### Python Code
 ```python
@@ -63,6 +63,76 @@ Where
 
 ### C++ Code:
 ```cpp
+// Breadth First Search (BFS) w/ Connected Components detection Graph approach
+// T & M: O(n + m) | O(V + E), where n = num of farms, m = num of friends
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("milkvisits.in", "r", stdin);
+	// Read in First line: n = num of farms, m = num of FJ's friends
+	int n, m;
+	cin >> n >> m;
+
+	// Second line: string of farm types
+	vector<char> milkTypes(n + 1);
+	for (int idx = 1; idx <= n; ++idx)
+		cin >> milkTypes[idx];
+
+	// For the next n-1 lines read in the edges of the graph
+	vector<vector<int>> farms(n + 1);
+	for (int ln = 0; ln < n - 1; ++ln) {
+		int x, y;
+		cin >> x >> y;
+		farms[x].push_back(y);
+		farms[y].push_back(x);
+	}
+
+	// Process the tree & detect the different components
+	vector<int> components(n + 1, -1);
+	for (int farm = 1; farm <= n; ++farm) {
+		// Don't process a farm if it's been visited already
+		if (components[farm] != -1)
+			continue;
+		
+		// BFS to find all the farms in the same subtree
+		char type = milkTypes[farm];
+		queue<int> q;
+		q.push(farm);
+		while (!q.empty()) {
+			int qdFarm = q.front();
+			q.pop();
+			
+			// Mark the queue'd farm as same path as current component (farm)
+			components[qdFarm] = farm;
+
+			// Visit a neighbor if it's new & is of the same type
+			for (int& neighbor : farms[qdFarm])
+				if (milkTypes[neighbor] == type && components[neighbor] == -1)
+					q.push(neighbor);
+		}
+	}
+
+	// For the next m lines read & check if friend's path satisfies them
+	string ans = "";
+	for (int ln = 0; ln < m; ++ln) {
+		int start, end;
+		char preference;
+		cin >> start >> end >> preference;
+
+		if (components[start] == components[end] && milkTypes[start] != preference)
+			ans += '0';
+		else
+			ans += '1';
+	}
+	
+	// Write satisfaction of each friend in sting form to output file
+	freopen("milkvisits.out", "w", stdout);
+	cout << ans << endl;
+	return 0;
+}
 ```
 
 ### Java Code:

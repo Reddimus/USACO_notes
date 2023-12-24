@@ -1,99 +1,139 @@
+// Breadth First Search (BFS) w/ Connected Components detection Graph approach
+// T & M: O(n + m) | O(V + E), where n = num of farms, m = num of friends
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("milkvisits.in", "r", stdin);
+	// Read in First line: n = num of farms, m = num of FJ's friends
+	int n, m;
+	cin >> n >> m;
+
+	// Second line: string of farm types
+	vector<char> milkTypes(n + 1);
+	for (int idx = 1; idx <= n; ++idx)
+		cin >> milkTypes[idx];
+
+	// For the next n-1 lines read in the edges of the graph
+	vector<vector<int>> farms(n + 1);
+	for (int ln = 0; ln < n - 1; ++ln) {
+		int x, y;
+		cin >> x >> y;
+		farms[x].push_back(y);
+		farms[y].push_back(x);
+	}
+
+	// Process the tree & detect the different components
+	vector<int> components(n + 1, -1);
+	for (int farm = 1; farm <= n; ++farm) {
+		// Don't process a farm if it's been visited already
+		if (components[farm] != -1)
+			continue;
+		
+		// BFS to find all the farms in the same subtree
+		char type = milkTypes[farm];
+		queue<int> q;
+		q.push(farm);
+		while (!q.empty()) {
+			int qdFarm = q.front();
+			q.pop();
+			
+			// Mark the queue'd farm as same path as current component (farm)
+			components[qdFarm] = farm;
+
+			// Visit a neighbor if it's new & is of the same type
+			for (int& neighbor : farms[qdFarm])
+				if (milkTypes[neighbor] == type && components[neighbor] == -1)
+					q.push(neighbor);
+		}
+	}
+
+	// For the next m lines read & check if friend's path satisfies them
+	string ans = "";
+	for (int ln = 0; ln < m; ++ln) {
+		int start, end;
+		char preference;
+		cin >> start >> end >> preference;
+
+		if (components[start] == components[end] && milkTypes[start] != preference)
+			ans += '0';
+		else
+			ans += '1';
+	}
+	
+	// Write satisfaction of each friend in sting form to output file
+	freopen("milkvisits.out", "w", stdout);
+	cout << ans << endl;
+	return 0;
+}
+
+/* 
+// Brute force DFS approach
+// T: O(n * m) | O(V * E), M: O(n), where n = num of farms, m = num of friends
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 vector<char> milkTypes;
 unordered_map<int, vector<int>> farms;
-vector<vector<char>> cachedSatisfied;
 
-// DFS to find path from start to end
-bool dfs(int curr, int& end, unordered_set<int>& visited, vector<int>& path) {
-	if (visited.find(curr) != visited.end())
-		return false;
+// DFS to find path from start to end and return it
+vector<int> dfs(int curr, int end, unordered_set<int>& visited) {
+    vector<int> path;
 
-	visited.insert(curr);
-	path.push_back(curr);
+    if (visited.find(curr) != visited.end())
+        return path;
 
-	if (curr == end)
-		return true;
+    visited.insert(curr);
+    path.push_back(curr);
 
-	for (int farmNum : farms[curr])
-		if (dfs(farmNum, end, visited, path))
-			return true;
+    if (curr == end)
+        return path;
 
-	path.pop_back();
-	return false;
+    for (int farm : farms[curr]) {
+        vector<int> subPath = dfs(farm, end, visited);
+        if (!subPath.empty()) {
+            path.insert(path.end(), subPath.begin(), subPath.end());
+            return path;
+        }
+    }
+
+    path.pop_back(); // Remove the current node as it's not on the path to the end
+    return {}; // Return an empty path as this branch doesn't lead to the end
 }
 
 bool isSatisfied(int& start, int& end, char& preference) {
-	if (cachedSatisfied[start][end] == preference || cachedSatisfied[start][end] == 'B')
-		return true;
-
 	// Get path from start to end
 	unordered_set<int> visited;
-	vector<int> path;
-	dfs(start, end, visited, path);
-
-	// cout << "Start: " << start << " End: " << end << " Preference: " << preference << endl;
-	// cout << "Path: ";
-	// for (int farmNum : path)
-	// 	cout << farmNum << " ";
-	// cout << endl;
-	// for (int r = 1; r < cachedSatisfied.size(); ++r) {
-	// 	for (int c = 1; c < cachedSatisfied[r].size(); ++c)
-	// 		cout << cachedSatisfied[r][c] << " ";
-	// 	cout << endl;
-	// }
+	vector<int> path = dfs(start, end, visited);
 
 	// Check if path is satisfied
 	unordered_set<char> milkTypesInPath;
-	for (int idx = 0; idx < path.size(); ++idx)
+	for (int idx = 0; idx < path.size() && milkTypesInPath.size() < 2; ++idx)
 		milkTypesInPath.insert(milkTypes[path[idx]]);
-
-	if (milkTypesInPath.size() == 2) {
-		cachedSatisfied[start][end] = 'B';
-		cachedSatisfied[end][start] = 'B';
-		return true;
-	}
-
-	// cout << "Milk Types in Path: (" << milkTypesInPath.size() << ") ";
-	// for (char milkType : milkTypesInPath)
-	// 	cout << milkType << " ";
-	// cout << endl << endl;
-
-	char milkType = *milkTypesInPath.begin();
-	cachedSatisfied[start][end] = milkType;
-	cachedSatisfied[end][start] = milkType;
-	return milkType == preference;
+	return milkTypesInPath.find(preference) != milkTypesInPath.end();
 }
 
 int main() {
 	freopen("milkvisits.in", "r", stdin);
+	// Read in First line: n = num of farms, m = FJ's friends
 	int n, m;
 	cin >> n >> m;
-
+	// Second line: string of farm types
 	milkTypes.resize(n + 1);
 	for (int idx = 1; idx <= n; ++idx)
 		cin >> milkTypes[idx];
-	
-	cachedSatisfied.resize(n + 1, vector<char>(n + 1));
-
+	// For the next n-1 lines read in the edges of the graph
 	for (int ln = 0; ln < n - 1; ++ln) {
 		int x, y;
 		cin >> x >> y;
 		farms[x].push_back(y);
 		farms[y].push_back(x);
-
-		if (milkTypes[x] == milkTypes[y]) {
-			cachedSatisfied[x][y] = milkTypes[x];
-			cachedSatisfied[y][x] = milkTypes[y];
-		}
-		else {
-			cachedSatisfied[x][y] = 'B';
-			cachedSatisfied[y][x] = 'B';
-		}
 	}
-
+	// For the next m lines read & check if friend's path satisfies them
 	string ans = "";
 	for (int ln = 0; ln < m; ++ln) {
 		int start, end;
@@ -109,3 +149,4 @@ int main() {
 	cout << ans << endl;
 	return 0;
 }
+*/
