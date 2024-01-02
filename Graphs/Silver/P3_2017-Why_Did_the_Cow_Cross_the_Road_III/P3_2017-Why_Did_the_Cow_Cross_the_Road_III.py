@@ -1,116 +1,45 @@
-import collections
+# Depth First Search (DFS) | Flood Fill Graph approach
+# T & M: O(n^2), where n is the side length of the grid
 
 with open("countcross.in", "r") as f:
+	# Read in first line: n = grid side length, k = # of cows, r = # of roads
 	n, k, r = map(int, f.readline().split())
-	# Create n * n grid/graph
-	# grid = [[False] * n for r in range(n)]
-	# Read in start (r, c) and end (r', c') positions of roads
+	# Read in start (r, c) and end (r', c') positions of two-way roads
 	roads = set()
 	for ln in range(r):
-		r0, c0, r1, r2 = map(int, f.readline().split())
-		roads.add((r0, c0))
-		roads.add((r1, r2))
-	# Read in positions of cows
+		sr, sc, er, ec = map(int, f.readline().split())
+		roads.add((sr, sc, er, ec))
+		roads.add((er, ec, sr, sc))
+	# Read in (r, c) positions of cows
 	cows = set(tuple(map(int, f.readline().split())) for ln in range(k))
-	# for ln in range(k):
-	# 	r, c = map(int, f.readline().split())
-	# 	grid[r-1][c-1] = True
 
-	# cows = [tuple(map(int, f.readline().split())) for ln in range(k)]
+visited = set()
 
-# for road in list(roads):
-# 	if road not in cows:
-# 		roads.remove(road)
-
-directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-
-def bfs(r: int, c: int) -> int:	
-	pairs = 0
-	q = collections.deque([(r, c)])
-	visited = set()
-
-	while q:
-		# print(q)
-		# print(f"cows: {cows}")
-		# print(f"pairs: {pairs}")
-		# print(f"visited: {visited}")
-		# print()
-		cr, cc = q.popleft()
-		if (cr, cc) in cows:
-			cows.remove((cr, cc))
-
-		for dr, dc in directions:
-			nr, nc = cr + dr, cc + dc
-
-			if (1 <= nr <= n and 1 <= nc <= n and
-			(cr, cc, nr, nc) not in visited and 
-			(nr, nc, cr, cc) not in visited and
-			(nr, nc) in roads and (nr, nc) in cows):
-				q.append((nr, nc))
-				visited.add((cr, cc, nr, nc))
-				visited.add((nr, nc, cr, cc))
-				pairs += 1
-
-	return pairs
-
-# def dfs(r: int, c: int) -> int:
-# 	if (r < 0 or n < r or
-# 	c < 0 or n < c or 
-# 	(r, c) not in roads or 
-# 	(r, c) not in cows or
+# Depth first search number of cows that can be reached without crossing a road
+def dfs(r: int, c: int, prev_r: int, prev_c: int) -> int:
+	if (r < 1 or n < r
+	or c < 1 or n < c
+	or (r, c) in visited
+	or (r, c, prev_r, prev_c) in roads):
+		return 0
 	
-# 		return 0
-	
-# 	visited.add((r, c))
-# 	# cows.remove((r, c))
+	visited.add((r, c))
+	cow_count = 1 if (r, c) in cows else 0
 
-# 	for dr, dc in directions:
-# 		nr, nc = r + dr, c + dc
-# 		if (nr, nc) in roads:
-# 			visited.add((r, c, nr, nc))
-# 			visited.add((nr, nc, r, c))
+	return (cow_count +
+	dfs(r + 1, c, r, c) +
+	dfs(r - 1, c, r, c) +
+	dfs(r, c + 1, r, c) +
+	dfs(r, c - 1, r, c))
 
-# 	return (1 +
-# 	dfs(r+1, c) +
-# 	dfs(r-1, c) +
-# 	dfs(r, c+1) +
-# 	dfs(r, c-1))
+# Group size of cow components to calculate distant pairs
+cow_components = [dfs(r, c, r, c) for r, c in cows]
 
-# print(roads)
-# print()
+# Sum product of pairs from distinct cow groups for distant pairs
+distant_pairs = 0
+for i in range(len(cow_components)):
+	for j in range(i + 1, len(cow_components)):
+		distant_pairs += cow_components[i] * cow_components[j]
 
-distant_cows = 0
-for r, c in list(cows):
-	if (r, c) in cows:
-		distant_cows += bfs(r, c)
-
-# 	print(r, c)
-# 	print(distant_cows)
-# 	print(cows)
-# 	print()
-
-# print(roads)
-# print(distant_cows)
-print(distant_cows, file=open("countcross.out", "w"))
-
-'''
-input:
-3 3 3
-2 1 2 2
-2 2 2 3
-2 2 3 2
-3 3 3 2
-3 3 2 3
-3 2 3 1
-3 1 2 1
-3 3
-2 2
-2 3
-2 1
-3 1
-3 2
-
-[0, 0, 0]
-[1, 1, 1]
-[1, 1, 1]
-'''
+# Write number of distant pairs to output file
+print(distant_pairs, file=open("countcross.out", "w"))
