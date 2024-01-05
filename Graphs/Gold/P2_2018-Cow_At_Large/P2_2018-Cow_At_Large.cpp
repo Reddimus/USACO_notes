@@ -1,133 +1,79 @@
+// Graphs - Breath-First Search (BFS) w/ greedy approach
+// T & M: O(V + E), where V = N = # of barns, E = # of paths/tunnels
+
 #include <bits/stdc++.h>
-// #define ui unsigned int
 
 using namespace std;
 
-pair<int, int> setFarmerPriority(pair<int, int>& farmer, int& goal, unordered_map<int, vector<int>>& tunnels);
-bool caughtBessy(int& k, unordered_set<int>& blocked, unordered_set<int>& exits, unordered_map<int, vector<int>>& tunnels);
+int main() {
+	freopen("atlarge.in", "r", stdin);
+	// Read in first line: n = # of barns, k = Bessie's starting barn
+	int n, k;
+	cin >> n >> k;
+	// For the next n - 1 lines, read in the barns connected by a path/tunnel
+	vector<vector<int>> graph(n);
+	for (int ln = 0; ln < n - 1; ++ln) {
+		int t1, t2;
+		cin >> t1 >> t2;
+		graph[--t1].push_back(--t2);
+		graph[t2].push_back(t1);
+	}
 
-int main() { 
-    freopen("atlarge.in", "r", stdin);
+	vector<int> exits;
+	for (int idx = 0; idx < n; ++idx)
+		if (graph[idx].size() == 1)
+			exits.push_back(idx);
 
-    // Read first line: n = barns, k = Bessie starting barn
-    int n, k;
-    cin >> n >> k;
+	vector<int> distFarmer(n, -1);	// stores min steps for farmer to reach node
+	for (int& exit : exits)
+		if (distFarmer[exit] == -1)
+			distFarmer[exit] = 0;	// initialize exit nodes to 0 steps
 
-    unordered_map<int, vector<int>> tunnels;
-    for (int ln = 0; ln < n-1; ++ln) {
-        int t1, t2;
-        cin >> t1 >> t2;
-        tunnels[t1].push_back(t2);
-        tunnels[t2].push_back(t1);
-    }
+	// BFS to compute the minimum steps for farmers to reach each barn from exits
+	queue<int> q;
+	for (int& exit : exits)
+		q.push(exit);
+	while (!q.empty()) {
+		int qdBarn = q.front();
+		q.pop();
 
-    // Find all farmer exit positions
-    // farmers.first = starting position
-    // farmers.second = priority
-    vector<pair<int, int>> farmersPriority;
-    for (auto& barnTunnels : tunnels) {
-        if (barnTunnels.second.size() == 1) {
-            farmersPriority.push_back(make_pair(barnTunnels.first, barnTunnels.first));
-        }
-    }
-    // Sort all possible farmers in optimum positions
-    for (pair<int, int>& farmer: farmersPriority)
-        farmer = setFarmerPriority(farmer, k, tunnels);
-    sort(farmersPriority.begin(), farmersPriority.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
-        return a.second < b.second;
-    });
-    sort(farmersPriority.begin(), farmersPriority.end());
-    vector<int> fs;
-    for (pair<int, int>& farmer: farmersPriority)
-        fs.push_back(farmer.first);
-    unordered_set<int> exits(fs.begin(), fs.end());
+		for (int& adj : graph[qdBarn]) {
+			// If adjacent barn has not yet been mapped to minumum steps
+			if (distFarmer[adj] == -1) {
+				distFarmer[adj] = distFarmer[qdBarn] + 1;	// increment farmer's steps
+				q.push(adj);
+			}
+		}
+	}
 
-    // Binary search minimum farmers to catch bessie
-    int lo = 1, hi = farmersPriority.size();
-    while (lo < hi) {
-        // Change amount of farmers
-        int mid = lo + (hi - lo) / 2;
-        unordered_set<int> farmers(fs.begin(), fs.begin() + mid);
+	int farmersNeeded = 0;
+	
+	vector<int> distBessie(n, -1);	// stores min steps for bessie to reach node
+	distBessie[k - 1] = 0;			// initialize Bessie's starting node to 0 steps
 
-        if (caughtBessy(k, farmers, exits, tunnels))
-            hi = mid;
-        else
-            lo = mid + 1;
-    }
-    
-    freopen("atlarge.out", "w", stdout);
-    cout << lo << endl;
+	// As Bessie explores the graph, count the farmers needed to catch her using BFS
+	q.push(k - 1);
+	while (!q.empty()) {
+		int qdBarn = q.front();
+		q.pop();
 
-    return 0;
-}
+		// If Bessie's current step count >= farmer's current step count
+		if (distBessie[qdBarn] >= distFarmer[qdBarn]) {
+			++farmersNeeded;	// A farmer could catch Bessie at this barn
+			continue;			// no need to explore subgraph further
+		}
 
-// Breadth first search shortest path length
-pair<int, int> setFarmerPriority(pair<int, int>& farmer, int& goal, unordered_map<int, vector<int>>& tunnels) {
-    unordered_set<int> visited;
-    visited.insert(farmer.first);
+		for (int& adj : graph[qdBarn]) {
+			// If adjacent barn has not yet been visited by Bessie
+			if (distBessie[adj] == -1) {
+				distBessie[adj] = distBessie[qdBarn] + 1;	// increment Bessie's steps
+				q.push(adj);
+			}
+		}
+	}
 
-    queue<int> q;
-    q.push(farmer.first);
-
-    // While there is a valid path or goal not reached
-    for (int length = 0; !q.empty(); ++length) {
-        const int qSize = q.size();
-        for (int qNum = 0; qNum < qSize; ++qNum) {
-            int barn = q.front();
-            q.pop();
-
-            if (barn == goal)
-                return make_pair(farmer.first, length);
-
-            // Traverse neighboring barns at the same time
-            for (const int& nghbrBarn : tunnels[barn]) {
-                if (visited.find(nghbrBarn) == visited.end()) {
-                    visited.insert(nghbrBarn);
-                    q.push(nghbrBarn);
-                }
-            }
-        }
-    }
-
-    return make_pair(farmer.first, -1); // goal not found
-}
-
-bool caughtBessy(int& k, unordered_set<int>& blocked, unordered_set<int>& exits, unordered_map<int, vector<int>>& tunnels) {
-    queue<int> farmers;
-    for (const int& farmerBarn : blocked)
-        farmers.push(farmerBarn);
-
-    queue<int> bessie;
-    bessie.push(k);
-    blocked.insert(k);
-
-    while (!bessie.empty()) {
-        // Expand all farmer paths at once
-        const int allFarmers = farmers.size();
-        for (int fNum = 0; fNum < allFarmers; ++fNum) {
-            int fBarn = farmers.front();
-            farmers.pop();
-            for (const int& nghbrBarn : tunnels[fBarn]) {
-                farmers.push(nghbrBarn);
-                blocked.insert(nghbrBarn);
-            }
-        }
-
-        // Expand all bessie paths at once
-        const int lvlPaths = bessie.size();
-        for (int path = 0; path < lvlPaths; ++path) {
-            int bBarn = bessie.front();
-            bessie.pop();
-            if (exits.find(bBarn) != exits.end())
-                return false;   // bessie got away
-            for (const int& nghbrBarn : tunnels[bBarn]) {
-                if (blocked.find(nghbrBarn) == blocked.end()) {
-                    bessie.push(nghbrBarn);
-                    blocked.insert(nghbrBarn);
-                }
-            }
-        }
-    }
-
-    return true;    // bessie caught
+	// Write the number of farmers needed to catch Bessie to output file
+	freopen("atlarge.out", "w", stdout);
+	cout << farmersNeeded << endl;
+	return 0;
 }
