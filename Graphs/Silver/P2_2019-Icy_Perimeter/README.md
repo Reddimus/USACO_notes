@@ -1,0 +1,130 @@
+# [USACO 2019 January Contest, Silver](http://www.usaco.org/index.php?page=jan19results)
+## [Problem 2. Icy Perimeter](http://www.usaco.org/index.php?page=viewproblem2&cpid=895)
+
+Farmer John is going into the ice cream business! He has built a machine that produces blobs of ice cream but unfortunately in somewhat irregular shapes, and he is hoping to optimize the machine to make the shapes produced as output more reasonable.
+
+The configuration of ice cream output by the machine can be described using an `N×N` grid `(1≤N≤1000)` as follows:
+
+```
+##....
+....#.
+.#..#.
+.#####
+...###
+....##
+```
+
+Each '.' character represents empty space and each '#' character represents a 1×1 square cell of ice cream.
+
+Unfortunately, the machine isn't working very well at the moment and might produce multiple disconnected blobs of ice cream (the figure above has two). A blob of ice cream is connected if you can reach any ice cream cell from every other ice cream cell in the blob by repeatedly stepping to adjacent ice cream cells in the north, south, east, and west directions.
+
+Farmer John would like to find the area and perimeter of the blob of ice cream having the largest area. The area of a blob is just the number of '#' characters that are part of the blob. If multiple blobs tie for the largest area, he wants to know the smallest perimeter among them. In the figure above, the smaller blob has area 2 and perimeter 6, and the larger blob has area 13 and perimeter 22.
+
+Note that a blob could have a "hole" in the middle of it (empty space surrounded by ice cream). If so, the boundary with the hole also counts towards the perimeter of the blob. Blobs can also appear nested within other blobs, in which case they are treated as separate blobs. For example, this case has a blob of area 1 nested within a blob of area 16:
+
+```
+#####
+#...#
+#.#.#
+#...#
+#####
+```
+
+Knowing both the area and perimeter of a blob of ice cream is important, since Farmer John ultimately wants to minimize the ratio of perimeter to area, a quantity he calls the icyperimetric measure of his ice cream. When this ratio is small, the ice cream melts slower, since it has less surface area relative to its mass.
+
+### INPUT FORMAT (file perimeter.in):
+
+The first line of input contains `N`, and the next `N` lines describe the output of the machine. At least one '#' character will be present.
+
+### OUTPUT FORMAT (file perimeter.out):
+
+Please output one line containing two space-separated integers, the first being the area of the largest blob, and the second being its perimeter. If multiple blobs are tied for largest area, print the information for whichever of these has the smallest perimeter.
+
+### SAMPLE INPUT:
+
+```
+6
+##....
+....#.
+.#..#.
+.#####
+...###
+....##
+```
+
+### SAMPLE OUTPUT:
+
+```
+13 22
+```
+
+### Hints:
+- 
+
+## Graphs - Depth First Search (DFS) | Flood Fill
+
+### Steps
+1. 
+
+### Time & Space complexity:
+Time: `O(N^2)`  
+Space: `O(N^2)`  
+
+Where `N` is the side length of the grid.
+
+### Python Code
+```python
+from collections import deque
+
+with open("perimeter.in", "r") as fin:
+	# First line: n = sides of graph
+	n = int(fin.readline())
+	# For the next n lines read n sized strings representing ice cream blob graph
+	graph = [list(fin.readline().strip()) for ln in range(n)]
+
+directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
+# Breadth First Search (BFS) perimeter and area of blob
+def bfs(r: int, c: int) -> tuple:
+	area, perimeter = 1, 0
+	graph[r][c] = ' '	# mark as visited
+	q = deque([(r, c)])
+	while q:
+		qr, qc = q.popleft()
+
+		for dr, dc in directions:
+			ar, ac = qr + dr, qc + dc
+			# If adjacent row/col outside of blob
+			if (ar < 0 or n <= ar or
+			ac < 0 or n <= ac or
+			graph[ar][ac] == '.'):
+				perimeter += 1
+			# Else if adjacent row/col is part of the same blob component
+			elif (graph[ar][ac] == '#'):
+				area += 1
+				graph[ar][ac] = ' '
+				q.append((ar, ac))
+	return (area, perimeter)
+	
+largest_blob = (0, n + 1)	# largest_blob = area, perimeter
+for r in range(n):
+	for c in range(n):
+		# Group blobs into their own components and update largest blob
+		if graph[r][c] == '#':
+			blob = bfs(r, c)
+			# Update blob to largest area then smallest perimeter
+			if (largest_blob[0] < blob[0] or
+			(largest_blob[0] == blob[0] and largest_blob[1] > blob[1])):
+				largest_blob = blob
+
+# Write largest blob with smallest perimeter to output file
+print(f"{largest_blob[0]} {largest_blob[1]}", file=open("perimeter.out", "w"))
+```
+
+### C++ Code
+```cpp
+```
+
+### Java Code
+```java
+```
