@@ -59,12 +59,27 @@ Please output one line containing two space-separated integers, the first being 
 ```
 
 ### Hints:
-- 
+- We can calculate the area and perimeter of a blob by performing a Breadth First Search (BFS) simulating a flood fill.
+- Perimeter is counted once for each edge of the blob, this can be interpreted the number of times the current `#` cell is adjacent to a `.` cell.
 
-## Graphs - Depth First Search (DFS) | Flood Fill
+## Graphs - Breadth First Search (BFS) | Flood Fill approach
 
 ### Steps
-1. 
+1. Read in input file.
+	- First line: `n = sides of graph`
+	- For the next `n` lines read `n` sized strings representing ice cream blob graph.
+2. Create Breadth First Search (BFS) function to find the area and perimeter of a blob.
+	- Mark the current cell as visited.
+	- Add the current cell to the queue.
+	- While the queue is not empty:
+		- Pop the front of the queue.
+		- For each adjacent cell:
+			- If adjacent cell is outside of the blob, increment the perimeter.
+			- Else if adjacent cell is part of the same blob, increment the area and add the adjacent cell to the queue.
+3. Iterate through each cell in the graph.
+	- If cell is part of a blob, perform a Breadth First Search (BFS) to find the area and perimeter of the blob.
+	- Update the largest blob to the blob with the largest area and smallest perimeter.
+4. Write the largest blob with smallest perimeter to output file.
 
 ### Time & Space complexity:
 Time: `O(N^2)`  
@@ -123,6 +138,73 @@ print(f"{largest_blob[0]} {largest_blob[1]}", file=open("perimeter.out", "w"))
 
 ### C++ Code
 ```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("perimeter.in", "r", stdin);
+	// First line: n = sides of graph
+	int n;
+	cin >> n;
+	// For the next n lines read n sized strings representing ice cream blob graph
+	vector<vector<char>> graph(n, vector<char>(n));
+	for (int r = 0; r < n; ++r)
+		for (int c = 0; c < n; ++c)
+			cin >> graph[r][c];
+
+	struct indices { const int row, col; };
+	struct blob { int area, perimeter; };
+	vector<indices> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+	// Breadth First Search (BFS) perimeter and area of blob
+	function<blob(int, int)> bfs = [&](int r, int c) -> blob {
+		int area = 1, perimeter = 0;
+		graph[r][c] = ' ';	// Mark as visited
+		queue<indices> q;
+		q.push({r, c});
+		while (!q.empty()) {
+			indices qd = q.front();
+			q.pop();
+
+			for (indices d : directions) {
+				int ar = qd.row + d.row, ac = qd.col + d.col;
+				// If adjacent row/col outside of blob
+				if (ar < 0 || ar >= n || 
+				ac < 0 || ac >= n || 
+				graph[ar][ac] == '.') {
+					++perimeter;
+				} 
+				// Else if adjacent row/col is part of the same blob component
+				else if (graph[ar][ac] == '#') {
+					++area;
+					graph[ar][ac] = ' ';
+					q.push({ar, ac});
+				}
+			}
+		}
+		return {area, perimeter};
+	};
+
+	blob maxBlob = {0, n + 1};
+	for (int r = 0; r < n; ++r) {
+		for (int c = 0; c < n; ++c) {
+			// Group blobs into their own components and update largest blob
+			if (graph[r][c] == '#') {
+				blob currBlob = bfs(r, c);
+				// Update blob to largest area then smallest perimeter
+				if (maxBlob.area < currBlob.area ||
+				(maxBlob.area == currBlob.area && maxBlob.perimeter > currBlob.perimeter))
+					maxBlob = currBlob;
+			}
+		}
+	}
+
+	// Write largest blob with smallest perimeter to output file
+	freopen("perimeter.out", "w", stdout);
+	cout << maxBlob.area << " " << maxBlob.perimeter << endl;
+	return 0;
+}
 ```
 
 ### Java Code
