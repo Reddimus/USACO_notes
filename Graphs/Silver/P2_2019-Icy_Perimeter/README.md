@@ -222,7 +222,6 @@ public class IcyPerimeter {
 		// First line: n = sides of graph
 		n = Integer.parseInt(in.readLine());
 		// For the next n lines read n sized strings representing ice cream blob graph
-		StringTokenizer st;
 		graph = new char[n][n];
 		for (int r = 0; r < n; ++r)
 			graph[r] = in.readLine().toCharArray();
