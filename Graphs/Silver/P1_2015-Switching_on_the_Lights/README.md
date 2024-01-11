@@ -36,12 +36,35 @@ A single line giving the maximum number of rooms Bessie can illuminate.
 Here, Bessie can use the switch in `(1,1)` to turn on lights in `(1,2)` and `(1,3)`. She can then walk to `(1,3)` and turn on the lights in `(2,1)`, from which she can turn on the lights in `(2,2)`. The switch in `(2,3)` is inaccessible to her, being in an unlit room. She can therefore illuminate at most 5 rooms.
 
 ### Hints:
-- 
+- Some paths are not available to Bessie until after she has turned on some lights.
+	- We need to keep track of the rooms that are newly lit and not yet visited to revisit them later.
+- Some rooms light up the same room.
+	- When we count lit rooms we do not want to count the same room twice.
 
 ## Graphs - Breadth First Search (BFS) | Flood Fill approach
 
 ### Steps
-1.
+1. Read the input file.
+	- First line: `n = switches graph side length`, `m = number of switches`
+	- For the next `m` lines map `x, y` room to room `a, b` that can be lit.
+2. Initialize data structures.
+	- `lit` to keep track of lit rooms. Starts with room `(1, 1)` lit.
+	- `seen` to keep track of visited rooms.
+	- `directions` to check adjacent rooms.
+	- `q` to keep track of the queued rooms to visit. The `q` starts with the room `(1, 1)`.
+3. Breadth First Search (BFS) lit rooms while keeping track of number of lit rooms.
+	- While the `q` is not empty:
+		- Pop the first room in the `q`.
+		- If the room has been visited, skip it.
+		- Mark the room as visited.
+		- Turn on new lights of current room.
+			- If the current room has switches, turn on the lights of the rooms that can be lit.
+			- Check if the newly lit room can be connected and hasn't been visited.
+				- If so, add it to the queue.
+		- Explore valid adjacent rooms.
+			- Check if the adjacent room is lit and hasn't been visited.
+				- If so, add it to the queue.
+4. Write number of lit rooms accessible from `(1, 1)` to output file.
 
 ### Time & Space complexity:
 Time: `O(N^2 + M)`  
