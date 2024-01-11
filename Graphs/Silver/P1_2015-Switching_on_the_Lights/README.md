@@ -64,7 +64,7 @@ Here, Bessie can use the switch in `(1,1)` to turn on lights in `(1,2)` and `(1,
 		- Explore valid adjacent rooms.
 			- Check if the adjacent room is lit and hasn't been visited.
 				- If so, add it to the queue.
-4. Write number of lit rooms accessible from `(1, 1)` to output file.
+4. Write number of lit rooms accessible from `(1, 1)` room to output file.
 
 ### Time & Space complexity:
 Time: `O(N^2 + M)`  
