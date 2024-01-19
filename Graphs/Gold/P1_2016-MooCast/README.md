@@ -185,19 +185,42 @@ int main() {
 }
 ```
 
-## Graphs - 
+## Graphs - Minimum Spanning Tree (MST) approach
 
 ### Steps
 1.
 
 ### Time & Space complexity:
-Time: `O()`  
-Space: `O()`
+Time: `O(N^2)`  
+Space: `O(N)`
 
 Where `N` is the number of cows. 
 
 ### Python Code:
 ```python
+with open("moocast.in", "r") as fin:
+	# First line: n = number of cows
+	n = int(fin.readline().strip())
+	# For the next n lines read in coordinates of cows
+	coords = [tuple(map(int, fin.readline().split())) for ln in range(n)]
+
+# Initialize distance hashmap (x, y) -> distance and answer variable
+distance = {coord: float("inf") for coord in coords}
+distance[coords[0]] = 0
+spend = 0
+
+# For every cow, find the closest cow and update answer
+for cow in range(n):
+	ax, ay = min(distance, key=distance.get)	# Get smallest coordinate
+	spend = max(spend, distance[(ax, ay)])
+	del distance[(ax, ay)]
+	# For every other non-visited/deleted coordinate, update distance
+	for bx, by in distance.keys():
+		curr_distance = (ax - bx)**2 + (ay - by)**2
+		distance[(bx, by)] = min(distance[(bx, by)], curr_distance)
+
+# Write the minimum distance/price to spend to the output file
+print(spend, file=open("moocast.out", "w"))
 ```
 
 ### C++ Code:
