@@ -25,6 +25,20 @@ The first line of input contains `N`, the size of the grid `(1≤N≤20)`. The n
 
 ### OUTPUT FORMAT (file where.out):
 
+Print a count of the number of PCLs in the image.
+
+### SAMPLE INPUT:
+
+```
+4
+ABBC
+BBBC
+AABB
+ABBC
+```
+
+### SAMPLE OUTPUT:
+
 ```
 2
 ```
