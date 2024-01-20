@@ -38,12 +38,12 @@ Please output the minimum number of mirrors needed to direct the laser to the ba
 
 ### Steps
 1. For the first line gather the number of mirrors, starting position, and goal.
-    - n = number of mirrors/fence posts
-    - x_L, y_L = starting position of laser
-    - x_B, y_B = goal position of barn
-2. For the next n lines, map the x & y coordinates of the mirrors/fence posts for quick lookup.
-    - Structured with a hash map of x coordinates to a vector of y coordinates and vice versa.
-3. Breadth-first search intercepting mirrors or goals.
+    - `n = number of mirrors/fence posts`
+    - `x_L, y_L = starting position of laser`
+    - `x_B, y_B = goal position of barn`
+2. For the next `n` lines, map the `x` & `y` coordinates of the mirrors/fence posts for quick lookup.
+    - Structured with a hash map of `x` coordinates to a vector of `y` coordinates and vice versa.
+3. Breadth-first search (BFS) intercepting mirrors or goals.
     - Use a queue to store the coordinates of the mirrors/fence posts.
     - For each level of the queue, check if the current coordinate intercepts the goal. If so, break out of the loop and set the final count to the current level.
     - If not, find the intercepting mirrors/fence posts and add them to the queue.
