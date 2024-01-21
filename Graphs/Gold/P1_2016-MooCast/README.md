@@ -225,4 +225,43 @@ print(spend, file=open("moocast.out", "w"))
 
 ### C++ Code:
 ```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main() {
+	freopen("moocast.in", "r", stdin);
+	// First line: n = number of cows
+	int n;
+	cin >> n;
+	// For the next n lines read in coordinates of cows
+	vector<pair<int, int>> coords(n);
+	for (int idx = 0; idx < n; ++idx)
+		cin >> coords[idx].first >> coords[idx].second;
+
+	// Initialize answer and distance array (idx of coordinate -> distance)
+	vector<int> distance(n, INT_MAX - 1);
+	distance[0] = 0;
+	int spend = 0;
+
+	// For every cow, find the closest cow and update answer
+	for (int cow = 0; cow < n; ++cow) {
+		int i = min_element(distance.begin(), distance.end()) - distance.begin();
+		spend = max(spend, distance[i]);
+		distance[i] = INT_MAX;
+		for (int j = 0; j < n; ++j) {
+			if (distance[j] == INT_MAX)
+				continue;
+			int dx = coords[i].first - coords[j].first;
+			int dy = coords[i].second - coords[j].second;
+			int dist = (dx * dx) + (dy * dy);
+			distance[j] = min(distance[j], dist);
+		}
+	}
+
+	// Write the minimum distance/price to spend to the output file
+	freopen("moocast.out", "w", stdout);
+	cout << spend << endl;
+	return 0;
+}
 ```

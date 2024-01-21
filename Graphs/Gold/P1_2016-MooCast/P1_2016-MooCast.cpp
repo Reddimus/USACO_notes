@@ -15,7 +15,7 @@ int main() {
 	for (int idx = 0; idx < n; ++idx)
 		cin >> coords[idx].first >> coords[idx].second;
 
-	// Initialize answer variable and distance array (idx of coordinate -> distance)
+	// Initialize answer and distance array (idx of coordinate -> distance)
 	vector<int> distance(n, INT_MAX - 1);
 	distance[0] = 0;
 	int spend = 0;
