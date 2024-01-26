@@ -1,7 +1,5 @@
-# USACO 2018 December Contest, Gold
-## Problem 3. Teamwork
-
-http://www.usaco.org/index.php?page=viewproblem2&cpid=863
+# [USACO 2018 December Contest, Gold](http://www.usaco.org/index.php?page=dec18results)
+## [Problem 3. Teamwork](http://www.usaco.org/index.php?page=viewproblem2&cpid=863)
 
 For his favorite holiday, Farmer John wants to send presents to his friends. Since he isn't very good at wrapping presents, he wants to enlist the help of his cows. As you might expect, cows are not much better at wrapping presents themselves, a lesson Farmer John is about to learn the hard way.
 
@@ -43,9 +41,9 @@ In this example, the optimal solution is to group the first three cows and the l
   
 2. **Dynamic Programming Strategy**: Focus on finding the best possible sum of skill levels for the first `i` cows as you iterate from `i=1` to `N`. The need to check up to `K` sizes for each cow arises when considering potential team sizes ranging from 1 to K. Utilize the `dp` array to keep track of the best sums and update it as you consider new cows and team configurations.
 
-# 1-D Dynamic Programming w/ vector + Bottom-Up Solution:
+# [Solutions](https://github.com/Reddimus/USACO_notes/tree/main/Dynamic_Programming/1-Dimension_DP/Gold/P3_2018-Teamwork)
 
-https://github.com/Reddimus/USACO_notes/tree/main/1-D_Dynamic_Programming/Gold/P3_2018-Teamwork
+### 1-D Dynamic Programming w/ vector + Bottom-Up approach:
 
 ### Intuition:
 To maximize the overall skill level, we strategically group cows into teams of up to K consecutive members. The skill level of each team is determined by its most skilled cow. A dynamic programming approach helps us explore all possible team configurations efficiently. 
@@ -65,8 +63,8 @@ This way, by the time we reach the end, the `dp` array will contain the maximum 
 *Note: You can optimize the runtime if you build the skills array and dp array at the same time.*
 
 ### Time & Space Complexity:
-- **Time:** O(n * k)
-- **Space:** O(n)
+- **Time:** `O(n * k)`
+- **Space:** `O(n)`
 
 Where `n` is the number of cows and `k` is the max size of a team.
 
