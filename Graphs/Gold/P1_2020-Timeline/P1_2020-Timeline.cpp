@@ -1,3 +1,6 @@
+// Adjacency List Graphs - Topological Sort approach
+// T & M: O(N + M), where N = # of sessions, M =  total days
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -13,7 +16,7 @@ int main() {
 		cin >> sessions[idx];
 	// For the next c lines build 1-indexed memory graph
 	vector<vector<pair<int, int>>> memories(n+1);
-	for (int idx = 0; idx < c; ++idx) {
+	for (int ln = 0; ln < c; ++ln) {
 		// Session b happened at least x days after session a
 		int a, b, x;
 		cin >> a >> b >> x;
@@ -23,28 +26,28 @@ int main() {
 	// Build topological order of memory graph
 	vector<int> topologicalOrder;
 	vector<bool> visited(n+1);
-
-	function<void(int)> build_order = [&](int day) {
-		if (visited[day]) 
+	// Recursively depth-first search session path to build topological order
+	function<void(int)> build_order = [&](int session) {
+		if (visited[session]) 
 			return;
 
-		visited[day] = true;
+		visited[session] = true;
 
-		for (pair<int, int>& m : memories[day]) 
-			if (!visited[m.first])
-				build_order(m.first);
+		for (pair<int, int>& mem : memories[session]) 
+			if (!visited[mem.first])
+				build_order(mem.first);
 
-		topologicalOrder.push_back(day);
+		topologicalOrder.push_back(session);
 	};
 
-	for (int day = 1; day <= n; ++day) 
-		build_order(day);
+	for (int session = 1; session <= n; ++session) 
+		build_order(session);
 	
 	// Update session dependencies in reverse topological order of the memory graph
 	for (int idx = n - 1; idx >= 0; --idx) {
 		int a = topologicalOrder[idx];
-		for (pair<int, int>& m : memories[a]) {
-			int b = m.first, x = m.second;
+		for (pair<int, int>& mem : memories[a]) {
+			int b = mem.first, x = mem.second;
 			sessions[b] = max(sessions[b], sessions[a] + x);
 		}
 	}
