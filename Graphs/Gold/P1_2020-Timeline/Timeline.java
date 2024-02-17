@@ -32,13 +32,10 @@ public class Timeline {
 		in.close();
 
 		// Build topological order of memory graph
-		ArrayList<Integer> topologicalOrder = new ArrayList<>();
-		for (int session = 1; session <= n; ++session) 
-			buildTopOrder(session, memories, topologicalOrder);
+		ArrayList<Integer> topologicalOrder = buildTopOrder(memories);
 
-		// Update session dependencies in reverse topological order of the memory graph
-		for (int idx = n - 1; idx >= 0; --idx) {
-			int a = topologicalOrder.get(idx);
+		// Update session dependencies in topological order of the memory graph
+		for (int a : topologicalOrder) {
 			for (int[] mem : memories[a]) {
 				int b = mem[0], x = mem[1];
 				sessions[b] = Math.max(sessions[b], sessions[a] + x);
@@ -54,15 +51,23 @@ public class Timeline {
 
 	// Recursively depth-first search session path to build topological order
 	private static HashSet<Integer> visited = new HashSet<>();
-	private static void buildTopOrder(int session, ArrayList<int[]>[] memories, ArrayList<Integer> topologicalOrder) {
+	private static LinkedList<Integer> topOrder = new LinkedList<>();
+
+	private static ArrayList<Integer> buildTopOrder(ArrayList<int[]>[] memories) {
+		for (int session = 1; session < memories.length; ++session) 
+			dfs(session, memories);
+		return new ArrayList<>(topOrder);
+	}
+
+	private static void dfs(int session, ArrayList<int[]>[] memories) {
 		if (visited.contains(session))
 			return;
 
 		visited.add(session);
 
 		for (int[] mem : memories[session]) 
-			buildTopOrder(mem[0], memories, topologicalOrder);
+			dfs(mem[0], memories);
 
-		topologicalOrder.add(session);
+		topOrder.addFirst(session);
 	}
 }
