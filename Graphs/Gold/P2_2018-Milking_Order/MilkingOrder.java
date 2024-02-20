@@ -1,3 +1,7 @@
+// Adjacency List Graphs - Topological Sort approach
+// T: O(log M * (E * N log N)), M: O(N + E)
+// Where n is the number of cows, m is the number of observations, and e is the number of edges
+
 import java.io.*;
 import java.util.*;
 
