@@ -32,7 +32,7 @@ public class Timeline {
 		in.close();
 
 		// Build topological order of memory graph
-		ArrayList<Integer> topologicalOrder = buildTopOrder(memories);
+		List<Integer> topologicalOrder = buildTopOrder(memories);
 
 		// Update session dependencies in topological order of the memory graph
 		for (int a : topologicalOrder) {
@@ -53,10 +53,10 @@ public class Timeline {
 	private static HashSet<Integer> visited = new HashSet<>();
 	private static LinkedList<Integer> topOrder = new LinkedList<>();
 
-	private static ArrayList<Integer> buildTopOrder(ArrayList<int[]>[] memories) {
+	private static List<Integer> buildTopOrder(ArrayList<int[]>[] memories) {
 		for (int session = 1; session < memories.length; ++session) 
 			dfs(session, memories);
-		return new ArrayList<>(topOrder);
+		return topOrder;
 	}
 
 	private static void dfs(int session, ArrayList<int[]>[] memories) {
