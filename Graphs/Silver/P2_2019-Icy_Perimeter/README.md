@@ -44,13 +44,12 @@ Please output one line containing two space-separated integers, the first being 
 
 ```
 6
-##..1..
-.1.1#1.
-1#22#2.
-1#####1
-.12###1
-...2##1
-....11.
+##....
+....#.
+.#..#.
+.#####
+...###
+....##
 ```
 
 ### SAMPLE OUTPUT:
