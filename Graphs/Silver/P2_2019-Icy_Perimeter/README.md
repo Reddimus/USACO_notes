@@ -44,12 +44,13 @@ Please output one line containing two space-separated integers, the first being 
 
 ```
 6
-##....
-....#.
-.#..#.
-.#####
-...###
-....##
+##..1..
+.1.1#1.
+1#22#2.
+1#####1
+.12###1
+...2##1
+....11.
 ```
 
 ### SAMPLE OUTPUT:
@@ -155,7 +156,7 @@ int main() {
 
 	struct indices { const int row, col; };
 	struct blob { int area, perimeter; };
-	vector<indices> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+	indices directions[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 	// Breadth First Search (BFS) perimeter and area of blob
 	function<blob(int, int)> bfs = [&](int r, int c) -> blob {
@@ -167,7 +168,7 @@ int main() {
 			indices qd = q.front();
 			q.pop();
 
-			for (indices d : directions) {
+			for (const indices& d : directions) {
 				int ar = qd.row + d.row, ac = qd.col + d.col;
 				// If adjacent row/col outside of blob
 				if (ar < 0 || ar >= n || 
