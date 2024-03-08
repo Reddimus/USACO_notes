@@ -36,6 +36,8 @@ NNNESWWWSSEEEE
 	- What should the origin be?
 	- How can you represent the smallest regions of the inner fences?
 
+# [Solutions](https://github.com/Reddimus/USACO_notes/tree/main/Graphs/Silver/P3_2016-Build_Gates)
+
 ## Graphs - Flood Fill approach
 
 ### Steps
