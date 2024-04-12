@@ -36,11 +36,11 @@ int main() {
 	cin >> n;
 	// For the next n lines assign start/end shifts with lifeguard IDs (ID is based on idx)
 	vector<ShiftEvent> shifts;
-	for (int lg_id = 0; lg_id < n; lg_id++) {
+	for (int lifeguardID = 0; lifeguardID < n; lifeguardID++) {
 		int start, end;
 		cin >> start >> end;
-		shifts.push_back({start, lg_id, true});
-		shifts.push_back({end, lg_id, false});
+		shifts.push_back({start, lifeguardID, true});
+		shifts.push_back({end, lifeguardID, false});
 	}
 
 	// Sort the shifts by time only
@@ -49,7 +49,7 @@ int main() {
 	vector<int> aloneTime(n);			// idx is lifeguard id, value is total alone time
 	unordered_set<int> onDuty;			// tracked by lifeguard id
 	int prevTime = 0, totalTime = 0;
-	// iterate through shift events calculating result using sweep line approach
+	// Iterate through shift events calculating result using sweep line approach
 	for (ShiftEvent &se : shifts) {
 		if (onDuty.size() == 1)
 			aloneTime[*onDuty.begin()] += se.time - prevTime;
