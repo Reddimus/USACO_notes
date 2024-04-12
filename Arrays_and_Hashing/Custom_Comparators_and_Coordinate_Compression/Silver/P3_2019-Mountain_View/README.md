@@ -1,7 +1,5 @@
-# USACO 2019 January Contest, Silver
-## Problem 3. Mountain View
-
-http://www.usaco.org/index.php?page=viewproblem2&cpid=896
+# [USACO 2019 January Contest, Silver](http://www.usaco.org/index.php?page=jan19results)
+## [Problem 3. Mountain View](http://www.usaco.org/index.php?page=viewproblem2&cpid=896)
 
 ### Problem Description
 From her pasture on the farm, Bessie the cow has a wonderful view of a mountain range on the horizon. There are N mountains in the range `(1≤N≤10^5)`. If we think of Bessie's field of vision as the xy plane, then each mountain is a triangle whose base rests on the x axis. The two sides of the mountain are both at 45 degrees to the base, so the peak of the mountain forms a right angle. Mountain i is therefore precisely described by the location `(xi,yi)` of its peak. No two mountains have exactly the same peak location.
@@ -32,9 +30,7 @@ Please print the number of mountains that Bessie can distinguish.
 ### Explanation
 In this example, Bessie can see the first and last mountain. The second mountain is obscured by the first.
 
-# Solutions:
-
-https://github.com/Reddimus/USACO_notes/tree/main/Custom_Comparators_and_Coordinate_Compression/Silver/P3_2019-Mountain_View
+# [Solutions](https://github.com/Reddimus/USACO_notes/tree/main/Arrays_and_Hashing/Custom_Comparators_and_Coordinate_Compression/Silver/P3_2019-Mountain_View)
 
 ### Intuition
 We want to count the first mountain and the visably bigger mountains. The tricky part is the fact that Bessie cannot see a mountain if its peak lies on or within the triangular shape of any other mountain. This means if we calculate the x initial/start `(xi)` and x final/end `(xf)` of a mountain and they have the same xi value, we can only count the bigger mountain.
@@ -56,7 +52,7 @@ After gathering all the information needed we simply sort the mountains by their
 4. Write number of visable mountains to `mountains.out` output file
 
 ### Time & Space complexity:
-Time: `O(NlogN)`\
+Time: `O(N log N)`\
 Space: `O(N)`
 
 Where `N` is the number of mountains.
@@ -201,7 +197,7 @@ public class MountainView {
 4. Write number of visable mountains to `mountains.out` output file
 
 ### Time & Space complexity:
-Time: `O(NlogN)`\
+Time: `O(N log N)`\
 Space: `O(N)`
 
 Where `N` is the number of mountains.
