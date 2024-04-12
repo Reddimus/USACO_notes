@@ -7,8 +7,6 @@
 // #include <iostream>
 // #include <algorithm>
 
-#define ll long long
-
 using namespace std;
 
 int main() {
@@ -37,7 +35,7 @@ int main() {
 	sort(rent.begin(), rent.end(), greater<int>());
 
 	// Calculate maximum revenue
-	ll revenue = 0;
+	unsigned long revenue = 0;
 	bool cachedPrice = false;
 	int jugs, jugsPrice, lastSold, tempIdx;
 	int cowIdx = 0, shopIdx = 0, rentIdx = 0;

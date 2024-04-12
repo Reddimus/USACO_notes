@@ -1,7 +1,5 @@
-# USACO 2018 January Contest, Silver
-## Problem 2. Rental Service
-
-http://www.usaco.org/index.php?page=viewproblem2&cpid=787
+# [USACO 2018 January Contest, Silver](http://www.usaco.org/index.php?page=jan18results)
+## [Problem 2. Rental Service](http://www.usaco.org/index.php?page=viewproblem2&cpid=787)
 
 Farmer John realizes that the income he receives from milk production is insufficient to fund the growth of his farm, so to earn some extra money, he launches a cow-rental service, which he calls "USACOW" (pronounced "Use-a-cow").
 
@@ -112,9 +110,7 @@ rent = [RENTED, RENTED, **RENTED**, 40]
 All cows used  
 `Maximum revenue = 725`
 
-## Solution:
-
-https://github.com/Reddimus/USACO_notes/tree/main/Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service
+## [Solution](https://github.com/Reddimus/USACO_notes/tree/main/Arrays_and_Hashing/Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service)
 
 ### Time Complexity: `O(N * M)`
 ### Space Complexity: `O(N + M + R)`
@@ -184,7 +180,6 @@ print(revenue, file=open('rental.out', 'w'))
 ### C++ Code:
 ```C++
 #include <bits/stdc++.h>
-#define ll long long
 using namespace std;
 
 int main() {
@@ -213,7 +208,7 @@ int main() {
 	sort(rent.begin(), rent.end(), greater<int>());
 
 	// Calculate maximum revenue
-	ll revenue = 0;
+	unsigned long revenue = 0;
 	bool cachedPrice = false;
 	int jugs, jugsPrice, lastSold, tempIdx;
 	int cowIdx = 0, shopIdx = 0, rentIdx = 0;
