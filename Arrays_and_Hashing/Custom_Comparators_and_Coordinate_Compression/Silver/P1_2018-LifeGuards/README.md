@@ -1,7 +1,5 @@
-# USACO 2018 January Contest, Silver
-## Problem 1. Lifeguards
-
-http://www.usaco.org/index.php?page=viewproblem2&cpid=786
+# [USACO 2018 January Contest, Silver](http://www.usaco.org/index.php?page=jan18results)
+## [Problem 1. Lifeguards](http://www.usaco.org/index.php?page=viewproblem2&cpid=786)
 
 Farmer John has opened a swimming pool for his cows, figuring it will help them relax and produce more milk.
 To ensure safety, he hires `N` cows as lifeguards, each of which has a shift that covers some contiguous interval of time during the day. For simplicity, the pool is open from time `t=0` until time `t=1,000,000,000` on a daily basis, so each shift can be described by two integers, giving the time at which a cow starts and ends her shift. For example, a lifeguard starting at time `t=4` and ending at time t=7 covers three units of time (note that the endpoints are "points" in time).
@@ -26,9 +24,7 @@ Please write a single number, giving the maximum amount of time that can still b
 7
 ```
 
-## Solution
-
-https://github.com/Reddimus/USACO_notes/tree/main/Custom_Comparators_and_Coordinate_Compression/Silver/P1_2018-LifeGuards
+## [Solution](https://github.com/Reddimus/USACO_notes/tree/main/Arrays_and_Hashing/Custom_Comparators_and_Coordinate_Compression/Silver/P1_2018-LifeGuards)
 
 ### Custom Comparators + Sorting + Sweep Line Approach
 
