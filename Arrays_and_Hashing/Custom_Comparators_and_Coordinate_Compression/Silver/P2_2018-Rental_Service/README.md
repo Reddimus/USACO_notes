@@ -112,6 +112,21 @@ All cows used
 
 ## [Solution](https://github.com/Reddimus/USACO_notes/tree/main/Arrays_and_Hashing/Custom_Comparators_and_Coordinate_Compression/Silver/P2_2018-Rental_Service)
 
+#### Steps:
+1. **Read in input data:**
+	- First line: `n` = number of cows, `m` = number of shops, and `r` = number of neighbors
+	- Next `n` lines: read in milk produced per cow into a array like data structure.
+	- Next `m` lines: read in demand of milk gallons and rate of milk from shops into an array of objects, or an array of pairs.
+	- Next `r` lines: read in neighbor rent a cow rate into an array.
+2. **Sort milk, shops, and rent arrays**:
+	- Sort milk in descending order; we always want to milk the cow that produces the most milk.
+	- Sort shops in descending order by rate; we always want to sell milk to the shop that offers the most money per gallon.
+	- Sort rent in descending order; we always want to rent the cow for the most money.
+3. **Calculate maximum revenue**:
+	- First calculate potential price if cow were to be milked. This signifies we need to use a multitude of temporary variables.
+	- Iterate through each cow in which we decide to either milk the cow or rent it to a neighbor. We can decide this by comparing the potential price of milk to the rent price. For each cow we decide to milk we need to update our cow index and shop index by +1. If we decide to rent a cow we need to update our cow index by renting the cow that produces the least amount of milk and update our rent index by +1.
+4. **Write maximum profit to output file**.
+
 ### Time Complexity: `O(N * M)`
 ### Space Complexity: `O(N + M + R)`
 Where `N` is `number of cows`, `M` is `number of shops as milk customers`, and `R` is `number of neighbors as rent customers`.
