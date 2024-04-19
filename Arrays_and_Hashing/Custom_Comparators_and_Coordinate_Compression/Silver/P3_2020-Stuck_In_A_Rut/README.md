@@ -1,7 +1,5 @@
-# USACO 2020 December Contest, Silver
-## Problem 3. Stuck in a Rut
-
-http://www.usaco.org/index.php?page=viewproblem2&cpid=1064
+# [USACO 2020 December Contest, Silver](http://www.usaco.org/index.php?page=dec20results)
+## [Problem 3. Stuck in a Rut](http://www.usaco.org/index.php?page=viewproblem2&cpid=1064)
 
 Farmer John has recently expanded the size of his farm, so from the perspective of his cows it is effectively now infinite in size! The cows think of the grazing area of the farm as an infinite 2D grid of square "cells," each filled with delicious grass (think of each cell as a square in an infinite chessboard). Each of Farmer John's `N` cows (`1 ≤ N ≤ 1000`) starts out in a different cell; some start facing north, and some start facing east.
 
