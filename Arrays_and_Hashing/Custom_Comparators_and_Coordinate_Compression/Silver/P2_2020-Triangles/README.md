@@ -8,9 +8,9 @@ There are `N` fence posts `(3≤N≤10^5)` at distinct points `(X1,Y1)…(XN,YN)
 What is the sum of the areas of all possible pastures that FJ can form?
 
 ### SCORING:
-    - Test case 2 satisfies `N=200`.
-    - Test cases 3-4 satisfy `N≤5000`.
-    - Test cases 5-10 satisfy no additional constraints.
+- Test case 2 satisfies `N=200`.
+- Test cases 3-4 satisfy `N≤5000`.
+- Test cases 5-10 satisfy no additional constraints.
 
 ### INPUT FORMAT (file triangles.in):
 
