@@ -28,8 +28,8 @@ path between any two fields, and that the sum of $N+M$ over all sub-test cases
 is at most $5 \cdot 10^5$.
 
 ### OUTPUT FORMAT (print output to the terminal / stdout):  
-Output $T$ lines. The $i$th line should contain a single integer giving the
-minimum cost for the $i$th sub-test case.
+Output $T$ lines. The $i$ th line should contain a single integer giving the
+minimum cost for the $i$ th sub-test case.
 
 ### SAMPLE INPUT:  
 ```
