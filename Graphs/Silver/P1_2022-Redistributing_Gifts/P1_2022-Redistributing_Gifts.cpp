@@ -9,14 +9,13 @@ int main() {
 	int n;
 	cin >> n;
 	// For the next N lines read each cow's preference
-	vector<int> gifts[N_MAX];
+	int gifts[N_MAX][N_MAX] = {0};
 	for (int cow = 1; cow <= n; ++cow) {
-		gifts[cow].resize(n);
-		for (int& g : gifts[cow])
-			cin >> g;
+		for (int gi = 0; gi < n; ++gi) 
+			cin >> gifts[cow][gi];
 		// Compress preferences up to original gift
-		while (gifts[cow].back() != cow) 
-			gifts[cow].pop_back();
+		for (int gi = n - 1; gi >= 0 && gifts[cow][gi] != cow; --gi) 
+			gifts[cow][gi] = 0;
 	}
 
 	// Calculate reachable dfs
@@ -31,14 +30,17 @@ int main() {
 			currGift = frontier.back();
 			frontier.pop_back();
 			reachable[cow][currGift] = true;
-			for (int& preferredGift : gifts[currGift]) 
-				if (!reachable[cow][preferredGift]) 
-					frontier.push_back(preferredGift);
+			for (int gi = 0; gi < n && gifts[currGift][gi] != 0; ++gi) {
+				const int& g = gifts[currGift][gi];
+				if (!reachable[cow][g])
+					frontier.push_back(g);
+			}
 		}
 	}
 
 	for (int cow = 1; cow <= n; ++cow) {
-		for (int g : gifts[cow]) {
+		for (int gi = 0; gi < n && gifts[cow][gi] != 0; ++gi) {
+			const int& g = gifts[cow][gi];
 			if (reachable[g][cow]) {
 				cout << g << endl;
 				break;
