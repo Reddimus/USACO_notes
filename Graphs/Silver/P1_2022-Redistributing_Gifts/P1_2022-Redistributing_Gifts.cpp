@@ -8,7 +8,7 @@ int main() {
 	// Read in first line: n = number of cows
 	int n;
 	cin >> n;
-	// For the next N lines read each cow's preference
+	// For the next N lines read each cow's gift preference
 	int gifts[N_MAX][N_MAX] = {0};
 	for (int cow = 1; cow <= n; ++cow) {
 		for (int gi = 0; gi < n; ++gi) 
@@ -19,7 +19,7 @@ int main() {
 	}
 
 	// Calculate reachable dfs
-	bitset<N_MAX> reachable[N_MAX];
+	bitset<N_MAX> reachable[N_MAX];	// 1-indexed
 	for (int cow = 1; cow <= n; ++cow) {
 		int currGift = cow;
 		if (reachable[cow][currGift]) 
@@ -30,7 +30,7 @@ int main() {
 			currGift = frontier.back();
 			frontier.pop_back();
 			reachable[cow][currGift] = true;
-			for (int gi = 0; gi < n && gifts[currGift][gi] != 0; ++gi) {
+			for (int gi = 0; gi < n && gifts[currGift][gi]; ++gi) {
 				const int& g = gifts[currGift][gi];
 				if (!reachable[cow][g])
 					frontier.push_back(g);
@@ -39,7 +39,7 @@ int main() {
 	}
 
 	for (int cow = 1; cow <= n; ++cow) {
-		for (int gi = 0; gi < n && gifts[cow][gi] != 0; ++gi) {
+		for (int gi = 0; gi < n && gifts[cow][gi]; ++gi) {
 			const int& g = gifts[cow][gi];
 			if (reachable[g][cow]) {
 				cout << g << endl;
