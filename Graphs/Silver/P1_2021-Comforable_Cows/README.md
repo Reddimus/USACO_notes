@@ -5,9 +5,7 @@
 Farmer Nhoj's pasture can be regarded as a large 2D grid of square "cells"
 (picture a huge chessboard). Initially, the pasture is empty.
 
-Farmer Nhoj will add $N$ ($1\le N\le 10^5$) cows to the pasture one by one. The
-$i$th cow will occupy a cell $(x_i,y_i)$ that is distinct from the cells
-occupied by all other cows ($0\le x_i,y_i\le 1000$).
+Farmer Nhoj will add $N$ ($1\le N\le 10^5$) cows to the pasture one by one. The $i$ th cow will occupy a cell $(x_i,y_i)$ that is distinct from the cells occupied by all other cows ($0\le x_i,y_i\le 1000$).
 
 A cow is said to be "comfortable" if it is horizontally or vertically adjacent
 to exactly three other cows. Unfortunately, cows that are too comfortable tend
