@@ -19,19 +19,21 @@ public class TheLostCow {
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("lostcow.in"));
 		StringTokenizer st = new StringTokenizer(in.readLine());
-		int x = Integer.parseInt(st.nextToken());
-		int y = Integer.parseInt(st.nextToken());
+		final int X = Integer.parseInt(st.nextToken());
+		final int Y = Integer.parseInt(st.nextToken());
 		in.close();
 
 		Direction direction = new Direction(false, true);
 		int totalDistance = 0, directionDistance = 1;
-		while ((direction.right && x > y || y > x + directionDistance) ||
-		(direction.left && x < y || y < x - directionDistance)) {
+		// While our x +- directionDistance is not in the range of Y
+		while ((direction.right && X > Y || Y > X + directionDistance) ||
+		(direction.left && X < Y || Y < X - directionDistance)) {
+			// double the distance and toggle the direction
 			directionDistance *= 2;
 			totalDistance += directionDistance;
 			direction.toggle();
 		}
-		totalDistance += Math.abs(y - x);
+		totalDistance += Math.abs(X - Y);
 
 		PrintWriter out = new PrintWriter("lostcow.out");
 		out.println(totalDistance);
