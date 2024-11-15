@@ -32,12 +32,14 @@ INPUT FORMAT:
 
 SAMPLE INPUT (file cruise.in):
 
+```plaintext
 4 3 3
 2 4
 3 1
 4 2
 1 3
 L L R
+```
 
 INPUT DETAILS:
 
