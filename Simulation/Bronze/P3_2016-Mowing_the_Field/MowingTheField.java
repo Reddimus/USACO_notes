@@ -74,7 +74,7 @@ public class MowingTheField {
 		}
 
 		// Output result, -1 if no revisit occurred
-		PrintWriter out = new PrintWriter(new FileWriter("mowing.out"));
+		PrintWriter out = new PrintWriter("mowing.out");
 		out.println(maxRegrow == Integer.MAX_VALUE ? -1 : maxRegrow);
 		out.close();
 	}
