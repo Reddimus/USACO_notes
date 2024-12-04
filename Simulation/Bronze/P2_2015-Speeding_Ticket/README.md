@@ -1,6 +1,6 @@
 # [USACO 2015 December Contest, Bronze](https://usaco.org/index.php?page=dec15results)
-## [Problem 2. Speeding Ticket](https://usaco.org/index.php?page=viewproblem2&cpid=568)
 
+## [Problem 2. Speeding Ticket](https://usaco.org/index.php?page=viewproblem2&cpid=568)
 
 Always the troublemaker, Bessie the cow has stolen Farmer John's tractor and
 taken off down the road!
@@ -35,7 +35,7 @@ Given the information above, please determine the maximum amount
 over the speed limit that Bessie travels during any part of her
 journey.  
 
-### INPUT FORMAT (file speeding.in):  
+### INPUT FORMAT (file speeding.in)
 
 The first line of the input contains $N$ and $M$, separated by a space.
 
@@ -46,16 +46,15 @@ The next $M$ lines each contain two integers describing a segment
 in Bessie's journey, giving the length and also the speed at which
 Bessie was driving.
 
-
-### OUTPUT FORMAT (file speeding.out):  
+### OUTPUT FORMAT (file speeding.out)
 
 Please output a single line containing the maximum amount over the speed limit
 Bessie drove during any part of her journey.  If she never exceeds the speed
 limit, please output 0.
 
+### SAMPLE INPUT
 
-### SAMPLE INPUT:  
-```
+```plaintext
 3 3
 40 75
 50 35
@@ -65,8 +64,9 @@ limit, please output 0.
 40 40
 ```
 
-### SAMPLE OUTPUT:   
-```
+### SAMPLE OUTPUT
+
+```plaintext
 5
 ```
 
