@@ -1,3 +1,7 @@
+// DFS - Graph approach
+// T: O(V + E) ≈ O(n), S: O(1)
+// Where V = n = # of rooms, E = # of corridors and clocks/adjacency list is not counted as extra space
+
 #include <bits/stdc++.h>
 #define MAX_ROOMS 2501
 
@@ -22,19 +26,19 @@ int main() {
 	}
 
 	int sum0 = 0, sum1 = 0, nodes0 = 0, nodes1 = 0;
-	function<void(int, int, int)> dfs = [&](int i, int color, int parent) {
+	function<void(int, int, int)> dfs = [&](int room, int color, int parent) {
 		// Update color/sum
 		if (color == 0) {
 			nodes0++;
-			sum0 += clocks[i];
+			sum0 += clocks[room];
 		} else {
 			nodes1++;
-			sum1 += clocks[i];
+			sum1 += clocks[room];
 		}
 
-		for (int nxt : adjList[i])
-			if (nxt != parent)
-				dfs(nxt, 1 - color, i);	// Swap colors for the child node
+		for (int nxtRoom : adjList[room])
+			if (nxtRoom != parent)
+				dfs(nxtRoom, 1 - color, room);	// Swap colors for the child node
 	};
 
 	dfs(1, 0, -1);	// Start from room 1, color 0
