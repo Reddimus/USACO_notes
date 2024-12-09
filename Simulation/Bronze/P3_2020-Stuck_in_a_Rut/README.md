@@ -2,18 +2,13 @@
 
 ## [Problem 3. Stuck in a Rut](https://usaco.org/index.php?page=viewproblem2&cpid=1061)
 
-Farmer John has recently expanded the size of his farm, so from the perspective
-of his cows it is effectively now infinite in size!  The cows think of the
-grazing area of the farm as an infinite 2D grid of square "cells", each filled
-with  delicious grass (think of each cell as a square in an infinite
-chessboard).   Each of Farmer John's $N$ cows ($1\le N\le 50$) starts out in a
-different cell; some  start facing north, and some start facing east.
+Farmer John has recently expanded the size of his farm, so from the perspective of his cows it is effectively now infinite in size!  The cows think of the grazing area of the farm as an infinite 2D grid of square "cells", each filled with  delicious grass (think of each cell as a square in an infinitechessboard).   Each of Farmer John's $N$ cows ($1\le N\le 50$) starts out in a different cell; some  start facing north, and some start facing east.
 
 Every hour, every cow either
 
-Stops if the grass in her current cell was already eaten by another
-cow.Eats all the grass in her current cell and moves one cell forward according
-to the direction she faces.
+- Stops if the grass in her current cell was already eaten by another cow.
+- Eats all the grass in her current cell and moves one cell forward according to the direction she faces.
+
 Over time, each cow therefore leaves a barren "rut" of empty cells behind her.
 
 If two cows move onto the same grassy cell in the same move, they share the cell
@@ -38,7 +33,7 @@ in cell $(x+1, y)$.
 ### OUTPUT FORMAT (print output to the terminal / stdout)
 
 Print $N$ lines of output.  Line $i$ in the output should describe the number of
-cells worth of grass that the $i$th cow in the input eats.  If a cow eats an
+cells worth of grass that the $i$ th cow in the input eats.  If a cow eats an
 infinite amount of grass, output "Infinity" for that cow.
 
 ### SAMPLE INPUT
@@ -66,6 +61,7 @@ Infinity
 
 ### SCORING
 
-In test cases 2-5, all coordinates are at most $100$.In test cases 6-10, there are no additional constraints.
+- In test cases 2-5, all coordinates are at most $100$.
+- In test cases 6-10, there are no additional constraints.
 
 Problem credits: Brian Dean
