@@ -1,4 +1,5 @@
 # [USACO 2017 US Open Contest, Bronze](https://usaco.org/index.php?page=open17results)
+
 ## [Problem 1. The Lost Cow](https://usaco.org/index.php?page=viewproblem2&cpid=735)
 
 Farmer John has lost his prize cow Bessie, and he needs to find her!
@@ -31,20 +32,25 @@ Farmer John is curious to verify this result.  Given $x$ and $y$, please compute
 the  total distance he will travel according to the zig-zag search strategy above
 until he finds Bessie.
 
-### INPUT FORMAT (file lostcow.in):  
+### INPUT FORMAT (file lostcow.in)
+
 The single line of input contains two distinct space-separated integers $x$ and
 $y$.  Both are in the range $0 \ldots 1,000$.
 
-### OUTPUT FORMAT (file lostcow.out):  
+### OUTPUT FORMAT (file lostcow.out)
+
 Print one line of output, containing the distance Farmer John will travel to
 reach Bessie.
 
-### SAMPLE INPUT:  
-```
+### SAMPLE INPUT
+
+```plaintext
 3 6
 ```
-### SAMPLE OUTPUT:   
-```
+
+### SAMPLE OUTPUT
+
+```plaintext
 9
 ```
 
