@@ -1,6 +1,6 @@
 # [USACO 2017 December Contest, Bronze](https://usaco.org/index.php?page=dec17results)
-## [Problem 2. The Bovine Shuffle](https://usaco.org/index.php?page=viewproblem2&cpid=760)
 
+## [Problem 2. The Bovine Shuffle](https://usaco.org/index.php?page=viewproblem2&cpid=760)
 
 Convinced that happy cows generate more milk, Farmer John has installed a giant
 disco ball in his barn and plans to teach his cows to dance!
@@ -23,23 +23,28 @@ Farmer John's cows are each assigned distinct 7-digit integer ID numbers. If you
 are given the ordering of the cows after three shuffles, please determine their
 initial order.  
 
-### INPUT FORMAT (file shuffle.in):  
+### INPUT FORMAT (file shuffle.in)
+
 The first line of input contains $N$, the number of cows.  The next line
 contains  the $N$ integers $a_1 \ldots a_N$.  The final line contains the order
 of the $N$ cows after three shuffles, with each cow specified by its ID number.
 
-### OUTPUT FORMAT (file shuffle.out):  
+### OUTPUT FORMAT (file shuffle.out)
+
 You should write $N$ lines of output, with a single cow ID per line, specifying
 the  order of the cows before the three shuffles.
 
-### SAMPLE INPUT:  
-```
+### SAMPLE INPUT
+
+```plaintext
 5
 1 3 4 5 2
 1234567 2222222 3333333 4444444 5555555
 ```
-### SAMPLE OUTPUT:   
-```
+
+### SAMPLE OUTPUT
+
+```plaintext
 1234567
 5555555
 2222222
