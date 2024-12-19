@@ -5,21 +5,21 @@ using namespace std;
 
 int main() {
 	freopen("multimoo.in", "r", stdin);
-	// Read in the first line: n = side length of the square grid
+	// Read in the first line: n = side length of the square board
 	int n;
 	cin >> n;
-	// For the next n lines read in the grid
-	int grid[MAX_N][MAX_N];
+	// For the next n lines read in the n x n board
+	int board[MAX_N][MAX_N];
 	for (int r = 0; r < n; r++)
 		for (int c = 0; c < n; c++)
-			cin >> grid[r][c];
+			cin >> board[r][c];
 
 	// Flood fill to find the size of the largest connected component
 	vector<vector<set<pair<int, int>>>> visited(n, vector<set<pair<int, int>>>(n, set<pair<int, int>>()));
 	function<int(int, int, int, int)> searchConnectedComponentSize = [&](int r, int c, int id1, int id2) -> int {
 		if (r < 0 || r >= n ||
 		c < 0 || c >= n ||
-		grid[r][c] != id1 && grid[r][c] != id2 ||
+		board[r][c] != id1 && board[r][c] != id2 ||
 		visited[r][c].find({id1, id2}) != visited[r][c].end())
 			return 0;
 
@@ -38,21 +38,21 @@ int main() {
 	int maxComponentSize = 0;
 	for (int r = 0; r < n; r++)
 		for (int c = 0; c < n; c++)
-			maxComponentSize = max(maxComponentSize, searchConnectedComponentSize(r, c, grid[r][c], grid[r][c]));
+			maxComponentSize = max(maxComponentSize, searchConnectedComponentSize(r, c, board[r][c], board[r][c]));
 
 	// Find the size of the largest connected component (two adjacent components)
 	int maxConnectedComponentSize = 0;
 	for (int r = 0; r < n - 1; r++) {
 		for (int c = 0; c < n - 1; c++) {
-			if (grid[r][c] < grid[r][c + 1])
-				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c, grid[r][c], grid[r][c + 1]));
-			else if (grid[r][c] > grid[r][c + 1])
-				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c + 1, grid[r][c + 1], grid[r][c]));
+			if (board[r][c] < board[r][c + 1])
+				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c, board[r][c], board[r][c + 1]));
+			else if (board[r][c] > board[r][c + 1])
+				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c + 1, board[r][c + 1], board[r][c]));
 
-			if (grid[r][c] < grid[r + 1][c])
-				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c, grid[r][c], grid[r + 1][c]));
-			else if (grid[r][c] > grid[r + 1][c])
-				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r + 1, c, grid[r + 1][c], grid[r][c]));
+			if (board[r][c] < board[r + 1][c])
+				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r, c, board[r][c], board[r + 1][c]));
+			else if (board[r][c] > board[r + 1][c])
+				maxConnectedComponentSize = max(maxConnectedComponentSize, searchConnectedComponentSize(r + 1, c, board[r + 1][c], board[r][c]));
 		}
 	}
 
