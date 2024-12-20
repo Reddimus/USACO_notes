@@ -24,12 +24,9 @@ public class Gymnastics {
 					continue;
 
 				int distinctDays = 0;
-				for (int day = 0; day < K; day++) {
-					if (dayCowRankings[day][cow1] > dayCowRankings[day][cow2])
-						break;
-
+				for (int day = 0; day < K && dayCowRankings[day][cow1] < dayCowRankings[day][cow2]; day++)
 					distinctDays++;
-				}
+				
 				if (distinctDays == K)
 					distinctCows++;
 			}
