@@ -10,12 +10,14 @@ course called Mooyo Mooyo.
 The game of Mooyo Mooyo is played on a tall narrow grid $N$ cells tall
 ($1 \leq N \leq 100$) and 10 cells wide.  Here is an example with $N = 6$:
 
+```plaintext
 0000000000
 0000000300
 0054000300
 1054502230
 2211122220
 1111111223
+```
 
 Each cell is either empty (indicated by a 0), or a haybale in one of nine
 different colors (indicated by characters 1..9).  Gravity causes haybales to
