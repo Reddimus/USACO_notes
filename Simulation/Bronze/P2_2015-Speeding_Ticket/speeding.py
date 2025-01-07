@@ -17,9 +17,12 @@ with open("speeding.in", "r") as fin:
     bessie_speeds = [0] * 100
     last_position = 0
     for ln in range(m):
-        length, bessie_speed = map(int, fin.readline().split())
+        length, speed = map(int, fin.readline().split())
         for mile in range(last_position, last_position + length):
-            bessie_speeds[mile] = bessie_speed
+            bessie_speeds[mile] = speed
 
         last_position += length
 
+max_over: int = max(bessie_speeds[mile] - speed_limits[mile] for mile in range(100))
+
+print(max_over, file=open("speeding.out", "w"))
