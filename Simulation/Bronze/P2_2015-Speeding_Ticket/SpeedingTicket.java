@@ -3,12 +3,12 @@ import java.io.*;
 
 public class SpeedingTicket {
 	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader("speeding.in"));
+		BufferedReader fin = new BufferedReader(new FileReader("speeding.in"));
 
 		final int ROAD_LENGTH = 100;
 
 		// Read first line: n = road segments, m = bessie's segments
-		StringTokenizer st = new StringTokenizer(in.readLine());
+		StringTokenizer st = new StringTokenizer(fin.readLine());
 		final int N = Integer.parseInt(st.nextToken());
 		final int M = Integer.parseInt(st.nextToken());
 
@@ -16,7 +16,7 @@ public class SpeedingTicket {
 		int[] speedLimits = new int[ROAD_LENGTH];
 		int lastPosition = 0;
 		for (int ln = 0; ln < N; ++ln) {
-			st = new StringTokenizer(in.readLine());
+			st = new StringTokenizer(fin.readLine());
 			final int length = Integer.parseInt(st.nextToken());
 			final int speedLim = Integer.parseInt(st.nextToken());
 
@@ -30,7 +30,7 @@ public class SpeedingTicket {
 		int[] bessieSpeed = new int[ROAD_LENGTH];
 		int lastPos = 0;
 		for (int ln = 0; ln < M; ++ln) {
-			st = new StringTokenizer(in.readLine());
+			st = new StringTokenizer(fin.readLine());
 			final int length = Integer.parseInt(st.nextToken());
 			final int speed = Integer.parseInt(st.nextToken());
 
@@ -40,7 +40,7 @@ public class SpeedingTicket {
 			lastPos += length;
 		}
 
-		in.close();
+		fin.close();
 
 		// For the length of the road, find the max difference between speed limits and Bessie's speed
 		int maxOver = 0;
@@ -48,8 +48,8 @@ public class SpeedingTicket {
 			maxOver = Math.max(maxOver, bessieSpeed[idx] - speedLimits[idx]);
 		
 		// Write the max over speed to the output file
-		PrintWriter out = new PrintWriter("speeding.out");
-		out.println(maxOver);
-		out.close();
+		PrintWriter fout = new PrintWriter("speeding.out");
+		fout.println(maxOver);
+		fout.close();
 	}
 }
