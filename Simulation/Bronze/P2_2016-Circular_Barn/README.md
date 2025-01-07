@@ -1,6 +1,6 @@
 # [USACO 2016 February Contest, Bronze](https://usaco.org/index.php?page=feb16results)
-## [Problem 2. Circular Barn](https://usaco.org/index.php?page=viewproblem2&cpid=616)
 
+## [Problem 2. Circular Barn](https://usaco.org/index.php?page=viewproblem2&cpid=616)
 
 Being a fan of contemporary architecture, Farmer John has built a new barn in
 the shape of a perfect circle.  Inside, the barn consists of a ring of $n$
@@ -18,16 +18,19 @@ distance.  Please determine the minimum total distance his cows will need to
 walk, if he chooses the best such door to unlock.  The distance walked by a
 single cow is the number of interior doors through which she passes.
 
-### INPUT FORMAT (file cbarn.in):  
+### INPUT FORMAT (file cbarn.in)
+
 The first line of input contains $n$.  Each of the remaining $n$ lines contain
 $r_1 \ldots r_n$.
 
-### OUTPUT FORMAT (file cbarn.out):  
+### OUTPUT FORMAT (file cbarn.out)
+
 Please write out the minimum total amount of distance the cows collectively need
 to travel.
 
-### SAMPLE INPUT:  
-```
+### SAMPLE INPUT
+
+```text
 5
 4
 7
@@ -35,8 +38,10 @@ to travel.
 6
 4
 ```
-### SAMPLE OUTPUT:   
-```
+
+### SAMPLE OUTPUT
+
+```text
 48
 ```
 
