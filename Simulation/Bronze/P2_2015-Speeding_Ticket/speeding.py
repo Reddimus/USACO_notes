@@ -23,6 +23,6 @@ with open("speeding.in", "r") as fin:
 
         last_position += length
 
-max_over: int = max(bessie_speeds[mile] - speed_limits[mile] for mile in range(100))
+max_over = max(bessie_speeds[mile] - speed_limits[mile] for mile in range(100))
 
 print(max_over, file=open("speeding.out", "w"))
