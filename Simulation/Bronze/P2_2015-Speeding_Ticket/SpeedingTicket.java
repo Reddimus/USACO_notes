@@ -9,13 +9,13 @@ public class SpeedingTicket {
 
 		// Read first line: n = road segments, m = bessie's segments
 		StringTokenizer st = new StringTokenizer(in.readLine());
-		final int n = Integer.parseInt(st.nextToken());
-		final int m = Integer.parseInt(st.nextToken());
+		final int N = Integer.parseInt(st.nextToken());
+		final int M = Integer.parseInt(st.nextToken());
 
 		// For the next n lines read in road segments
 		int[] speedLimits = new int[ROAD_LENGTH];
 		int lastPosition = 0;
-		for (int ln = 0; ln < n; ++ln) {
+		for (int ln = 0; ln < N; ++ln) {
 			st = new StringTokenizer(in.readLine());
 			final int length = Integer.parseInt(st.nextToken());
 			final int speedLim = Integer.parseInt(st.nextToken());
@@ -29,7 +29,7 @@ public class SpeedingTicket {
 		// For the next m lines read in Bessie's segments
 		int[] bessieSpeed = new int[ROAD_LENGTH];
 		int lastPos = 0;
-		for (int ln = 0; ln < m; ++ln) {
+		for (int ln = 0; ln < M; ++ln) {
 			st = new StringTokenizer(in.readLine());
 			final int length = Integer.parseInt(st.nextToken());
 			final int speed = Integer.parseInt(st.nextToken());
