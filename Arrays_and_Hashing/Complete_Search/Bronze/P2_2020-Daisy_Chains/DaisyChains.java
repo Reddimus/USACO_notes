@@ -27,6 +27,7 @@ public class DaisyChains {
 				);
 
 				int length = j - i + 1;
+				// Check to see if average is a whole number
 				if (sum % length != 0)
 					continue;
 
