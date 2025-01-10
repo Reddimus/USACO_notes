@@ -24,10 +24,10 @@ public class CoutningLiars {
 	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
 		// Read in 1st line: n = # of other cows
-		int n = sc.nextInt();
+		final int N = sc.nextInt();
 		// For the next n lines, read in the cow's statement and position
-		CowInformation[] cowInfo = new CowInformation[n];
-		for (int i = 0; i < n; i++)
+		CowInformation[] cowInfo = new CowInformation[N];
+		for (int i = 0; i < N; i++)
 			cowInfo[i] = new CowInformation(sc.next().charAt(0), sc.nextInt());
 		sc.close();
 
@@ -43,8 +43,8 @@ public class CoutningLiars {
 
 		// lying_left[i] stores the number of cows to the left of cow i
 		// that must be lying given that Bessie is at the position of cow i.
-		int[] lyingLeft = new int[n];
-		for (int i = 1; i < n; i++) {
+		int[] lyingLeft = new int[N];
+		for (int i = 1; i < N; i++) {
 			// Add up all the cows that are lying to the left of our position.
 			lyingLeft[i] += lyingLeft[i - 1];
 
@@ -59,17 +59,17 @@ public class CoutningLiars {
 
 		// lying_right stores the same thing, but does it so for the cows
 		// to the *right* of i.
-		int[] lyingRight = new int[n];
+		int[] lyingRight = new int[N];
 		// Fill it up in much the same way.
-		for (int i = n - 2; i >= 0; i--) {
+		for (int i = N - 2; i >= 0; i--) {
 			lyingRight[i] += lyingRight[i + 1];
 
 			if (cowInfo[i + 1].statement == 'G')
 				lyingRight[i]++;
 		}
 
-		int minLiars = n;
-		for (int i = 0; i < n; i++)
+		int minLiars = N;
+		for (int i = 0; i < N; i++)
 			minLiars = Math.min(minLiars, lyingLeft[i] + lyingRight[i]);
 
 		System.out.println(minLiars);
