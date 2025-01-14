@@ -2,7 +2,7 @@ SHUFFLE_NUM = 3
 
 with open("shuffle.in", "r") as fin:
     # Read in first line: n = # of cows
-    N = int(fin.readline().strip())
+    N = int(fin.readline())
     # Read in second line: shuffles for each cow
     shuffles = list(map(int, fin.readline().split()))
     # Read in third line: initial cow ids
