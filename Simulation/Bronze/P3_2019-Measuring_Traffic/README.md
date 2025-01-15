@@ -1,6 +1,6 @@
 # [USACO 2019 February Contest, Bronze](https://usaco.org/index.php?page=feb19results)
-## [Problem 3. Measuring Traffic](https://usaco.org/index.php?page=viewproblem2&cpid=917)
 
+## [Problem 3. Measuring Traffic](https://usaco.org/index.php?page=viewproblem2&cpid=917)
 
 The highway adjacent to Farmer John's farm has recently seen a dramatic increase
 in traffic, or at least so it seems to Farmer John.  To be sure, he wants to
@@ -19,7 +19,7 @@ flows in one direction, from mile 1 towards mile $N$.  Farmer John wants to
 install $N$ sensors -- one for each 1-mile segment of the highway. In some of
 these segments, there are on-ramps that allow traffic to enter the highway; in each of
 these cases, Farmer John will install his sensor on the on-ramp to measure
-(approximately) the amount of incoming traffic.  In some segments there are 
+(approximately) the amount of incoming traffic.  In some segments there are
 off-ramps that allows traffic to exit the highway; in each of these cases, Farmer John will
 install his sensor on the off-ramp.  Each segment contains at most one ramp.  
 If there is no on-ramp or off-ramp in a segment of highway, Farmer John installs
@@ -30,7 +30,8 @@ specific possible ranges that describe the rate of traffic flow initially on
 the highway prior to mile 1 and for traffic continuing on the highway past mile
 $N$.  These ranges should be consistent with all $N$ sensor readings.
 
-### INPUT FORMAT (file traffic.in):  
+### INPUT FORMAT (file traffic.in)
+
 The first line of input contains $N$ ($1 \leq N \leq 100$).  Each of the
 remaining $N$ lines describes a 1-mile segment of the road, in order from mile
 $1$ to mile $N$.  Each line contains a string that is either "on" (if there is
@@ -41,23 +42,27 @@ If the segment contains a ramp, the sensor reading is from the ramp.  Otherwise,
 it is from the main highway.  At least one of the highway segments will be
 designated as "none".
 
-### OUTPUT FORMAT (file traffic.out):  
+### OUTPUT FORMAT (file traffic.out)
+
 The first line of output should contain two integers giving the most specific
 range possible for the rate of traffic flow prior to mile 1.  The second line of
 output should contain two integers giving the most specific range possible for
 the rate of traffic flow after mile $N$.  A valid solution is always guaranteed
 to exist.
 
-### SAMPLE INPUT:  
-```
+### SAMPLE INPUT
+
+```text
 4
 on 1 1
 none 10 14
 none 11 15
 off 2 3
 ```
-### SAMPLE OUTPUT:   
-```
+
+### SAMPLE OUTPUT
+
+```text
 10 13
 8 12
 ```
@@ -71,5 +76,3 @@ exits on an off-ramp, so the range of possible flow rates after this is
 $[8,12]$.
 
 Problem credits: Brian Dean
-
-
