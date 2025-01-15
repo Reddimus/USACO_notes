@@ -16,10 +16,7 @@ int main() {
 			inUse[j] += bucketsNeeded;
 	}
 
-	int totalBuckets = 0;
-	for (int i = 0; i < 1001; i++)
-		totalBuckets = max(totalBuckets, inUse[i]);
 	freopen("blist.out", "w", stdout);
-	cout << totalBuckets << endl;
+	cout << *max_element(inUse, inUse + 1001) << endl;
 	return 0;
 }
