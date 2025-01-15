@@ -14,15 +14,15 @@ int main() {
 		cin >> rooms[i];
 
 	// Try each room as the first room to unlock
-	int min_dist = INT_MAX;
+	int minDist = INT_MAX;
 	for (int unlock = 0; unlock < n; unlock++) {
 		int dist = 0;
 		for (int r = 0; r < n; r++) 
 			dist += rooms[(unlock + r) % n] * r;
-		min_dist = min(min_dist, dist);
+		minDist = min(minDist, dist);
 	}
 
 	freopen("cbarn.out", "w", stdout);
-	cout << min_dist << endl;
+	cout << minDist << endl;
 	return 0;
 }
