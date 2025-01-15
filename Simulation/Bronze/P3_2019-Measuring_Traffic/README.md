@@ -21,7 +21,7 @@ these segments, there are on-ramps that allow traffic to enter the highway; in e
 these cases, Farmer John will install his sensor on the on-ramp to measure
 (approximately) the amount of incoming traffic.  In some segments there are
 off-ramps that allows traffic to exit the highway; in each of these cases, Farmer John will
-install his sensor on the off-ramp.  Each segment contains at most one ramp.  
+install his sensor on the off-ramp.  Each segment contains at most one ramp.
 If there is no on-ramp or off-ramp in a segment of highway, Farmer John installs
 a sensor on the main highway itself.  
 
@@ -76,3 +76,12 @@ exits on an off-ramp, so the range of possible flow rates after this is
 $[8,12]$.
 
 Problem credits: Brian Dean
+
+## Summary
+
+The problem gives \(N\) consecutive highway segments, each possibly having an on-ramp (adding traffic), an off-ramp (removing traffic), or neither (no change in traffic). For each segment, a faulty sensor provides a *range* of possible traffic flow values (either for the on-ramp, off-ramp, or main highway flow). Given these ranges, we need to figure out:
+
+- **The range of possible traffic flow before mile 1** (i.e., how many vehicles could have been on the highway just as it enters mile 1).
+- **The range of possible traffic flow after mile \(N\)** (i.e., how many vehicles could remain on the highway past the final mile).
+
+We want the *tightest possible ranges* (minimum to maximum) for each of those two unknowns such that all sensor readings across the \(N\) segments are consistent.
