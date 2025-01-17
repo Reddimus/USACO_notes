@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-class CowInformation {
+class CowInformation implements Comparable<CowInformation> {
 	char statement;
 	int pos;
 
@@ -10,14 +10,12 @@ class CowInformation {
 		this.pos = pos;
 	}
 
-	/*
 	@Override
-	public int compareTo(Cow c) {
+	public int compareTo(CowInformation c) {
 		if (pos != c.pos)
 			return pos - c.pos;
 		return statement - c.statement;
 	}
-	*/
 }
 
 public class CoutningLiars {
@@ -32,6 +30,7 @@ public class CoutningLiars {
 		sc.close();
 
 		// Sort by position, then by statement
+		/*
 		Arrays.sort(
 			cowInfo,
 			(a, b) -> {
@@ -40,6 +39,8 @@ public class CoutningLiars {
 				return a.statement - b.statement;
 			}
 		);
+		*/
+		Arrays.sort(cowInfo);
 
 		// lying_left[i] stores the number of cows to the left of cow i
 		// that must be lying given that Bessie is at the position of cow i.
