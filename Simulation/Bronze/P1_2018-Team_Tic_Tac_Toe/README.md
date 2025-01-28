@@ -4,7 +4,7 @@
 
 Farmer John owns 26 cows, which by happenstance all have names starting with
 different letters of the alphabet, so Farmer John typically refers to each cow
-using her first initial -- a character in the range $A \ldots Z$.   
+using her first initial -- a character in the range $A \ldots Z$.
 
 The cows have recently become fascinated by the game of tic-tac-toe, but since
 they don't like the fact that only two cows can play at a time, they have
