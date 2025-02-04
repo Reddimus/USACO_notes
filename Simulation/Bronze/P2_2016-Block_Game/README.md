@@ -1,6 +1,6 @@
 # [USACO 2016 December Contest, Bronze](https://usaco.org/index.php?page=dec16results)
-## [Problem 2. Block Game](https://usaco.org/index.php?page=viewproblem2&cpid=664)
 
+## [Problem 2. Block Game](https://usaco.org/index.php?page=viewproblem2&cpid=664)
 
 Farmer John is trying to teach his cows to read by giving them a set of $N$
 spelling boards typically used with preschoolers ($1 \leq N \leq 100$). Each
@@ -23,27 +23,32 @@ Please help the Farmer John determine the minimum number of blocks for each
 letter of the alphabet that he needs to provide, so that irrespective of which
 face of each board is showing, the cows can spell all $N$ visible words.
 
-### INPUT FORMAT (file blocks.in):  
-Line 1 contains the integer $N$. 
+**INPUT FORMAT (file blocks.in):**
+
+Line 1 contains the integer $N$.
 
 The next $N$ lines each contain 2 words separated by a space, giving the two
 words on opposite sides of a board.  Each word is a string of at most 10
 lowercase letters.
 
-### OUTPUT FORMAT (file blocks.out):  
+**OUTPUT FORMAT (file blocks.out):**
+
 Please output 26 lines. The first output line should contain a number specifying
 the number of copies of 'a' blocks needed.  The next line should specify the
 number of 'b' blocks needed, and so on.
 
-### SAMPLE INPUT:  
-```
+**SAMPLE INPUT:**
+
+```txt
 3
 fox box
 dog cat
 car bus
 ```
-### SAMPLE OUTPUT:   
-```
+
+**SAMPLE OUTPUT:**
+
+```txt
 2
 2
 2
@@ -86,6 +91,5 @@ box cat bus
 
 We need enough blocks for each letter of the alphabet so that we can spell all
 three words, irrespective of which of these eight scenarios occurs.
-
 
 Problem credits: Viktoriia Schwartz
