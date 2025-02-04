@@ -1,7 +1,7 @@
 with open("cbarn.in", "r") as fin:
 	# Read in total number of rooms (N)
 	N = int(fin.readline())
-	# Read in the number of cows in each room
+	# Read in the number of cows that can fit in each room
 	rooms = [int(fin.readline()) for _ in range(N)]
 
 # Try each room as the first room to unlock

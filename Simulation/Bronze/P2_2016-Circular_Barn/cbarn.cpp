@@ -17,6 +17,7 @@ int main() {
 	int minDist = INT_MAX;
 	for (int unlock = 0; unlock < n; unlock++) {
 		int dist = 0;
+		// Accumulate the distance for each room
 		for (int r = 0; r < n; r++) 
 			dist += rooms[(unlock + r) % n] * r;
 		minDist = min(minDist, dist);
