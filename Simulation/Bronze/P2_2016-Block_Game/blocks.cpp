@@ -3,10 +3,6 @@
 
 using namespace std;
 
-struct Board {
-	string sideA, sideB;
-};
-
 vector<int> getCharCount(const string& side) {
 	vector<int> charCount(26, 0);
 	for (const char c : side)
