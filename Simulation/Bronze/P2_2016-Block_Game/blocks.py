@@ -3,10 +3,12 @@ with open("blocks.in", "r") as fin:
     N = int(fin.readline())
     boards = [tuple(fin.readline().split()) for _ in range(N)]
 
+ASCII_A = ord('a')
+
 def count_freq(word):
     freq = [0] * 26
     for char in word:
-        freq[ord(char) - ord('a')] += 1
+        freq[ord(char) - ASCII_A] += 1
     return freq
 
 max_blocks = [0] * 26
