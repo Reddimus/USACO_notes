@@ -12,16 +12,16 @@ out what animal Bessie has selected.  Each question asks whether the animal has
 some specific characteristic, and Bessie answers each question with "yes" or
 "no". For example:
 
-Elsie: "Does the animal fly?"
-Bessie: "No"
-Elsie: "Does the animal eat grass?"
-Bessie: "Yes"
-Elsie: "Does the animal make milk?"
-Bessie: "Yes"
-Elsie: "Does the animal go moo?"
-Bessie: "Yes"
-Elsie: "In that case I think the animal is a cow."
-Bessie: "Correct!"
+Elsie: "Does the animal fly?"  
+Bessie: "No"  
+Elsie: "Does the animal eat grass?"  
+Bessie: "Yes"  
+Elsie: "Does the animal make milk?"  
+Bessie: "Yes"  
+Elsie: "Does the animal go moo?"  
+Bessie: "Yes"  
+Elsie: "In that case I think the animal is a cow."  
+Bessie: "Correct!"  
 
 If we call the "feasible set" the set of all animals with characteristics
 consistent with Elsie's questions so far, then Elsie keeps asking questions
