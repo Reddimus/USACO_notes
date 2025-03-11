@@ -3,7 +3,7 @@ import java.util.*;
 
 class MilkMeasurement {
 	// Bucket sort approach
-	// T: O(N), M: O(101 + 3 + 3) ≈ O(1)
+	// T: O(N), M: O(101 * 3 + 3) ≈ O(1)
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("measurement.in"));
 		// First line: N == number of milk production changes
