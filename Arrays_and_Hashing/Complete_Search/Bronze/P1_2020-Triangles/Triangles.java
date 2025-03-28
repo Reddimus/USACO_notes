@@ -33,14 +33,12 @@ public class Triangles {
                     final int baseLength = Math.abs(xBase1 - xBase2);
                     
                     // Find the height/area of the triangle from each base point
-                    for (int k = 0; k < verticalIntersect.get(xBase1).size(); k++) {
-                        final int yHeight = verticalIntersect.get(xBase1).get(k);
+                    for (int yHeight : verticalIntersect.get(xBase1)) {
                         final int height = Math.abs(yHeight - yBase);
                         maxArea = Math.max(maxArea, baseLength * height);
                     }
 
-                    for (int k = 0; k < verticalIntersect.get(xBase2).size(); k++) {
-                        final int yHeight = verticalIntersect.get(xBase2).get(k);
+                    for (int yHeight : verticalIntersect.get(xBase2)) {
                         final int height = Math.abs(yHeight - yBase);
                         maxArea = Math.max(maxArea, baseLength * height);
                     }
