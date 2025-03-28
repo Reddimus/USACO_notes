@@ -11,8 +11,8 @@ public class Triangles {
         Map<Integer, List<Integer>> verticalIntersect = new HashMap<>();     
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(fin.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            final int x = Integer.parseInt(st.nextToken());
+            final int y = Integer.parseInt(st.nextToken());
 
             horizontalIntersect.putIfAbsent(y, new ArrayList<>());
             horizontalIntersect.get(y).add(x);
@@ -33,12 +33,12 @@ public class Triangles {
                     final int baseLength = Math.abs(xBase1 - xBase2);
                     
                     // Find the height/area of the triangle from each base point
-                    for (int yHeight : verticalIntersect.get(xBase1)) {
+                    for (final int yHeight : verticalIntersect.get(xBase1)) {
                         final int height = Math.abs(yHeight - yBase);
                         maxArea = Math.max(maxArea, baseLength * height);
                     }
 
-                    for (int yHeight : verticalIntersect.get(xBase2)) {
+                    for (final int yHeight : verticalIntersect.get(xBase2)) {
                         final int height = Math.abs(yHeight - yBase);
                         maxArea = Math.max(maxArea, baseLength * height);
                     }
