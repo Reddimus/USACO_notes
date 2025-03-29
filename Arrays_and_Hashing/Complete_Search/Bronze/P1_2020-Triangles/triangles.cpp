@@ -22,15 +22,13 @@ int main() {
     int maxArea = 0;
     for (const auto& [yBase, xBases] : horizontalIntersects) {
         for (int i = 0; i < xBases.size() - 1; i++) {
-            const int xBase1 = xBases[i];
             for (int j = i + 1; j < xBases.size(); j++) {
-                const int xBase2 = xBases[j];
-                const int baseLength = abs(xBase1 - xBase2);
+                const int baseLength = abs(xBases[i] - xBases[j]);
 
                 // Find the height/area of the triangle from each base point
-                for (const int yHeight : verticalIntersects[xBase1])
+                for (const int yHeight : verticalIntersects[xBases[i]])
                     maxArea = max(maxArea, baseLength * abs(yHeight - yBase));
-                for (const int yHeight : verticalIntersects[xBase2])
+                for (const int yHeight : verticalIntersects[xBases[j]])
                     maxArea = max(maxArea, baseLength * abs(yHeight - yBase));
             }
         }
